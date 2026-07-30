@@ -13,6 +13,18 @@ import path from "node:path";
 
 const ROOT = path.resolve("_site");
 
+/**
+ * 하위 경로 배포(PATH_PREFIX=/homepage/)로 빌드하면 링크가 /homepage/about/ 처럼
+ * 나오지만 파일은 _site/about/index.html 에 있습니다. 검사 전에 접두사를 뗍니다.
+ */
+const PREFIX = `/${(process.env.PATH_PREFIX || "/").replace(/^\/|\/$/g, "")}`;
+
+function stripPrefix(href) {
+  if (PREFIX === "/") return href;
+  if (href === PREFIX) return "/";
+  return href.startsWith(`${PREFIX}/`) ? href.slice(PREFIX.length) : href;
+}
+
 async function walk(dir) {
   const out = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
@@ -25,7 +37,7 @@ async function walk(dir) {
 
 /** /about/ → _site/about/index.html 같은 해석 */
 function resolveTarget(href) {
-  const clean = href.split("#")[0].split("?")[0];
+  const clean = stripPrefix(href.split("#")[0].split("?")[0]);
   if (!clean || clean.startsWith("//")) return null;
   const target = path.join(ROOT, decodeURIComponent(clean));
   if (existsSync(target)) return target;

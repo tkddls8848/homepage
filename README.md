@@ -2,7 +2,9 @@
 
 기존 `www.trialinfo.com` (PHP include + jQuery + 페이지별 복사·붙여넣기 구조)를
 **정적 사이트 + 데이터 기반 구조**로 다시 만든 것입니다.
-사진 에셋과 콘텐츠, URL 구조는 유지하고 마크업·스타일·스크립트·배포 방식을 교체했습니다.
+콘텐츠와 URL 구조는 유지하고 마크업·스타일·스크립트·배포 방식을 교체했습니다.
+로고·슬라이드·제품 이미지는 원본 사진 파일을 받을 수 없어 **같은 자리에 벡터로
+그려 넣었습니다** (교체 방법: [docs/ASSETS.md](docs/ASSETS.md)).
 
 ## 무엇이 달라졌는가
 
@@ -27,6 +29,7 @@ npm install
 npm run dev           # http://localhost:8080 (파일 저장 시 자동 반영)
 npm run build         # _site/ 에 정적 파일 생성
 npm run check:links   # 빌드 결과의 내부 링크·이미지 경로 점검
+npm run make:og       # SNS 미리보기 이미지(og:image) 다시 생성
 ```
 
 Node 20 이상이 필요합니다.
@@ -50,7 +53,7 @@ src/
 ├── assets/
 │   ├── css/main.css       스타일 전체 (@layer 로 정리)
 │   └── js/main.js         스크립트 전체
-├── images/                ← 사진 에셋을 넣는 곳 (docs/ASSETS.md 참고)
+├── images/                로고·슬라이드·제품 이미지 (docs/ASSETS.md 참고)
 └── *.njk                  각 페이지
 ```
 
@@ -96,6 +99,30 @@ enabled` 로 실패합니다. 저장소 설정이라 코드로는 켤 수 없습
 
 이 상태에서 `https://tkddls8848.github.io/homepage/` 로 접속됩니다.
 
+#### 하위 경로(`/homepage/`) 주의
+
+프로젝트 사이트는 주소에 저장소 이름이 붙습니다. 그래서 `/assets/css/main.css`,
+`/images/...` 같은 **루트 기준 경로가 모두 404** 가 되고, 결과적으로 스타일과
+이미지가 전부 사라진 것처럼 보입니다.
+
+워크플로가 `actions/configure-pages` 로 실제 배포 주소를 받아 빌드에 넘기므로
+(`PATH_PREFIX=/homepage/`) 별도 설정 없이 맞춰집니다. 로컬에서 같은 조건을
+확인하려면:
+
+```bash
+PATH_PREFIX=/homepage/ npm run build
+PATH_PREFIX=/homepage/ npm run check:links
+```
+
+커스텀 도메인(루트 배포)에서는 접두사가 붙지 않습니다.
+
+#### HTTPS
+
+`*.github.io` 는 GitHub 이 인증서를 제공하고 http 요청을 https 로 리다이렉트합니다.
+`http://tkddls8848.github.io/homepage/` 로 들어와도 https 로 바뀝니다.
+빌드는 canonical·OG·sitemap 주소도 실제 배포 주소(https)로 맞추므로,
+검색엔진이 http 판이나 다른 도메인을 색인하지 않습니다.
+
 #### www.trialinfo.com 을 HTTPS 로 붙이기
 
 GitHub Pages 는 커스텀 도메인에 Let's Encrypt 인증서를 무료로 자동 발급합니다.
@@ -124,8 +151,8 @@ GitHub Pages 는 커스텀 도메인에 Let's Encrypt 인증서를 무료로 자
    DNS 검증이 끝나면 **Enforce HTTPS** 체크박스가 활성화되므로 켜 주세요.
    (인증서 발급에 보통 15분 이내 소요)
 
-5. 같은 화면에서 `SITE_URL` 변수도 `https://www.trialinfo.com` 으로 맞춰두면
-   canonical·OG·sitemap 주소가 일치합니다.
+`CUSTOM_DOMAIN` 을 설정하면 canonical·OG·sitemap 주소가 그 도메인으로 맞춰지고
+경로 접두사도 사라집니다(루트 배포). 따로 `SITE_URL` 을 넣을 필요는 없습니다.
 
 > ⚠️ 현재 `www.trialinfo.com` 은 기존 서버를 가리키고 있습니다. 3번 이전에
 > DNS 를 GitHub 로 돌리면 그 시점부터 기존 사이트는 보이지 않습니다.
@@ -153,11 +180,22 @@ GitHub Pages 는 커스텀 도메인에 Let's Encrypt 인증서를 무료로 자
 
 | 이름 | 용도 | 기본값 |
 | --- | --- | --- |
-| `SITE_URL` | canonical·OG·sitemap 에 쓰는 사이트 주소 | `https://www.trialinfo.com` |
+| `SITE_URL` | canonical·OG·sitemap 에 쓰는 사이트 주소 (항상 https 로 정규화됨) | `https://www.trialinfo.com` |
+| `PATH_PREFIX` | 하위 경로 배포용 접두사 (예: `/homepage/`) | `/` |
 | `FORM_ENDPOINT` | 문의 폼을 받을 주소. 비우면 메일 클라이언트(mailto)로 대체 | (없음) |
+| `CUSTOM_DOMAIN` | 설정하면 `CNAME` 생성 + 루트 배포로 간주 | (없음) |
+
+GitHub Actions 배포에서는 `SITE_URL` 과 `PATH_PREFIX` 를 워크플로가 실제 배포
+주소에서 계산하므로 직접 넣지 않아도 됩니다. 저장소 Variables 로는
+`CUSTOM_DOMAIN` 과 `FORM_ENDPOINT` 만 다루면 됩니다.
 
 ## 남은 작업
 
 원본 사이트에서 가져올 수 없었던 콘텐츠가 있습니다.
 [docs/CONTENT.md](docs/CONTENT.md) 의 "채워야 하는 내용" 목록을 확인해 주세요.
 특히 **개인정보취급방침**은 법적 문서이므로 공개 전 반드시 실제 내용으로 교체해야 합니다.
+
+이미지도 마찬가지입니다. 현재 로고·슬라이드·제품 이미지는 브랜드 색으로 직접
+그린 벡터 이미지이고, 제품 이미지는 특정 모델의 사진이 아니라 폼팩터(2U / 4U /
+랙)를 나타내는 그림입니다. 실제 로고 파일과 제조사 제품 사진이 준비되면
+[docs/ASSETS.md](docs/ASSETS.md) 의 방법으로 교체해 주세요.

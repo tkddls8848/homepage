@@ -41,7 +41,12 @@ function usage() {
 
 /** 템플릿이 실제로 참조하는 경로 목록 */
 function expectedAssets() {
-  const list = new Set(["/images/logo/logo.svg", "/images/logo/logo_wt.svg"]);
+  const list = new Set([
+    "/images/logo/logo.svg",
+    "/images/logo/logo_wt.svg",
+    // og:image (base.njk) — 생성 스크립트: npm run make:og
+    "/images/og/og-default.png",
+  ]);
   for (const slide of hero) if (slide.image) list.add(slide.image);
   for (const page of catalog) {
     for (const group of page.groups || []) {

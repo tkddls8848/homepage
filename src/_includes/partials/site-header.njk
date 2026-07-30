@@ -6,9 +6,9 @@
 #}
 <header class="site-header{% if headerOverlay %} site-header--overlay{% endif %}" data-site-header>
   <div class="site-header__inner">
-    <a class="brand" href="/" aria-label="{{ site.name }} 홈으로">
-      <img class="brand__logo brand__logo--dark" src="/images/logo/logo.svg" alt="{{ site.name }}" width="180" height="34">
-      <img class="brand__logo brand__logo--light" src="/images/logo/logo_wt.svg" alt="" aria-hidden="true" width="180" height="34">
+    <a class="brand" href="{{ '/' | url }}" aria-label="{{ site.name }} 홈으로">
+      <img class="brand__logo brand__logo--dark" src="{{ '/images/logo/logo.svg' | url }}" alt="{{ site.name }}" width="180" height="34">
+      <img class="brand__logo brand__logo--light" src="{{ '/images/logo/logo_wt.svg' | url }}" alt="" aria-hidden="true" width="180" height="34">
       <span class="brand__fallback">{{ site.nameShort }}</span>
     </a>
 
@@ -16,12 +16,12 @@
       <ul class="site-nav__list">
         {%- for item in nav.primary %}
         <li class="site-nav__item">
-          <a class="site-nav__link" href="{{ item.url }}"
+          <a class="site-nav__link" href="{{ item.url | url }}"
              {% if page.url | isCurrent(item.url) %}aria-current="page"{% endif %}>{{ item.label }}</a>
           {%- if nav.children[item.key] and nav.children[item.key].length > 1 %}
           <ul class="site-nav__sub">
             {%- for child in nav.children[item.key] %}
-            <li><a href="{{ child.url }}">{{ child.label }}</a></li>
+            <li><a href="{{ child.url | url }}">{{ child.label }}</a></li>
             {%- endfor %}
           </ul>
           {%- endif %}

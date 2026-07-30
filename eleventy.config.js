@@ -31,13 +31,31 @@ export default function (eleventyConfig) {
   /** 지도 검색 링크용 인코딩 */
   eleventyConfig.addFilter("urlencode", (v) => encodeURIComponent(String(v)));
 
-  /** 절대 URL (OG 태그, sitemap 등) */
+  /**
+   * 절대 URL (OG 태그, sitemap 등)
+   * 항상 https 로 맞춥니다. 기존 사이트가 http 로 열리던 문제 때문에
+   * canonical/OG/sitemap 에 http 주소가 섞이면 검색엔진이 http 판을 계속
+   * 색인하게 되므로, 여기서 한 번 더 막아 둡니다.
+   */
   eleventyConfig.addFilter("absoluteUrl", (path, base) => {
     try {
-      return new URL(path, base).href;
+      const absolute = new URL(path, base);
+      if (absolute.protocol === "http:" && absolute.hostname !== "localhost") {
+        absolute.protocol = "https:";
+      }
+      return absolute.href;
     } catch {
       return path;
     }
+  });
+
+  /**
+   * canonical / OG 용 절대 URL.
+   * pathPrefix(예: /homepage/) 까지 반영해야 하므로 url 필터를 먼저 통과시킵니다.
+   */
+  eleventyConfig.addFilter("absoluteSiteUrl", function (path, base) {
+    const withPrefix = eleventyConfig.getFilter("url").call(this, path);
+    return eleventyConfig.getFilter("absoluteUrl").call(this, withPrefix, base);
   });
 
   /** ISO 날짜 (sitemap) */
@@ -72,6 +90,19 @@ export default function (eleventyConfig) {
   );
 
   return {
+    /**
+     * 하위 경로 배포 지원.
+     * GitHub Pages 의 프로젝트 사이트는 https://<계정>.github.io/<저장소>/ 처럼
+     * 저장소 이름이 경로에 붙습니다. 이때 `/assets/css/main.css` 같은 루트 기준
+     * 경로는 모두 404 가 되고(그래서 CSS·이미지가 전부 사라져 보입니다),
+     * pathPrefix 를 주면 `url` 필터가 앞에 경로를 붙여 줍니다.
+     *
+     *   PATH_PREFIX=/homepage/ npm run build
+     *
+     * 커스텀 도메인(www.trialinfo.com) 처럼 루트에 배포할 때는 설정하지 않습니다.
+     */
+    pathPrefix: process.env.PATH_PREFIX || "/",
+
     dir: {
       input: "src",
       output: "_site",

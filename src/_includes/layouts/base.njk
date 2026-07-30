@@ -1,7 +1,7 @@
 {%- set pageTitle = title if title else site.name -%}
 {%- set metaTitle = (title + " | " + site.nameShort) if title else (site.name + " — " + site.tagline) -%}
 {%- set metaDescription = description if description else site.description -%}
-{%- set canonical = page.url | absoluteUrl(site.url) -%}
+{%- set canonical = page.url | absoluteSiteUrl(site.url) -%}
 <!doctype html>
 <html lang="{{ site.lang }}" class="no-js">
 <head>
@@ -13,6 +13,13 @@
   <meta name="theme-color" content="#0b3f7d">
   <meta name="format-detection" content="telephone=no">
 
+  {#-
+    http 로 접속했을 때도 하위 자원은 https 로 요청하게 합니다.
+    (GitHub Pages 의 *.github.io 는 http → https 로 자동 리다이렉트되지만,
+     커스텀 도메인이나 다른 호스팅에서 혼합 콘텐츠가 생기는 것을 막아 줍니다.)
+  -#}
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
   {#- 소셜 미리보기 -#}
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ site.name }}">
@@ -20,14 +27,18 @@
   <meta property="og:title" content="{{ metaTitle }}">
   <meta property="og:description" content="{{ metaDescription }}">
   <meta property="og:url" content="{{ canonical }}">
-  <meta property="og:image" content="{{ '/images/photo/slide/slide_01.png' | absoluteUrl(site.url) }}">
+  {#- SNS 미리보기는 SVG 를 지원하지 않는 곳이 많아 PNG 를 씁니다. -#}
+  <meta property="og:image" content="{{ '/images/og/og-default.png' | absoluteSiteUrl(site.url) }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.name }}">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/assets/img/favicon.svg">
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' | url }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ '/assets/img/favicon.svg' | url }}">
 
-  <link rel="stylesheet" href="/assets/css/main.css">
-  <script type="module" src="/assets/js/main.js"></script>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | url }}">
+  <script type="module" src="{{ '/assets/js/main.js' | url }}"></script>
 
   {%- if robots %}<meta name="robots" content="{{ robots }}">{% endif %}
 
@@ -36,7 +47,7 @@
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "{{ site.name }}",
-    "url": "{{ site.url }}",
+    "url": "{{ '/' | absoluteSiteUrl(site.url) }}",
     "description": "{{ site.description }}",
     "telephone": "{{ site.contact.tel }}",
     "faxNumber": "{{ site.contact.fax }}",
