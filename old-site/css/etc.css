@@ -1,0 +1,157 @@
+/* 공통 */
+.etc_wrapper {
+  position: relative;
+  width: 100%;
+}
+.etc_wrapper::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+/* 공통 end */
+
+/* 이미지 */
+.etc_wrapper > figure {
+  position: relative;
+  width: 100%;
+  margin-bottom: 80px;
+}
+.etc_wrapper > figure > img.image_pc {
+  display: block;
+}
+.etc_wrapper > figure > img.image_mobile {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .etc_wrapper > figure > img.image_pc {
+    display: none;
+  }
+  .etc_wrapper > figure > img.image_mobile {
+    display: block;
+  }
+}
+/* 이미지 end */
+
+/* 채용정보 */
+.etc_wrapper > div {
+  margin-bottom: 100px;
+}
+.etc_wrapper > div::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.etc_wrapper > div > dl {
+  float: left;
+  width: calc((100% - 20px) / 2);
+  height: max-content;
+  margin-right: 20px;
+}
+.etc_wrapper > div > dl:last-child {
+  margin-right: 0;
+}
+.etc_wrapper > div > dl > dt {
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 20px;
+}
+.etc_wrapper > div > dl > dt::after {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: #ed2024;
+}
+.etc_wrapper > div > dl > dd {
+  color: #555;
+  margin-bottom: 16px;
+}
+@media screen and (max-width: 480px) {
+  .etc_wrapper > div {
+    margin-bottom: 0;
+  }
+  .etc_wrapper > div > dl {
+    width: calc(100%);
+    margin-bottom: 40px;
+  }
+}
+/* 채용정보 end */
+
+/* 윤리강령 & 개인정보처리방침 */
+.etc_wrapper > h4 > span {
+  display: inline-block;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #ed2024;
+  transform: translateY(-2px);
+  margin-top: 44px;
+}
+.etc_wrapper > h4 > strong {
+  display: inline-block;
+  line-height: 1.4;
+  color: #333;
+  margin-top: 48px;
+}
+.etc_wrapper > h4 {
+  line-height: 1.4;
+  color: #444;
+  margin-top: 24px;
+}
+.etc_wrapper > h5 {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #666;
+  margin-top: 32px;
+}
+.etc_wrapper > p > strong {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #444;
+  margin-top: 18px;
+}
+.etc_wrapper > p {
+  font-size: 18px;
+  line-height: 1.4;
+  color: #555;
+  margin-top: 8px;
+}
+.etc_wrapper > p > small {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #999;
+  margin-top: 8px;
+}
+.etc_wrapper > dl {
+  margin-top: 24px;
+}
+.etc_wrapper > dl > dt {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #555;
+  margin-top: 16px;
+}
+.etc_wrapper > dl > dd {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #666;
+  margin-top: 8px;
+}
+.etc_wrapper > dl > dd a {
+  color: #666;
+}
+@media screen and (max-width: 1024px) {
+  .etc_wrapper > h4 > span {
+    font-size: 18px;
+  }
+}
+/* 윤리강령 & 개인정보처리방침 end */

@@ -1,0 +1,425 @@
+/* 요소 */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+  word-break: keep-all;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.wt_bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 111111111;
+}
+
+ul,
+ol,
+dl {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 텍스트 */
+h2 {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+h3 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+h4 strong {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+h4 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+/* h5 = custom text */
+
+p strong {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+p em {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  font-style: normal;
+}
+p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+p small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+button,
+input[type="submit"] {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+}
+button.strong,
+input[type="submit"].strong {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+@media screen and (max-width: 1024px) {
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 18px;
+    font-weight: 500;
+  }
+  h4 strong {
+    font-size: 16px;
+  }
+  h4 {
+    font-size: 15px;
+  }
+
+  button,
+  input[type="submit"] {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+  }
+  button.strong,
+  input[type="submit"].strong {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+  }
+}
+
+/* 컨테이너 */
+div#container {
+  position: relative;
+  width: 100%;
+  height: max-content;
+  min-height: calc(100vh - 420px);
+}
+/* 메인슬라이드 */
+section.main_slide {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+section.main_slide > .slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+section.main_slide > .slider > .slide_btn {
+  display: none;
+  position: absolute;
+  top: calc(50% - 80px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 40px);
+  max-width: 1580px;
+  height: fit-content;
+  z-index: 1;
+}
+section.main_slide > .slider > .slide_btn > div {
+  width: 80px;
+  height: 29px;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.4));
+}
+section.main_slide > .slider > .slide_btn > div > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+section.main_slide > .slider > .slide_btn > .prev {
+  float: left;
+  background: url("../images/icon/slide/prev.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+section.main_slide > .slider > .slide_btn > .next {
+  float: right;
+  background: url("../images/icon/slide/next.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+section.main_slide > .slider > .slide_window {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+section.main_slide > .slider > .slide_window > .slide_track {
+  position: relative;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+section.main_slide > .slider > .slide_window > .slide_track > .slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ddd;
+  transition: opacity 1s ease-in-out;
+  overflow: hidden;
+}
+section.main_slide
+  > .slider
+  > .slide_window
+  > .slide_track
+  > .slide:first-child {
+  opacity: 1;
+}
+section.main_slide
+  > .slider
+  > .slide_window
+  > .slide_track
+  > .slide:last-child {
+  z-index: -1;
+}
+section.main_slide > .slider > .slide_window > .slide_track > .slide > h2 {
+  position: absolute;
+  top: calc(50% - 80px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+section.main_slide > .slider > .slide_window > .slide_track > .slide > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  /* object-fit: cover; */
+}
+@media screen and (max-width: 1024px) {
+  section.main_slide > .slider > .slide_btn {
+    top: calc(50% - 40px);
+  }
+  section.main_slide > .slider > .slide_btn > div {
+    width: 44px;
+    height: 17px;
+    filter: drop-shadow(0 0px 2px rgba(0, 0, 0, 0.4));
+  }
+  section.main_slide > .slider > .slide_window > .slide_track > .slide > h2 {
+    top: calc(50% - 120px);
+  }
+}
+/* 메인슬라이드end */
+
+/* 일반 페이지 (About Us, Product, IT Infra, Career, Contact Us) */
+section.content_standard {
+  width: 100%;
+  height: max-content;
+  padding: 80px 0 160px;
+}
+section.content_standard.t_fixed {
+  padding-top: 100px;
+}
+section.content_standard.tab_alone {
+  padding-top: 260px;
+}
+section.content_standard > .inner {
+  position: relative;
+  width: calc(100% - 60px);
+  max-width: 1580px;
+  margin: 0 auto;
+}
+section.content_standard > .inner::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+section.content_standard > .inner > .title {
+  float: left;
+  width: 180px;
+  vertical-align: top;
+  margin-top: -8px;
+  margin-right: 20px;
+}
+section.content_standard > .inner > .title > h2 {
+  color: #ed2024;
+}
+section.content_standard > .inner > .body {
+  float: left;
+  width: calc(100% - 300px);
+  min-width: 740px;
+  vertical-align: top;
+}
+
+/* 일반 페이지 타블렛 */
+@media screen and (max-width: 1024px) {
+  section.content_standard {
+    padding: 40px 0 60px;
+  }
+  section.content_standard.t_fixed {
+    padding-top: 80px;
+  }
+  section.content_standard.tab_alone {
+    padding-top: 110px;
+  }
+  section.content_standard > .inner {
+    width: calc(100% - 40px);
+  }
+  section.content_standard > .inner > .title {
+    float: unset;
+    width: 100%;
+    margin-bottom: 40px;
+  }
+  section.content_standard > .inner > .body {
+    float: unset;
+    width: 100%;
+    min-width: unset;
+  }
+}
+/* 일반 페이지 타블렛end */
+/* 일반 페이지end */
+
+/* 기타 페이지 (채용공고, 윤리강령, 개인정보취급방침) */
+section.content_etc {
+  width: 100%;
+  height: max-content;
+  min-height: calc(100vh - 300px);
+  padding-top: calc(120px + 40px);
+  padding-bottom: 160px;
+}
+section.content_etc > .inner {
+  position: relative;
+  width: calc(100% - 80px);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+section.content_etc > .inner > .etc_tab {
+  width: 100%;
+  margin-bottom: 40px;
+}
+section.content_etc > .inner > .title {
+  width: 100%;
+  border-bottom: 4px solid #ed2024;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+section.content_etc > .inner > .body {
+  width: 100%;
+}
+@media screen and (max-width: 1024px) {
+  section.content_etc {
+    padding-top: calc(50px + 40px);
+    padding-bottom: 60px;
+  }
+}
+@media screen and (max-width: 480px) {
+  section.content_etc > .inner {
+    width: calc(100% - 40px);
+  }
+}
+/* 기타 페이지end */
+/* 컨테이너end */
+
+/* 스크롤 위치 */
+#scroll {
+  position: absolute;
+  top: calc(100vh - 160px);
+  left: 0;
+}
+@media screen and (max-width: 1024px) {
+  #scroll {
+    top: calc(100vh - 120px);
+  }
+}
+/* 스크롤 위치 end */
+
+/* 임시팝업 */
+div.popup_wrapper {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+div.popup_wrapper > .popup {
+  position: relative;
+  width: 280px;
+  height: auto;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 12px 4px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding-bottom: 16px;
+  margin: 0 auto;
+  margin-top: 200px;
+  z-index: 11;
+}
+div.popup_wrapper > .popup > p {
+  line-height: 100px;
+  color: #333;
+}
+div.popup_wrapper > .popup > a {
+  display: block;
+  width: 100px;
+  height: 44px;
+  background: #ed2024;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 44px;
+  color: #fff;
+  margin: 0 auto;
+}
+div.popup_wrapper > a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  transition: background 0.3s ease-in-out;
+}
+div.popup_wrapper#page_is_not_ready:target {
+  display: block;
+}
+/* 임시팝업 end */

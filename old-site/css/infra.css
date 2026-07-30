@@ -1,0 +1,217 @@
+/* IT infra service */
+.infra_wrapper {
+  position: relative;
+  width: 100%;
+}
+.infra_wrapper::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* IT infra 그래프 */
+.infra_wrapper > article.graph_wrapper {
+  float: right;
+  position: relative;
+  width: calc(100% + 200px);
+  max-width: 1180px;
+  margin-bottom: 80px;
+}
+.infra_wrapper > article.graph_wrapper > .graph {
+  width: 50%;
+  max-width: 400px;
+  height: max-content;
+  background: #fff;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.infra_wrapper > article.graph_wrapper > dl {
+  position: absolute;
+  width: auto;
+  height: max-content;
+  z-index: -1;
+}
+.infra_wrapper > article.graph_wrapper > dl.right.top {
+  top: 0;
+  right: 0;
+  color: #f60000;
+}
+.infra_wrapper > article.graph_wrapper > dl.right.bottom {
+  bottom: 0;
+  right: 0;
+  color: #005555;
+}
+.infra_wrapper > article.graph_wrapper > dl.left.bottom {
+  bottom: 24px;
+  left: 0;
+  height: 200px;
+  color: #224488;
+}
+.infra_wrapper > article.graph_wrapper > dl > dt {
+  max-width: 240px;
+  margin-bottom: 15px;
+}
+.infra_wrapper > article.graph_wrapper > dl > dt > h5 {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
+.infra_wrapper > article.graph_wrapper > dl > i {
+  position: absolute;
+  display: block;
+  width: 500px;
+  height: 1px;
+  background: #ddd;
+}
+.infra_wrapper > article.graph_wrapper > dl.right > i {
+  right: 0;
+}
+.infra_wrapper > article.graph_wrapper > dl.right > i {
+  right: 0;
+}
+.infra_wrapper > article.graph_wrapper > dl.left > i {
+  left: 0;
+}
+.infra_wrapper > article.graph_wrapper > dl > dd {
+  position: relative;
+  max-width: 240px;
+  color: #555;
+  padding-left: 12px;
+  margin-top: 6px;
+}
+.infra_wrapper > article.graph_wrapper > dl > dd::after {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: #000;
+  border-radius: 50%;
+}
+.infra_wrapper > article.graph_wrapper > dl > dd:nth-child(3) {
+  margin-top: 30px;
+}
+.infra_wrapper > article.graph_wrapper > dl > dd > p {
+  line-height: 1.2;
+}
+/* IT infra 그래프 모바일 */
+@media screen and (max-width: 1024px) {
+  .infra_wrapper > article.graph_wrapper {
+    float: unset;
+    width: 100%;
+    padding-bottom: 0;
+  }
+  .infra_wrapper > article.graph_wrapper > .graph {
+    max-width: 360px;
+    margin-bottom: 40px;
+  }
+  .infra_wrapper > article.graph_wrapper > dl {
+    float: left;
+    position: relative;
+    width: calc(100% / 3);
+    max-width: 320px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 60px;
+  }
+  .infra_wrapper > article.graph_wrapper > dl:last-child {
+    margin-bottom: 0;
+  }
+  .infra_wrapper > article.graph_wrapper > dl.left.bottom {
+    bottom: 0;
+    height: auto;
+  }
+  .infra_wrapper > article.graph_wrapper > dl > dt {
+    max-width: 100%;
+  }
+  .infra_wrapper > article.graph_wrapper > dl > i {
+    display: none;
+  }
+  .infra_wrapper > article.graph_wrapper > dl > dd {
+    max-width: 100%;
+    padding-left: 0;
+  }
+  .infra_wrapper > article.graph_wrapper > dl > dd::after {
+    display: none;
+  }
+  .infra_wrapper > article.graph_wrapper > dl > dd:nth-child(3) {
+    margin-top: 20px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .infra_wrapper > article.graph_wrapper > dl {
+    float: unset;
+    width: calc(100%);
+  }
+}
+/* IT infra 그래프 모바일 end */
+/* IT infra 그래프 end */
+
+/* IT infra 코멘트 문구 */
+.infra_wrapper > .comment_title {
+  float: right;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% + 200px);
+  max-width: 1180px;
+  height: 130px;
+}
+.infra_wrapper > .comment_title::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  display: block;
+  width: 20px;
+  height: 100%;
+  background: #ed2024;
+}
+.infra_wrapper > .comment_title::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: "";
+  display: block;
+  width: 20px;
+  height: 100%;
+  background: #ed2024;
+}
+.infra_wrapper > .comment_title > h3 {
+  width: calc(100% - 80px);
+  max-width: 800px;
+  height: auto;
+  font-size: 22px;
+  line-height: 1.5;
+  text-align: center;
+  z-index: 11;
+}
+.infra_wrapper > .comment_title > i {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  display: block;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  background: #fff;
+  z-index: 1;
+}
+@media screen and (max-width: 1024px) {
+  .infra_wrapper > .comment_title {
+    width: 100%;
+  }
+  .infra_wrapper > .comment_title > h3 {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .infra_wrapper > .comment_title {
+    height: auto;
+  }
+}
+/* IT infra 코멘트 문구 end */
+
+/* IT infra service end */

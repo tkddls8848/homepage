@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Trial Info</title>
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/base.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>  <!-- <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Trial Info</title>
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/base.css"> -->
+  <link rel="stylesheet" href="css/etc.css">
+</head>
+<body>
+
+    <header>
+    <i class="wt_bg" style="display: block;"></i>
+    <div class="inner">
+        <h1>
+            <a href="./index.php" style="background: transparent;">
+                <img src="../../images/logo/logo.svg">
+                <img src="../../images/logo/logo_wt.svg">
+            </a>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="./about-us_about.php#scroll">About Us</a></li>
+                <li><a href="./index.php#scroll">Product</a></li>
+                <li><a href="./it-infra-service_consulting.php#scroll">IT Infra</a></li>
+                <li><a href="./career.php">Career</a></li>
+                <li><a href="./contact-us_contact.php">Contact Us</a></li>
+            </ul>
+            <i class="btn_close">
+                <img src="../../images/icon/nav/close.png">
+            </i>
+        </nav>
+        <i class="btn_ham">
+            <img src="../../images/icon/nav/hamburger.png">
+            <img src="../../images/icon/nav/hamburger_wt.png">
+        </i>
+    </div>
+    <div class="popup_wrapper" id="page_is_not_ready">
+        <div class="popup">
+            <p>
+                <strong>페이지가 준비중에 있습니다.</strong>
+            </p>
+            <a href="#close">확인</a>
+        </div>
+        <a class="popup_bg" href="#close"></a>
+    </div>
+</header>
+    <script src="js/bg.js"></script>
+    <!-- <header>
+        <div class="inner">
+            <h1><a></a></h1>
+            <nav>
+                <ul>
+                    <li><a>About Us</a></li>
+                    <li><a>Product</a></li>
+                    <li><a>IT Infra</a></li>
+                    <li><a>Career</a></li>
+                    <li><a>Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header> -->
+
+
+
+    <div id="container">
+
+        <section class="content_etc">
+            <div class="inner">
+                
+                <div class="etc_tab">
+                    <div class="inner">
+                        <ul>
+                            <li><a href="./etc_recruit.php">채용정보</a></li>
+                            <li class="active"><a href="./etc_ethics.php">윤리강령</a></li>
+                            <li><a href="./etc_privacy-policy.php">개인정보취급방침</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="title">
+                    <h2>
+                        윤리강령
+                    </h2>
+                </div>
+                <div class="body">
+                    <div class="etc_wrapper">
+                        
+                        <h4>
+                        트라이얼정보통신은 윤리경영과 준법경영을통해 고객과 파트너로부터 신뢰와 존경을 받는 진정한 기업으로 거듭나고자 한다.
+                        이에 모든 임직원이 지켜야 할 올바른 행동과 가치판단의 기본 방향으로서 윤리강령을 제정하고 실천을 다짐한다.
+                        </h4>
+                        <br>
+                        <dl>
+                        <dd>하나. 우리는 고객 만족을 위해 처음부터 끝까지 함께하며 책임지는 경영으로 고객으로부터 신뢰받는 기업이 된다.</dd>
+                        <dd>하나. 우리는 모든 협력업체와 공존공영을 위해 공정거래 및 공동이익을 추구한다.</dd>
+                        <dd>하나. 우리는 회사와 나의 건전한 도약을 위해 최선의 노력을 한다.</dd>
+                        <dd>하나. 우리는 신의성실을 바탕으로 일을 하며 회사의 규정을 준수한다.</dd>
+                        <dd>하나. 우리는 사회가 요구하는 책임과 역할을 존중하며, 법령을 준수하고 건전한 사회관습을 존중한다.</dd>
+                        </dl>
+
+                        <h4><span>■</span> <strong>제1장 총칙</strong></h4>
+
+                        <h4>제1조(목적)</h4>
+                        <p>윤리강령은 윤리경영 실천을 위한 올바른 의사결정과 윤리적 판단 기준을 임직원에게 제공함을 목적으로 한다.</p>
+
+                        <h4>제2조(적용대상)</h4>
+                        <p>이 강령은 임직원, 고객, 공급회사, 협력회사, 주주, 국가와 사회를 포함하여 회사와 관계를 맺고 있는 모든 이해 관계자를 대상으로 한다.</p>
+
+
+                        <h4><span>■</span> <strong>제2장 공정하고 투명한 거래질서 확립</strong></h4>
+
+                        <h4>제3조(거래법규 준수)</h4>
+                        <p>모든 사업 및 영업활동을 함에 있어서 제반 법규를 준수하고 국내외 상거래관습을 존중한다.</p>
+
+                        <h4>제4조(공정하고 투명한 거래)</h4>
+                        <p>① 모든 거래는 상호 대등한 위치에서 공정하게 수행하며 거래 성사를 목적으로 불법적인 행위를 하거나 용인하지 않는다.</p>
+                        <p>② 불법, 반사회적 행위로 물의를 일으키는 기업과 거래하지 않는다.</p>
+
+
+                        <h4><span>■</span> <strong>제3장 고객 및 협력회사 대한 책임과 의무</strong></h4>
+
+                        <h4>제5조(고객존중)</h4>
+                        <p>고객을 존중하고 고객의 입장에서 생각하며 고객만족을 최우선 기준으로 삼는다.</p>
+
+                        <h4>제6조(고객만족)</h4>
+                        <p>고객의 요구와 기대를 정확하게 파악하여 이에 부흥하는 제품과 서비스를 제공하기 위해 항상 노력한다.</p>
+
+                        <h4>제7조(고객의 이익보호)</h4>
+                        <p>고객이 알아야 하거나 마땅히 알려야 할 사실은 신속하고 정확하게 제공하고 고객의 정보는 비도덕적 행위로 고객의 이익이 침해 당하지 않도록 소중하게 보호한다.</p>
+
+                        <h4>제8조(고객의 윤리강령 숙지 및 준수)</h4>
+                        <p>고객의 윤리강령을 숙지하고 적극 준수한다.</p>
+
+
+                        <h4><span>■</span> <strong>제4장 임직원의 기본윤리</strong></h4>
+
+                        <h4>제9조(기본자세)</h4>
+                        <p>임직원 각자가 트라이얼을 대표한다는 자세로 정직하고 성실한 생활자세를 유지하며, 올바른 언행으로 품위를 손상시키지않는다.</p>
+
+                        <h4>제10조(사명완수)</h4>
+                        <p>회사의 경영이념과 목표 및 가치를 공유하며, 회사의 방침에 따라 구성원 각자에게 부여된 사명을 성실히 수행한다.</p>
+
+                        <h4>제11조(자기계발)</h4>
+                        <p>바람직한 인재상을 스스로 정립하고, 끊임없는 자기계발을 통해 인재상에 부합되도록꾸준히 노력한다.</p>
+
+                        <h4>제12조(공정한 직무 수행)</h4>
+                        <p>공정한 직무수행을 저해할 수 있는 부당한 지시, 알선, 청탁, 특혜부여 등 비윤리적.불법적 행위를 하지 않는다.</p>
+
+                        <h4>제13조(이해충돌 회피)</h4>
+                        <p>직무수행에 있어 공과 사 또는 부서간의 이해가 상충되는 행위는 피하며, 상충될 경우 상부에 보고하고 회사의 이익을 우선적으로 고려하여 판단한다.</p>
+
+                        <h4>제14조(부당이득 수수 금지 등)</h4>
+                        <p>직무와 관련하여 사회통념상 용인되는 범위를 넘어 공정성을 저해할 수 있는 금품.향응 등을 제공하거나 받지 않는다.</p>
+
+                        <h4>제15조(공.사 구분)</h4>
+                        <p>공사를 명확히 구분하여, 자신의 직위를 이용하여 사리를 도모하지 않는다.</p>
+
+                        <h4>제16조(정보 보호 및 공유)</h4>
+                        <p>① 회사의 정보를 이용하여 개인적인 이익을 취하지 않는다.</p>
+                        <p>② 직무 수행중에 인지한 회사의 정보는 지식자산으로 기록,관리하고 보안을 유지한다.</p>
+
+                        <h4>제17조(임직원 상호 관계)</h4>
+                        <p>① 직장생활에 필요한 기본예의를 지키고 조직간의 벽을 없애, 상호 협력하는 조직분위기를 조성한다.</p>
+                        <p>② 부서이기주의나 불필요한 갈등이 조장될 만한 언행은 하지 않는다.</p>
+                        <p>③ 부당한 청탁이나 사회통념상 과다한 선물 및 금전거래를 하지 않는다.</p>
+
+
+                        <h4><span>■</span> <strong>제5장 주주에 대한 책임</strong></h4>
+
+                        <h4>제18조(주주존중)</h4>
+                        <p>① 주주의 알 권리, 정당한 요구 및 제안, 공식적인 결정 등을 존중하여 경영에 적극 반영한다.</p>
+                        <p>② 효율적인 경영을 통하여 건전한 이익을 실현함으로써 주주의 투자수익을 성실하게보호한다.</p>
+
+                        <h4>제19조(투명하고 합리적인 경영활동)</h4>
+                        <p>① 회계 자료를 국제적인 기준과 일반적인 회계 원칙에 맞게 작성한다.</p>
+                        <p>② 주요 이해관계자에게 경영 내용, 사업활동 상황 등을 적극적으로 공개하며 각종 공시 요구에 성실하게 응한다.</p>
+
+                        <h4>제20조(부단한 가치창출과 성과 공유)</h4>
+                        <p>① 합리적이고 투명한 경영으로 주주의 이익을 극대화 시켜 장기적으로 높은 투자 수익을 제공한다.</p>
+                        <p>② 건전한 재무구조를 유지하여 기업 가치에 합당한 평가를 받는다.</p>
+
+
+                        <h4><span>■</span> <strong>제6장 국가와 사회에 대한 책임</strong></h4>
+
+                        <h4>제21조(국가와 사회 질서 존중)</h4>
+                        <p>사업 활동을 영위하는 해당 국가나 지역의 제반 법규를 준수하며, 상거래 관습 및 문화 등 사회적 가치관을 존중한다.</p>
+
+                        <h4>제22조(기본 책무 이행)</h4>
+                        <p>① 시장 경제 질서를 준수하며 건전한 이윤 창출을 통해 지속적인 고용 창출, 성실한 조세 신고, 납부 등 사회 공동체 일원으로서의 기본 책무를 충실히 이행한다.</p>
+                        <p>② 매점매석, 부동산 투기 등 국민 경제에 해를 끼치는 행위를 하지 않는다.</p>
+
+                        <h4>제23조(사내 정치활동 금지)</h4>
+                        <p>회사는 정치활동에 관여하지 않으며 불법적인 정치 자금 및 편의를 제공하지 않는다. 또한 개인의 참정권과 정치적 입장표명은 보장하나, 사내의 어떠한 정치적 활동도 허용하지 않는다.</p>
+
+                        <h4>제24조(지적재산권, 환경법률 준수)</h4>
+                        <p>① 상표, 저작권 등 타사의 지적 재산권을 침해하지 않는다.</p>
+                        <p>② 영업행위를 함에 있어 환경기준과 환경관련 법을 준수하고 정부의 환경정책에 적극협조 한다.</p>
+
+                        <h4>제25조(안전 및 위험 예방)</h4>
+                        <p>안전에 관한 제반 법규와 기준을 준수하여 재해 및 위험예방관리에 최선을 다한다.</p>
+
+
+                        <h4><span>■</span> <strong>제7장 윤리 규정의 준수</strong></h4>
+
+                        <h4>제26조(윤리강령 준수 및 신고)</h4>
+                        <p>① 임직원은 지위고하를 막론하고 본 윤리강령을 성실히 준수한다.</p>
+                        <p>② 임직원은 고객의 윤리강령 또는 윤리규칙이 더 엄격한 기준일 경우 고객의 것을 준한다.</p>
+                        <p>③ 윤리 강령을 위반한 임직원은 회사 규정에 의해 그에 상응하는 징계 조치를 받는 등 해당 행위에 책임을 진다.</p>
+                        <p>③ 본 윤리 강령에 위반하는 행위를 강압 받거나 인지한 경우에는 부서장 또는 인사부서에 알리고 상담하여야 한다.</p>
+                        <p>④ 윤리강령과 관련된 항의, 신고, 제보 및 고발에 대하여 당사자를 철저하게 보호하기 위한 모든 조치를 취한다.</p>
+
+
+                        <h4><strong>[부칙]</strong></h4>
+
+                        <h4>제1조(시행시기)</h4>
+                        <p>이 강령은 2015년 1월 1일부터 시행한다.</p>
+
+
+                        <h4><strong>[행동규칙]</strong></h4>
+
+                        <h4>제1장 목적</h4>
+                        <p>이 규칙은 윤리강령 준수를 위한 구체적 판단기준 및 처리절차를 규정함을 목적으로 한다.</p>
+
+                        <h4>제2장 용어의 정의</h4>
+                        <p>1. “이해관계자” 라 함은, 당 직원의 소관업무와 관련되는 모든 임직원, 고객, 공급회사, 협력회사, 주주, 국가 기관을 대상으로 한다.</p>
+                        <p>2. “선물” 이라 함은 대가 없이(대가가 시장가격 또는 거래의 관행과 비교하여 현저히 낮은 경우를 포함한다) 제공 되는 물품 또는 유가증권, 숙박권, 회원권, 입장권 그밖에 이에 준하는 것을 말한다.</p>
+                        <p>3. “향응” 이라 함은 음식물, 골프 등의 접대 또는 교통, 숙박 등의 편의를 제공하는 것을 말한다.</p>
+
+                        <h4>제3장 고객과의 거래</h4>
+                        <p>1. 부당하게 거래를 거절하거나 고객을 차별하여 취급하는 행위를 하지 않는다.</p>
+                        <p>2. 부당하게 경쟁자를 배제하기 위하여 거래하는 행위를 하지 않는다.</p>
+                        <p>3. 부당하게 경쟁자의 고객을 자기와 거래하도록 유인하거나 강제하는행위를 하지 않는다.</p>
+                        <p>4. 자기의 거래상의 지위를 부당하게 이용하여 상대방과 거래하는 행위를 하지 않는다.</p>
+                        <p>5. 거래의 상대방의 사업활동을 부당하게 구속하는 조건으로 거래하거나 그 사업활동을 방해하는 행위를 하지 않는다.</p>
+                        <p>6. 부당하게 이해관계인 또는 다른 회사에 대하여 가지급금, 대여금, 인력, 부동산, 유가증권 등을 제공하거나 현저히 유리한 조건으로 거래하여 특수관계인 또는 다른 회사를 지원하는 행위를 하지 않는다.</p>
+                        <p>7. 고객의 의견과 제안사항을 항상 경청하고 고객 불만사항에 대해서는 최대한 신속하고 공정하게 처리한다.</p>
+                        <p>8. 윤리규정에 어긋나지 않는 고객의 약속은 철저히 지킨다.</p>
+                        <p>9. 경쟁사 비방, 탈세, 인권침해, 환경파괴 등 불법, 부당행위를 하는 기업과 거래하지 않는다.</p>
+
+                        <h4>제4장 이해관계 상충</h4>
+                        <p>1. 이해관계사 임직원 겸임 행위, 금전대차, 부동산/동산의 임대차 계약, 이해관계자의 주식 다량취득 행위를 하지 않는다.</p>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </div>
+
+    <footer>
+        <div class="inner">
+            <h5>
+                <a href="./index.php"><img src="../../images/logo/logo_wt.svg"></a>
+            </h5>
+            <nav class="footer_nav">
+                <ul>
+                    <li>
+                        <dl>
+                            <i></i>
+                            <dt>About Us</dt>
+                            <dd><a href="./about-us_about.php#scroll">회사개요</a></dd>
+                            <dd><a href="./about-us_history.php#scroll">회사연혁</a></dd>
+                            <dd><a href="./about-us_division.php#scroll">조직도</a></dd>
+                        </dl>
+                        <dl>
+                            <i></i>
+                            <dt>Product</dt>
+                            <dd><a href="./index.php#scroll">IBM</a></dd>
+                            <dd><a href="./product_lenovo_x86-server.php#scroll">Lenovo</a></dd>
+                            <dd><a href="./product_dell_x86-server.php#scroll">Dell</a></dd>
+                            <dd><a href="./product_sw_ibm-spectrum-scale.php#scroll">S/W</a></dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <i></i>
+                            <dt>IT Infra</dt>
+                            <dd><a href="./it-infra-service_consulting.php#scroll">Consulting</a></dd>
+                            <dd><a href="./it-infra-service_it-infra-build.php#scroll">IT Infra 구축</a></dd>
+                            <dd><a href="./it-infra-service_maintenance.php#scroll">Maintenance</a></dd>
+                        </dl>
+                        <dl>
+                            <i></i>
+                            <dt>Career</dt>
+                            <dd><a href="./career.php">Career</a></dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <i></i>
+                            <dt>Contact Us</dt>
+                            <dd><a href="./contact-us_contact.php">오시는 길</a></dd>
+                            <dd><a href="./contact-us_inquiry.php">문의하기</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </nav>
+            <div>
+                <h5>
+                    (주)트라이얼정보통신
+                </h5>
+                <ul>
+                    <li><a href="./etc_recruit.php">채용정보</a></li>
+                    <li><a href="./etc_ethics.php">윤리강령</a></li>
+                    <li><a href="./etc_privacy-policy.php">개인정보취급방침</a></li>
+                </ul>
+                <address>
+                    <p>
+                        <strong style="color: #fff; font-size: 16px; font-weight: 400; line-height: 40px;">(주)트라이얼정보통신</strong>
+                    </p>
+                    <p>
+                        <span>(우) 07282 서울특별시 영등포구 선유로 13길 25, 1312 ~ 1314호</span>
+                        <span>(문래동6가, 에이스하이테크시티2차)</span>
+                    </p>
+                    <p>
+                        <span>TEL : 02-6972-1521</span>
+                        <span>FAX : 02-6972-1525</span>
+                        <span>E-mail : master@trialinfo.com</span>
+                    </p>
+                </address>
+                <p>
+                    <small>Copyrights 2020 logo. All rights reserved.</small>
+                </p>
+            </div>
+        </div>
+    </footer>    <script src="js/white_header.js"></script>
+    <script src="js/hamberger.js"></script>
+    <script src="js/open_tab.js"></script>
+    <script src="js/open_footer.js"></script>
+
+</body>
+</html>

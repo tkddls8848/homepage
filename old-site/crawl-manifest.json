@@ -1,0 +1,887 @@
+{
+  "generatedAt": "2026-07-30T14:32:27.877Z",
+  "startUrl": "http://www.trialinfo.com/index.php",
+  "output": "C:\\Users\\tkddl\\orca\\homepage\\old-site",
+  "limits": {
+    "maxFiles": 1500,
+    "delayMs": 80,
+    "timeoutMs": 20000
+  },
+  "summary": {
+    "downloaded": 122,
+    "failed": 1,
+    "pending": 0
+  },
+  "downloaded": [
+    {
+      "url": "http://www.trialinfo.com/index.php",
+      "path": "index.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 26531
+    },
+    {
+      "url": "http://www.trialinfo.com/css/nav.css",
+      "path": "css/nav.css",
+      "status": 200,
+      "contentType": "text/css",
+      "bytes": 22553
+    },
+    {
+      "url": "http://www.trialinfo.com/css/base.css",
+      "path": "css/base.css",
+      "status": 200,
+      "contentType": "text/css",
+      "bytes": 8213
+    },
+    {
+      "url": "http://www.trialinfo.com/css/product.css",
+      "path": "css/product.css",
+      "status": 200,
+      "contentType": "text/css",
+      "bytes": 11101
+    },
+    {
+      "url": "http://www.trialinfo.com/images/logo/logo.svg",
+      "path": "images/logo/logo.svg",
+      "status": 200,
+      "contentType": "image/svg+xml",
+      "bytes": 85201
+    },
+    {
+      "url": "http://www.trialinfo.com/images/logo/logo_wt.svg",
+      "path": "images/logo/logo_wt.svg",
+      "status": 200,
+      "contentType": "image/svg+xml",
+      "bytes": 111167
+    },
+    {
+      "url": "http://www.trialinfo.com/about-us_about.php",
+      "path": "about-us_about.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 13047
+    },
+    {
+      "url": "http://www.trialinfo.com/it-infra-service_consulting.php",
+      "path": "it-infra-service_consulting.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 14711
+    },
+    {
+      "url": "http://www.trialinfo.com/career.php",
+      "path": "career.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 33117
+    },
+    {
+      "url": "http://www.trialinfo.com/contact-us_contact.php",
+      "path": "contact-us_contact.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 10027
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/nav/close.png",
+      "path": "images/icon/nav/close.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 369
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/nav/hamburger.png",
+      "path": "images/icon/nav/hamburger.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 187
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/nav/hamburger_wt.png",
+      "path": "images/icon/nav/hamburger_wt.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 188
+    },
+    {
+      "url": "http://www.trialinfo.com/js/bg.js",
+      "path": "js/bg.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 271
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/slide/slide_01.png",
+      "path": "images/photo/slide/slide_01.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 3101361
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/slide/slide_02.png",
+      "path": "images/photo/slide/slide_02.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 2833168
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/nav/arrow_down.png",
+      "path": "images/icon/nav/arrow_down.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 436
+    },
+    {
+      "url": "http://www.trialinfo.com/product_lenovo_x86-server.php",
+      "path": "product_lenovo_x86-server.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 15784
+    },
+    {
+      "url": "http://www.trialinfo.com/product_dell_x86-server.php",
+      "path": "product_dell_x86-server.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 15728
+    },
+    {
+      "url": "http://www.trialinfo.com/product_sw_ibm-spectrum-scale.php",
+      "path": "product_sw_ibm-spectrum-scale.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 21036
+    },
+    {
+      "url": "http://www.trialinfo.com/product_ibm_linux-on-power.php",
+      "path": "product_ibm_linux-on-power.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 15094
+    },
+    {
+      "url": "http://www.trialinfo.com/product_ibm_storage.php",
+      "path": "product_ibm_storage.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 25834
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power11_e1180.png",
+      "path": "images/photo/product/ibm/UnixServer/power11_e1180.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 422174
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power11_e1150.png",
+      "path": "images/photo/product/ibm/UnixServer/power11_e1150.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 395594
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power11_s1124.png",
+      "path": "images/photo/product/ibm/UnixServer/power11_s1124.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 352333
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power11_s1122.png",
+      "path": "images/photo/product/ibm/UnixServer/power11_s1122.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 171943
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power9_e1080.png",
+      "path": "images/photo/product/ibm/UnixServer/power9_e1080.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 355022
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power9_e1050.png",
+      "path": "images/photo/product/ibm/UnixServer/power9_e1050.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 354480
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power10_s1024.png",
+      "path": "images/photo/product/ibm/UnixServer/power10_s1024.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 320259
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/UnixServer/power9_s1022.png",
+      "path": "images/photo/product/ibm/UnixServer/power9_s1022.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 121123
+    },
+    {
+      "url": "http://www.trialinfo.com/about-us_history.php",
+      "path": "about-us_history.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 18762
+    },
+    {
+      "url": "http://www.trialinfo.com/about-us_division.php",
+      "path": "about-us_division.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 10322
+    },
+    {
+      "url": "http://www.trialinfo.com/it-infra-service_it-infra-build.php",
+      "path": "it-infra-service_it-infra-build.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 13866
+    },
+    {
+      "url": "http://www.trialinfo.com/it-infra-service_maintenance.php",
+      "path": "it-infra-service_maintenance.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 14648
+    },
+    {
+      "url": "http://www.trialinfo.com/contact-us_inquiry.php",
+      "path": "contact-us_inquiry.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 11717
+    },
+    {
+      "url": "http://www.trialinfo.com/etc_recruit.php",
+      "path": "etc_recruit.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 12983
+    },
+    {
+      "url": "http://www.trialinfo.com/etc_ethics.php",
+      "path": "etc_ethics.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 20438
+    },
+    {
+      "url": "http://www.trialinfo.com/etc_privacy-policy.php",
+      "path": "etc_privacy-policy.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 19593
+    },
+    {
+      "url": "http://www.trialinfo.com/js/hamberger.js",
+      "path": "js/hamberger.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 670
+    },
+    {
+      "url": "http://www.trialinfo.com/js/tab.js",
+      "path": "js/tab.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 1518
+    },
+    {
+      "url": "http://www.trialinfo.com/js/open_tab.js",
+      "path": "js/open_tab.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 981
+    },
+    {
+      "url": "http://www.trialinfo.com/js/open_footer.js",
+      "path": "js/open_footer.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 1817
+    },
+    {
+      "url": "http://www.trialinfo.com/js/slider.js",
+      "path": "js/slider.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 1098
+    },
+    {
+      "url": "http://www.trialinfo.com/js/id_control.js",
+      "path": "js/id_control.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 181
+    },
+    {
+      "url": "http://www.trialinfo.com/images/logo/logo_wt.png",
+      "path": "images/logo/logo_wt.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 7446
+    },
+    {
+      "url": "http://www.trialinfo.com/images/logo/logo.png",
+      "path": "images/logo/logo.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1932
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/nav/plus.png",
+      "path": "images/icon/nav/plus.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 229
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/nav/minus.png",
+      "path": "images/icon/nav/minus.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 162
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/tab/about.png",
+      "path": "images/photo/tab/about.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 2779188
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/tab/infra.png",
+      "path": "images/photo/tab/infra.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1047988
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/tab/product.png",
+      "path": "images/photo/tab/product.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 560599
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/slide/prev.png",
+      "path": "images/icon/slide/prev.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1500
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/slide/next.png",
+      "path": "images/icon/slide/next.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1287
+    },
+    {
+      "url": "http://www.trialinfo.com/css/about.css",
+      "path": "css/about.css",
+      "status": 200,
+      "contentType": "text/css",
+      "bytes": 21597
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/about/future.png",
+      "path": "images/photo/about/future.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1023522
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/about/tech.png",
+      "path": "images/photo/about/tech.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 429821
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/about/building.png",
+      "path": "images/photo/about/building.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 1144941
+    },
+    {
+      "url": "http://www.trialinfo.com/css/infra.css",
+      "path": "css/infra.css",
+      "status": 200,
+      "contentType": "text/css",
+      "bytes": 4636
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/infra/graph_consulting.png",
+      "path": "images/photo/infra/graph_consulting.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 47252
+    },
+    {
+      "url": "http://www.trialinfo.com/js/white_header.js",
+      "path": "js/white_header.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 146
+    },
+    {
+      "url": "http://www.trialinfo.com/js/jquery-3.5.1.min.js",
+      "path": "js/jquery-3.5.1.min.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 89475
+    },
+    {
+      "url": "http://www.trialinfo.com/js/contact.js",
+      "path": "js/contact.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 602
+    },
+    {
+      "url": "http://www.trialinfo.com/js/map.js",
+      "path": "js/map.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "bytes": 947
+    },
+    {
+      "url": "http://www.trialinfo.com/product_lenovo_hci-server.php",
+      "path": "product_lenovo_hci-server.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 16085
+    },
+    {
+      "url": "http://www.trialinfo.com/product_lenovo_gpu-server.php",
+      "path": "product_lenovo_gpu-server.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 13135
+    },
+    {
+      "url": "http://www.trialinfo.com/product_lenovo_storage.php",
+      "path": "product_lenovo_storage.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 16184
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/x86/sr250.png",
+      "path": "images/photo/product/lenovo/x86/sr250.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 79537
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/x86/sr650.png",
+      "path": "images/photo/product/lenovo/x86/sr650.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 129655
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/x86/sr850.png",
+      "path": "images/photo/product/lenovo/x86/sr850.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 80637
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/x86/sr950.png",
+      "path": "images/photo/product/lenovo/x86/sr950.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 200857
+    },
+    {
+      "url": "http://www.trialinfo.com/product_dell_hci-server.php",
+      "path": "product_dell_hci-server.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 15718
+    },
+    {
+      "url": "http://www.trialinfo.com/product_dell_gpu-server.php",
+      "path": "product_dell_gpu-server.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 11952
+    },
+    {
+      "url": "http://www.trialinfo.com/product_dell_storage.php",
+      "path": "product_dell_storage.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 15964
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/x86/r340.png",
+      "path": "images/photo/product/dell/x86/r340.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 76705
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/x86/r740.png",
+      "path": "images/photo/product/dell/x86/r740.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 117372
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/x86/r740xd.png",
+      "path": "images/photo/product/dell/x86/r740xd.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 121644
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/x86/r740xd2.png",
+      "path": "images/photo/product/dell/x86/r740xd2.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 95229
+    },
+    {
+      "url": "http://www.trialinfo.com/product_sw_ibm-db2.php",
+      "path": "product_sw_ibm-db2.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 24941
+    },
+    {
+      "url": "http://www.trialinfo.com/product_sw_ibm-web-sphere.php",
+      "path": "product_sw_ibm-web-sphere.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 21723
+    },
+    {
+      "url": "http://www.trialinfo.com/product_sw_ibm-instana.php",
+      "path": "product_sw_ibm-instana.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 23020
+    },
+    {
+      "url": "http://www.trialinfo.com/product_sw_cider.php",
+      "path": "product_sw_cider.php",
+      "status": 200,
+      "contentType": "text/html",
+      "bytes": 24834
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/LinuxonPower/l1024.png",
+      "path": "images/photo/product/ibm/LinuxonPower/l1024.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 155755
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/LinuxonPower/l1022.png",
+      "path": "images/photo/product/ibm/LinuxonPower/l1022.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 94930
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/fs9500.png",
+      "path": "images/photo/product/ibm/Storage/fs9500.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 240556
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/fs7300.png",
+      "path": "images/photo/product/ibm/Storage/fs7300.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 131478
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/fs5300.png",
+      "path": "images/photo/product/ibm/Storage/fs5300.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 153460
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/fs5045.png",
+      "path": "images/photo/product/ibm/Storage/fs5045.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 165750
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/sss6000.png",
+      "path": "images/photo/product/ibm/Storage/sss6000.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 257660
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/sss3500.png",
+      "path": "images/photo/product/ibm/Storage/sss3500.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 136678
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/ts7700.png",
+      "path": "images/photo/product/ibm/Storage/ts7700.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 124456
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/ibm/Storage/ts4300.png",
+      "path": "images/photo/product/ibm/Storage/ts4300.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 133854
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/about/division.png",
+      "path": "images/photo/about/division.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 21221
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/about/m_division.png",
+      "path": "images/photo/about/m_division.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 32229
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/infra/graph_build.png",
+      "path": "images/photo/infra/graph_build.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 46784
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/infra/graph_maintenance.png",
+      "path": "images/photo/infra/graph_maintenance.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 46440
+    },
+    {
+      "url": "http://www.trialinfo.com/css/etc.css",
+      "path": "css/etc.css",
+      "status": 200,
+      "contentType": "text/css",
+      "bytes": 2811
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/etc/recruit.png",
+      "path": "images/photo/etc/recruit.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 27555
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/etc/m_recruit.png",
+      "path": "images/photo/etc/m_recruit.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 56731
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/about/city.png",
+      "path": "images/photo/about/city.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 2833168
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/hci/vx3320.png",
+      "path": "images/photo/product/lenovo/hci/vx3320.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 52836
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/hci/vx7520.png",
+      "path": "images/photo/product/lenovo/hci/vx7520.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 131497
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/hci/hx3320.png",
+      "path": "images/photo/product/lenovo/hci/hx3320.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 52836
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/hci/hx7520.png",
+      "path": "images/photo/product/lenovo/hci/hx7520.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 131497
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/gpu/sr670.png",
+      "path": "images/photo/product/lenovo/gpu/sr670.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 123743
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/gpu/sr860.png",
+      "path": "images/photo/product/lenovo/gpu/sr860.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 161273
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/storage/dm5000h.png",
+      "path": "images/photo/product/lenovo/storage/dm5000h.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 101434
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/storage/dm7000h.png",
+      "path": "images/photo/product/lenovo/storage/dm7000h.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 162549
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/storage/dm5000f.png",
+      "path": "images/photo/product/lenovo/storage/dm5000f.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 137441
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/lenovo/storage/dm7000f.png",
+      "path": "images/photo/product/lenovo/storage/dm7000f.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 204118
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/hci/e560.png",
+      "path": "images/photo/product/dell/hci/e560.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 135199
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/hci/p570.png",
+      "path": "images/photo/product/dell/hci/p570.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 135184
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/hci/v570.png",
+      "path": "images/photo/product/dell/hci/v570.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 135390
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/hci/s570.png",
+      "path": "images/photo/product/dell/hci/s570.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 135090
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/gpu/r840.png",
+      "path": "images/photo/product/dell/gpu/r840.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 116135
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/storage/sc5020.png",
+      "path": "images/photo/product/dell/storage/sc5020.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 88691
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/storage/sc7020.png",
+      "path": "images/photo/product/dell/storage/sc7020.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 88778
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/storage/sc9000.png",
+      "path": "images/photo/product/dell/storage/sc9000.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 122638
+    },
+    {
+      "url": "http://www.trialinfo.com/images/photo/product/dell/storage/all.png",
+      "path": "images/photo/product/dell/storage/all.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 209576
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/CiderSolution/Backup&Recovery.png",
+      "path": "images/icon/CiderSolution/Backup&Recovery.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 10431
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/CiderSolution/Audit&Health%20Check.png",
+      "path": "images/icon/CiderSolution/Audit&Health Check.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 17808
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/CiderSolution/Result&Report.png",
+      "path": "images/icon/CiderSolution/Result&Report.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12488
+    },
+    {
+      "url": "http://www.trialinfo.com/images/icon/CiderSolution/Duplicate%20&%20Deploy.png",
+      "path": "images/icon/CiderSolution/Duplicate & Deploy.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 12877
+    }
+  ],
+  "failures": [
+    {
+      "url": "http://www.trialinfo.com/product_ibm_Linux-on-power.php",
+      "status": 404,
+      "error": "HTTP 404"
+    }
+  ],
+  "skippedExternalOrigins": [
+    "https://code.jquery.com",
+    "https://fonts.googleapis.com",
+    "https://ssl.daumcdn.net",
+    "https://www.dell.com",
+    "https://www.delltechnologies.com",
+    "https://www.ibm.com",
+    "https://www.lenovo.com"
+  ]
+}

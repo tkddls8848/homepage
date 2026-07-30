@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Trial Info</title>
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/base.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>  <!-- <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Trial Info</title>
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/base.css"> -->
+  <link rel="stylesheet" href="css/etc.css">
+</head>
+<body>
+
+    <header>
+    <i class="wt_bg" style="display: block;"></i>
+    <div class="inner">
+        <h1>
+            <a href="./index.php" style="background: transparent;">
+                <img src="../../images/logo/logo.svg">
+                <img src="../../images/logo/logo_wt.svg">
+            </a>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="./about-us_about.php#scroll">About Us</a></li>
+                <li><a href="./index.php#scroll">Product</a></li>
+                <li><a href="./it-infra-service_consulting.php#scroll">IT Infra</a></li>
+                <li><a href="./career.php">Career</a></li>
+                <li><a href="./contact-us_contact.php">Contact Us</a></li>
+            </ul>
+            <i class="btn_close">
+                <img src="../../images/icon/nav/close.png">
+            </i>
+        </nav>
+        <i class="btn_ham">
+            <img src="../../images/icon/nav/hamburger.png">
+            <img src="../../images/icon/nav/hamburger_wt.png">
+        </i>
+    </div>
+    <div class="popup_wrapper" id="page_is_not_ready">
+        <div class="popup">
+            <p>
+                <strong>페이지가 준비중에 있습니다.</strong>
+            </p>
+            <a href="#close">확인</a>
+        </div>
+        <a class="popup_bg" href="#close"></a>
+    </div>
+</header>
+    <script src="js/bg.js"></script>
+    <!-- <header>
+        <div class="inner">
+            <h1><a></a></h1>
+            <nav>
+                <ul>
+                    <li><a>About Us</a></li>
+                    <li><a>Product</a></li>
+                    <li><a>IT Infra</a></li>
+                    <li><a>Career</a></li>
+                    <li><a>Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header> -->
+
+
+
+    <div id="container">
+
+        <section class="content_etc">
+            <div class="inner">
+                
+                <div class="etc_tab">
+                    <div class="inner">
+                        <ul>
+                            <li><a href="./etc_recruit.php">채용정보</a></li>
+                            <li><a href="./etc_ethics.php">윤리강령</a></li>
+                            <li class="active"><a href="./etc_privacy-policy.php">개인정보취급방침</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="title">
+                    <h2>
+                        개인정보취급방침
+                    </h2>
+                </div>
+                <div class="body">
+                    <div class="etc_wrapper">
+
+                        <h4>
+                        ㈜트라이얼정보통신 (이하 '회사')는 이용자의 개인정보를 중요시하며, "정보통신망 이용촉진 및 정보보호"에 관한 법률과 개인정보보호법 등을 준수하고 있습니다. 회사는 개인정보취급방침을 통하여 이용자님께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며, 개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려 드립니다. 회사는 개인정보취급방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.
+                        </h4>
+
+                        <h5>회사의 개인정보취급방침은 다음과 같은 내용을 담고 있습니다.</h5>
+                        <br>
+                        <p>1. 개인정보 수집에 대한 동의</p>
+                        <p>2. 개인정보의 수집 및 이용목적</p>
+                        <p>3. 수집하는 개인정보 항목 및 수집방법</p>
+                        <p>4. 수집한 개인정보의 공유 및 제공</p>
+                        <p>5. 개인정보취급 위탁</p>
+                        <p>6. 수집한 개인정보의 보유 및 이용기간</p>
+                        <p>7. 개인정보의 파기절차 및 방법</p>
+                        <p>8. 개인정보의 안전성 확보 조치</p>
+                        <p>9. 이용자 자신의 개인정보 관리에 관한 사항</p>
+                        <p>10. 개인정보 관리책임자 및 담당자의 소속 - 성명 및 연락처</p>
+                        <p>11. 고지의 의무</p>
+                        <br>
+                        <p><small>* 본 방침은 2015년 7월 1일부터 시행됩니다.</small></p>
+
+
+                        <h4><span>■</span> <strong>개인정보 수집에 대한 동의</strong></h4>
+
+                        <p><strong>이용자들이 개인정보를 작성하는 서비스를 이용할 때 개인정보취급방침 내용을 확인할 수 있도록 하며, 서비스 이용에 대한 개인정보 작성 시 개인정보 수집에 대해 동의한 것으로 봅니다.</strong></p>
+
+
+                        <h4><span>■</span> <strong>개인정보의 수집 및 이용목적</strong></h4>
+
+                        <p><strong>대부분의 서비스는 별도의 사용자 정보 등록이 없이 언제든지 사용할 수 있습니다. 그러나 보다 더 향상된 양질의 서비스를 제공하기 위하여 이용자 개인의 정보를 수집하고 있으나, 이용자의 사전 동의 없이는 이용자의 개인 정보를 함부로 공개하지 않습니다. </strong></p>
+
+                        <dl>
+                        <dt>수집된 정보는 다음의 목적을 위해 활용합니다.</dt>
+                        <dd>- 고객 문의 대한 응대 및 관리
+                        회사관련 문의, 서비스/상품 문의, 채용 문의, 홈페이지 문의 등의 고객 문의에 대한 피드백 제공 및 관리</dd>
+                        <dd>- 마케팅 및 광고에 활용
+                        신규 서비스(제품)에 대한 자료 제공 및 이벤트와 공고성 정보전달</dd>
+                        </dl>
+
+
+                        <h4><span>■</span> <strong>수집하는 개인정보의 항목 및 수집방법</strong></h4>
+
+                        <h4>1.수집항목</h4>
+                        <p>회사는 회사관련 문의, 서비스/상품 문의, 채용 문의, 홈페이지 문의 등에 대한 관리를 위하여 아래와 같은 개인정보를 수집하고 있습니다.</p>
+                        <dl>
+                        <dt>필수정보</dt>
+                        <dd>- 이름, 직책, 회사명, 연락처, 이메일</dd>
+                        </dl>
+                        <dl>
+                        <dt>동의를 거부할 권리 및 동의 거부에 따른 불이익</dt>
+                        <dd>- 필수 정보 수집에 대한 동의를 거부할 권리가 있습니다.</dd>
+                        <dd>- 필수 정보 외, 선택 정보 수집에 대한 동의를 거부할 권리가 있습니다.
+                        단, 동의를 거부할 경우 문의에 대한 응대가 불가능할 수 있습니다.</dd>
+                        </dl>
+                        <h4>2.수집방법</h4>
+                        <p>회사는 다음과 같은 방법으로 개인정보를 수집합니다.</p>
+                        <dl>
+                        <dd>- 홈페이지 '견적문의', 'Contact Us' 메뉴</dd>
+                        <dd>- 세미나 등 행사 응모</dd>
+                        </dl>
+
+                        <h4><span>■</span> <strong>수집한 개인정보의 공유 및 제공 [개인정보의 제3자 제공 등]</strong></h4>
+
+                        <p><strong>회사는 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다.</strong></p>
+                        <p>다만, 아래의 경우에는 예외로 합니다.</p>
+                        <dl>
+                        <dd>- 이용자들이 사전에 동의한 경우</dd>
+                        <dd>- 법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사 기관의 요구가 있는 경우</dd>
+                        </dl>
+
+
+                        <h4><span>■</span> <strong>개인정보의 취급위탁</strong></h4>
+
+                        <p><strong>회사는 이용자의 개인정보를 원칙적으로 외부에 취급 위탁하지 않습니다.</strong></p>
+                        <p>다만, 아래의 경우에는 예외로 합니다.</p>
+                        <dl>
+                        <dd>- 이용자들이 사전에 동의한 경우</dd>
+                        <dd>- 법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사 기관의 요구가 있는 경우</dd>
+                        </dl>
+
+                        <h4><span>■</span> <strong>수집한 개인정보의 보유ㆍ이용기간</strong></h4>
+
+                        <p><strong>개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다.</strong></p>
+                        <p>다만, 아래의 경우 명시한 기간동안 개인정보를 보유합니다.</p>
+                        <dl>
+                        <dd>- 법령의 규정에 의하여 보존할 필요성이 있는 경우에는 법령에서 규정한 보존기간 동안 거래내역과 최소한의 기본정보를 보유함</dd>
+                        <dd>- 보유 기간을 이용자에게 미리 고지하거나 개별적으로 이용자의 동의를 받은경우 약속한 보유기간 동안 보유함</dd>
+                        </dl>
+
+                        <h4><span>■</span> <strong>개인정보의 파기 절차 및 방법</strong></h4>
+
+                        <p><strong>회사는 원칙적으로 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체없이 파기합니다.</strong></p>
+                        <p>파기절차 및 방법은 다음과 같습니다.</p>
+                        <dl>
+                        <dd>- 파기절차<br>
+                        이용자가 입력한 정보는 목적이 달성된 후 내부 방침 및 기타 관련 법령에 의한 정보보호 사유에 따라 (보유 및 이용 기간 참조) 일정기간 저장된 후 파기되어 집니다.<br>
+                        동 개인정보는 법률에 의한 경우가 아니고서는 보유되어지는 이외의 다른 목적으로 이용 되지 않습니다.</dd>
+                        <dd>- 파기방법<br>
+                        종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각을 통하여 파기하고 전자적 파일형태로 저장된 개인정보는 기록을 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.</dd>
+                        </dl>
+
+                        <h4><span>■</span> <strong>개인정보의 안정성 확보 조치</strong></h4>
+
+                        <p><strong>회사는 수집한 개인정보를 취급함에 있어 개인정보가 분실,도난,누출,변조 또는 훼손되지 않도록 다음과 같은 안전성 확보 조치를 취하고 있습니다.</strong></p>
+                        <dl>
+                        <dt>- 내부관리계획의 수립 및 시행</dt>
+                        <dd>회사의 내부관리계획 수립하여 개인정보 보호를 위해 실행합니다.</dd>
+                        <dt>- 개인정보 취급 담당자의 최소화 및 교육</dt>
+                        <dd>개인정보를 취급하는 담당자를 지정하고 최소화하여 개인정보를 관리하는 대책을 시행하고, 담당자에 대한 교육을 통하여 개인정보취급방침의 준수를 항상 강조하고 있습니다.</dd>
+                        <dt>- 개인정보에 대한 접근 제한</dt>
+                        <dd>개인정보를 처리하는 데이터베이스시스템에 대한 접근권한의 부여, 변경, 말소를 통하여 개인정보에 대한 접근통제를 위하여 필요한 조치를 취하고 있습니다.</dd>
+                        <dt>- 해킹 등에 대비한 기술적 대책</dt>
+                        <dd>회사는 해킹이나 컴퓨터 바이러스 등에 의한 개인정보 유출 및 훼손을 막기 위하여 보안프로그램을 설치하고 주기적인 갱신·점검하고 있습니다.</dd>
+                        </dl>
+
+                        <h4><span>■</span> <strong>이용자 자신의 개인정보 관리에 관한 사항</strong></h4>
+
+                        <p><strong>회사 홈페이지에는 개인정보를 외부에 공개하는 부분이 없으므로 이용자가 자신의 개인정보를 관리(열람, 수정, 삭제 등)할 수 없습니다.</strong></p>
+
+
+                        <h4><span>■</span> <strong>개인정보관리책임자 또는 개인정보담당 부서</strong></h4>
+
+                        <p><strong>회사는 이용자의 개인정보를 보호하고 개인정보와 관련한 불만을 처리하기 위하여 아래와 같이 관련 부서 및 개인정보관리책임자를 지정하고 있습니다.</strong></p>
+
+                        <dl>
+                        <dt>개인정보관리 책임자</dt>
+                        <dd>성명 : 김재길 상무</dd>
+                        <dd>전화번호 : 02-6972-1528</dd>
+                        <dd>이메일 : kjg@trialinfo.com</dd>
+                        </dl>
+
+                        <dl>
+                        <dt>개인정보관리 담당자</dt>
+                        <dd>성명 : 조영아 실장</dd>
+                        <dd>전화번호 : 02-6972-1524</dd>
+                        <dd>이메일 : cya3544@trialinfo.com</dd>
+                        </dl>
+
+                        <p><strong>
+                            이용자께서는 회사의 서비스를 이용하시며 발생하는 모든 개인정보보호 관련 민원을 개인정보관리 책임자 혹은 담당부서로 신고하실 수 있습니다.<br>
+                            회사는 이용자들의 신고사항에 대해 신속하게 충분한 답변을 드릴 것입니다.<br>
+                            기타 개인정보침해에 대한 신고나 상담이 필요하신 경우에는 아래 기관에 문의하시기 바랍니다.</strong></p>
+
+                        <dl>
+                        <dd>개인정보침해신고센터 (www.118.or.kr/118)</dd>
+                        <dd>정보보호마크인증위원회 (www.eprivacy.or.kr/02-580-0533~4)</dd>
+                        <dd>대검찰청 첨단범죄수사과 (http://www.spo.go.kr/02-3480-2000)</dd>
+                        <dd>경찰청 사이버테러대응센터 (www.netan.go.kr/1566-0112)</dd>
+                        </dl>
+
+                        <h4><span>■</span> <strong>고지의 의무</strong></h4>
+
+                        <p><strong>현 개인정보취급방침 내용 추가, 삭제 및 수정이 있을 시에는 개정 최소 7일전부터 홈페이지의 '공지사항'(또는 개별공지)를 통해 고지할 것입니다.</strong></h4>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </div>
+
+    <footer>
+        <div class="inner">
+            <h5>
+                <a href="./index.php"><img src="../../images/logo/logo_wt.svg"></a>
+            </h5>
+            <nav class="footer_nav">
+                <ul>
+                    <li>
+                        <dl>
+                            <i></i>
+                            <dt>About Us</dt>
+                            <dd><a href="./about-us_about.php#scroll">회사개요</a></dd>
+                            <dd><a href="./about-us_history.php#scroll">회사연혁</a></dd>
+                            <dd><a href="./about-us_division.php#scroll">조직도</a></dd>
+                        </dl>
+                        <dl>
+                            <i></i>
+                            <dt>Product</dt>
+                            <dd><a href="./index.php#scroll">IBM</a></dd>
+                            <dd><a href="./product_lenovo_x86-server.php#scroll">Lenovo</a></dd>
+                            <dd><a href="./product_dell_x86-server.php#scroll">Dell</a></dd>
+                            <dd><a href="./product_sw_ibm-spectrum-scale.php#scroll">S/W</a></dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <i></i>
+                            <dt>IT Infra</dt>
+                            <dd><a href="./it-infra-service_consulting.php#scroll">Consulting</a></dd>
+                            <dd><a href="./it-infra-service_it-infra-build.php#scroll">IT Infra 구축</a></dd>
+                            <dd><a href="./it-infra-service_maintenance.php#scroll">Maintenance</a></dd>
+                        </dl>
+                        <dl>
+                            <i></i>
+                            <dt>Career</dt>
+                            <dd><a href="./career.php">Career</a></dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <i></i>
+                            <dt>Contact Us</dt>
+                            <dd><a href="./contact-us_contact.php">오시는 길</a></dd>
+                            <dd><a href="./contact-us_inquiry.php">문의하기</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </nav>
+            <div>
+                <h5>
+                    (주)트라이얼정보통신
+                </h5>
+                <ul>
+                    <li><a href="./etc_recruit.php">채용정보</a></li>
+                    <li><a href="./etc_ethics.php">윤리강령</a></li>
+                    <li><a href="./etc_privacy-policy.php">개인정보취급방침</a></li>
+                </ul>
+                <address>
+                    <p>
+                        <strong style="color: #fff; font-size: 16px; font-weight: 400; line-height: 40px;">(주)트라이얼정보통신</strong>
+                    </p>
+                    <p>
+                        <span>(우) 07282 서울특별시 영등포구 선유로 13길 25, 1312 ~ 1314호</span>
+                        <span>(문래동6가, 에이스하이테크시티2차)</span>
+                    </p>
+                    <p>
+                        <span>TEL : 02-6972-1521</span>
+                        <span>FAX : 02-6972-1525</span>
+                        <span>E-mail : master@trialinfo.com</span>
+                    </p>
+                </address>
+                <p>
+                    <small>Copyrights 2020 logo. All rights reserved.</small>
+                </p>
+            </div>
+        </div>
+    </footer>    <script src="js/white_header.js"></script>
+    <script src="js/hamberger.js"></script>
+    <script src="js/open_tab.js"></script>
+    <script src="js/open_footer.js"></script>
+
+</body>
+</html>
