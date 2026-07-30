@@ -9,7 +9,8 @@
     "dev": "eleventy --serve --incremental",
     "build": "eleventy",
     "clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('_site',{recursive:true,force:true}))\"",
-    "check:links": "node tools/check-links.mjs"
+    "check:links": "node tools/check-links.mjs",
+    "import:images": "node tools/import-images.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6"

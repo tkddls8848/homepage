@@ -87,8 +87,49 @@ src/
 ### 1. GitHub Pages (설정 파일 포함)
 
 `.github/workflows/deploy.yml` 이 `main` 브랜치 푸시마다 빌드·배포합니다.
-저장소 **Settings → Pages → Source** 를 `GitHub Actions` 로 지정하고,
-사용자 도메인을 쓸 경우 **Custom domain** 입력 후 **Enforce HTTPS** 를 켜세요.
+
+**최초 1회 설정** (이걸 하지 않으면 deploy 단계가 `404 Ensure GitHub Pages has been
+enabled` 로 실패합니다. 저장소 설정이라 코드로는 켤 수 없습니다.)
+
+1. 저장소 **Settings → Pages → Source** 를 `GitHub Actions` 로 변경
+2. **Actions → Build & Deploy → Re-run all jobs** 로 재실행
+
+이 상태에서 `https://tkddls8848.github.io/homepage/` 로 접속됩니다.
+
+#### www.trialinfo.com 을 HTTPS 로 붙이기
+
+GitHub Pages 는 커스텀 도메인에 Let's Encrypt 인증서를 무료로 자동 발급합니다.
+**순서를 지키는 것이 중요합니다.** DNS 가 준비되기 전에 CNAME 파일을 올리면
+사이트에 접속할 수 없게 됩니다.
+
+1. **DNS 레코드 추가** (도메인 등록업체 관리 화면)
+
+   | 종류 | 이름 | 값 |
+   | --- | --- | --- |
+   | CNAME | `www` | `tkddls8848.github.io.` |
+
+   `trialinfo.com`(www 없는 주소)까지 함께 쓰려면 A 레코드 4개를 추가합니다.
+   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   (IPv6 는 AAAA 로 `2606:50c0:8000::153` ~ `2606:50c0:8003::153`)
+
+2. **DNS 전파 확인** — `dig www.trialinfo.com CNAME +short` 가 위 값을 돌려주면 완료.
+   보통 몇 분~수 시간 걸립니다.
+
+3. **저장소 Variables 에 `CUSTOM_DOMAIN` 추가**
+   Settings → Secrets and variables → Actions → Variables → New variable
+   이름 `CUSTOM_DOMAIN`, 값 `www.trialinfo.com`
+   → 다음 빌드에서 `CNAME` 파일이 자동 생성됩니다.
+
+4. **Settings → Pages → Custom domain** 에 `www.trialinfo.com` 입력 후 저장.
+   DNS 검증이 끝나면 **Enforce HTTPS** 체크박스가 활성화되므로 켜 주세요.
+   (인증서 발급에 보통 15분 이내 소요)
+
+5. 같은 화면에서 `SITE_URL` 변수도 `https://www.trialinfo.com` 으로 맞춰두면
+   canonical·OG·sitemap 주소가 일치합니다.
+
+> ⚠️ 현재 `www.trialinfo.com` 은 기존 서버를 가리키고 있습니다. 3번 이전에
+> DNS 를 GitHub 로 돌리면 그 시점부터 기존 사이트는 보이지 않습니다.
+> 전환 시점을 정한 뒤 진행하세요. 기존 서버를 계속 쓰실 거면 아래 3번 방법을 보세요.
 
 ### 2. Netlify / Cloudflare Pages
 

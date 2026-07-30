@@ -41,6 +41,9 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL || 'https://www.trialinfo.com' }}
           # 문의 폼을 처리할 엔드포인트 (없으면 mailto 로 동작)
           FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
+          # 커스텀 도메인. 설정하면 CNAME 파일이 생성됩니다.
+          # DNS 설정을 마친 뒤에 저장소 Variables 에 추가하세요.
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
 
       - name: Check internal links
         run: npm run check:links
