@@ -1,0 +1,114 @@
+---
+layout: layouts/page.njk
+title: 문의하기
+eyebrow: Contact Us
+lead: 구성·견적·유지보수 문의를 남겨주시면 담당자가 확인 후 연락드립니다.
+section: contact
+description: (주)트라이얼정보통신에 제품 구성, 견적, 유지보수 관련 문의를 남길 수 있습니다.
+cta: false
+---
+<section class="section">
+  <div class="container">
+    <div class="split split--aside">
+      <form class="form" data-inquiry-form
+            {% if site.formEndpoint %}action="{{ site.formEndpoint }}"{% endif %}
+            method="post" data-mailto="{{ site.contact.email }}" novalidate>
+
+        {# 스팸 봇 감지용 (사람 눈에는 보이지 않음) #}
+        <div class="form__honeypot" aria-hidden="true">
+          <label for="_gotcha">이 칸은 비워 두세요</label>
+          <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form__row">
+          <div class="field">
+            <label class="field__label" for="company">회사명</label>
+            <input type="text" id="company" name="company" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label class="field__label" for="name">
+              성명 <span class="field__req" aria-hidden="true">*</span>
+            </label>
+            <input type="text" id="name" name="name" required autocomplete="name">
+            <p class="field__error">성명을 입력해 주세요.</p>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="field">
+            <label class="field__label" for="email">
+              이메일 <span class="field__req" aria-hidden="true">*</span>
+            </label>
+            <input type="email" id="email" name="email" required autocomplete="email"
+                   inputmode="email" placeholder="name@example.com">
+            <p class="field__error">이메일 형식을 확인해 주세요.</p>
+          </div>
+          <div class="field">
+            <label class="field__label" for="phone">연락처</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel"
+                   placeholder="02-0000-0000">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="category">문의 분류</label>
+          <select id="category" name="category">
+            <option value="제품 구성 및 견적">제품 구성 및 견적</option>
+            <option value="IT 인프라 컨설팅">IT 인프라 컨설팅</option>
+            <option value="구축 문의">구축 문의</option>
+            <option value="유지보수 문의">유지보수 문의</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="message">
+            문의 내용 <span class="field__req" aria-hidden="true">*</span>
+          </label>
+          <textarea id="message" name="message" required
+                    placeholder="도입을 검토하는 시스템, 대수, 희망 일정 등을 알려주시면 더 정확히 안내드릴 수 있습니다."></textarea>
+          <p class="field__error">문의 내용을 입력해 주세요.</p>
+        </div>
+
+        <label class="form__consent">
+          <input type="checkbox" name="consent" required>
+          <span>
+            문의 처리를 위해 입력한 정보(회사명, 성명, 연락처, 이메일, 문의 내용)의 수집·이용에
+            동의합니다. 자세한 내용은
+            <a href="/etc/privacy-policy/">개인정보취급방침</a>을 확인해 주세요.
+          </span>
+        </label>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">문의 보내기</button>
+          <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <aside class="contact-card">
+        <div class="contact-card__row">
+          <p class="contact-card__key">전화 문의</p>
+          <p class="contact-card__value">
+            <a href="{{ site.contact.tel | telHref }}">{{ site.contact.tel }}</a>
+          </p>
+        </div>
+        <div class="contact-card__row">
+          <p class="contact-card__key">이메일</p>
+          <p class="contact-card__value">
+            <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+          </p>
+        </div>
+        <div class="contact-card__row">
+          <p class="contact-card__key">주소</p>
+          <p class="contact-card__value flow-tight" style="font-size:var(--step-0)">
+            (우) {{ site.contact.zip }} {{ site.contact.address1 }}<br>
+            {{ site.contact.address2 }}
+          </p>
+        </div>
+        <p class="muted" style="font-size:var(--step--1)">
+          접수된 문의는 영업일 기준으로 확인 후 연락드립니다.
+        </p>
+      </aside>
+    </div>
+  </div>
+</section>

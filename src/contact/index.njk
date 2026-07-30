@@ -1,0 +1,95 @@
+---
+layout: layouts/page.njk
+title: 오시는 길
+eyebrow: Contact Us
+lead: 서울 영등포구 문래동 에이스하이테크시티2차에 있습니다.
+section: contact
+description: (주)트라이얼정보통신 사무실 위치와 연락처 안내입니다.
+---
+<section class="section">
+  <div class="container">
+    <div class="split split--aside">
+      <div class="contact-card">
+        <div class="contact-card__row">
+          <p class="contact-card__key">Address</p>
+          <p class="contact-card__value">
+            (우) {{ site.contact.zip }}<br>
+            {{ site.contact.address1 }}<br>
+            <span class="muted">{{ site.contact.address2 }}</span>
+          </p>
+        </div>
+        <div class="contact-card__row">
+          <p class="contact-card__key">Tel</p>
+          <p class="contact-card__value">
+            <a href="{{ site.contact.tel | telHref }}">{{ site.contact.tel }}</a>
+          </p>
+        </div>
+        <div class="contact-card__row">
+          <p class="contact-card__key">Fax</p>
+          <p class="contact-card__value">{{ site.contact.fax }}</p>
+        </div>
+        <div class="contact-card__row">
+          <p class="contact-card__key">E-mail</p>
+          <p class="contact-card__value">
+            <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+          </p>
+        </div>
+
+        {#
+          지도는 외부 스크립트를 심지 않고 링크로 엽니다.
+          (API 키 관리·추적 스크립트·혼합 콘텐츠 문제가 생기지 않습니다.)
+        #}
+        <div>
+          <p class="contact-card__key" style="margin-bottom:var(--space-3)">지도에서 열기</p>
+          <div class="map-links">
+            <a href="https://map.naver.com/p/search/{{ site.contact.mapQuery | urlencode }}"
+               target="_blank" rel="noopener noreferrer">네이버 지도</a>
+            <a href="https://map.kakao.com/?q={{ site.contact.mapQuery | urlencode }}"
+               target="_blank" rel="noopener noreferrer">카카오맵</a>
+            <a href="https://www.google.com/maps/search/?api=1&query={{ site.contact.mapQuery | urlencode }}"
+               target="_blank" rel="noopener noreferrer">구글 지도</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-lg">
+        <div>
+          <h2 class="section__title" style="font-size:var(--step-2)">찾아오시는 방법</h2>
+          {#
+            TODO: 실제 교통 안내(가까운 지하철역·출구, 버스 노선, 주차 안내)를
+                  확인해서 아래 내용을 채워 주세요.
+          #}
+          <dl class="datalist" style="margin-top:var(--space-5)">
+            <div class="datalist__row">
+              <dt class="datalist__key">지하철</dt>
+              <dd class="datalist__value">
+                2호선 · 5호선 영등포구청역, 2호선 문래역에서 도보 이용
+                <span class="muted">(정확한 출구 번호와 도보 시간을 확인해 주세요.)</span>
+              </dd>
+            </div>
+            <div class="datalist__row">
+              <dt class="datalist__key">주차</dt>
+              <dd class="datalist__value">
+                건물 내 주차장 이용 <span class="muted">(방문 시 사전 문의 권장)</span>
+              </dd>
+            </div>
+            <div class="datalist__row">
+              <dt class="datalist__key">방문 문의</dt>
+              <dd class="datalist__value">
+                <a href="{{ site.contact.tel | telHref }}">{{ site.contact.tel }}</a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="notice" style="text-align:left">
+          <p class="notice__title">먼저 문의를 남기고 싶으시다면</p>
+          <p>온라인 문의를 남기시면 담당자가 확인 후 연락드립니다.</p>
+          <div class="notice__actions" style="justify-content:flex-start">
+            <a class="btn btn--primary" href="/contact/inquiry/">문의하기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

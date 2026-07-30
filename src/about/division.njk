@@ -1,0 +1,39 @@
+---
+layout: layouts/page.njk
+title: 조직도
+eyebrow: About Us
+lead: 영업과 기술이 한 팀으로 움직이는 조직 구조입니다.
+section: about
+description: (주)트라이얼정보통신의 조직 구성입니다.
+---
+<section class="section">
+  <div class="container container--narrow">
+    {#
+      기존 사이트는 조직도를 이미지 한 장으로 넣어 확대하면 흐려지고
+      화면 낭독기에서는 읽히지 않았습니다. 여기서는 텍스트 + CSS Grid 로
+      그려서 어떤 화면 크기에서도 선명하고, 검색·낭독도 가능합니다.
+    #}
+    <div class="orgchart">
+      <div class="orgchart__node orgchart__node--root">
+        <p class="orgchart__title">{{ company.org.root.title }}</p>
+        {%- if company.org.root.desc %}
+        <p class="orgchart__desc">{{ company.org.root.desc }}</p>
+        {%- endif %}
+      </div>
+
+      {%- for row in company.org.rows %}
+      <div class="orgchart__connector" aria-hidden="true"></div>
+      <div class="orgchart__row">
+        {%- for node in row %}
+        <div class="orgchart__node reveal">
+          <p class="orgchart__title">{{ node.title }}</p>
+          {%- if node.desc %}
+          <p class="orgchart__desc">{{ node.desc }}</p>
+          {%- endif %}
+        </div>
+        {%- endfor %}
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

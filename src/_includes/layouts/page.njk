@@ -1,0 +1,40 @@
+---
+layout: layouts/base.njk
+---
+{#
+  일반 페이지 공통 골격.
+  front matter 로 받는 값
+    title    : h1 텍스트 (필수, <title> 에도 사용)
+    lead     : 제목 아래 한 줄 설명 (선택)
+    section  : nav.primary 의 key — 브레드크럼/하위탭 생성에 사용 (선택)
+    eyebrow  : 제목 위 작은 라벨 (선택, 기본값은 섹션 이름)
+#}
+{%- set sectionMeta = nav.byKey[section] -%}
+
+<div class="page-head">
+  <div class="container">
+    {%- if sectionMeta %}
+    <nav class="breadcrumb" aria-label="현재 위치">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="{{ sectionMeta.url }}">{{ sectionMeta.label }}</a></li>
+        <li><span aria-current="page">{{ title }}</span></li>
+      </ol>
+    </nav>
+    {%- endif %}
+
+    <p class="page-head__eyebrow">{{ eyebrow if eyebrow else (sectionMeta.label if sectionMeta else site.nameShort) }}</p>
+    <h1 class="page-head__title">{{ title }}</h1>
+    {%- if lead %}
+    <p class="page-head__lead">{{ lead }}</p>
+    {%- endif %}
+  </div>
+</div>
+
+{% include "partials/subnav.njk" %}
+
+<div class="page-body">
+  {{ content | safe }}
+</div>
+
+{% include "partials/cta.njk" %}

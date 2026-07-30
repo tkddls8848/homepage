@@ -1,0 +1,65 @@
+{%- set pageTitle = title if title else site.name -%}
+{%- set metaTitle = (title + " | " + site.nameShort) if title else (site.name + " — " + site.tagline) -%}
+{%- set metaDescription = description if description else site.description -%}
+{%- set canonical = page.url | absoluteUrl(site.url) -%}
+<!doctype html>
+<html lang="{{ site.lang }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ metaTitle }}</title>
+  <meta name="description" content="{{ metaDescription }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta name="theme-color" content="#0b3f7d">
+  <meta name="format-detection" content="telephone=no">
+
+  {#- 소셜 미리보기 -#}
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:title" content="{{ metaTitle }}">
+  <meta property="og:description" content="{{ metaDescription }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ '/images/photo/slide/slide_01.png' | absoluteUrl(site.url) }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/img/favicon.svg">
+
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="module" src="/assets/js/main.js"></script>
+
+  {%- if robots %}<meta name="robots" content="{{ robots }}">{% endif %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ site.name }}",
+    "url": "{{ site.url }}",
+    "description": "{{ site.description }}",
+    "telephone": "{{ site.contact.tel }}",
+    "faxNumber": "{{ site.contact.fax }}",
+    "email": "{{ site.contact.email }}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "KR",
+      "addressRegion": "서울특별시",
+      "postalCode": "{{ site.contact.zip }}",
+      "streetAddress": "{{ site.contact.address1 }} {{ site.contact.address2 }}"
+    }
+  }
+  </script>
+</head>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+  <a class="skip-link" href="#main">본문으로 바로가기</a>
+
+  {% include "partials/site-header.njk" %}
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  {% include "partials/site-footer.njk" %}
+</body>
+</html>

@@ -1,0 +1,45 @@
+{# 전역 푸터. 주소·연락처는 src/_data/site.js 한 곳에서 옵니다. #}
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <a href="/" aria-label="{{ site.name }} 홈으로">
+        <img src="/images/logo/logo_wt.svg" alt="{{ site.name }}" width="180" height="34">
+        <span class="brand__fallback">{{ site.nameShort }}</span>
+      </a>
+      <p class="site-footer__tagline">{{ site.tagline }}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="푸터 메뉴">
+      {%- for item in nav.primary %}
+      <div class="site-footer__col">
+        <h2 class="site-footer__heading">{{ item.label }}</h2>
+        <ul>
+          {%- for child in nav.children[item.key] %}
+          <li><a href="{{ child.url }}">{{ child.label }}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </nav>
+
+    <div class="site-footer__info">
+      <h2 class="site-footer__heading">{{ site.name }}</h2>
+      <address>
+        <p>(우) {{ site.contact.zip }} {{ site.contact.address1 }}<br>{{ site.contact.address2 }}</p>
+        <p class="site-footer__contact">
+          <span>TEL <a href="{{ site.contact.tel | telHref }}">{{ site.contact.tel }}</a></span>
+          <span>FAX {{ site.contact.fax }}</span>
+          <span>E-mail <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></span>
+        </p>
+      </address>
+      <ul class="site-footer__utility">
+        {%- for item in nav.utility %}
+        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        {%- endfor %}
+      </ul>
+      <p class="site-footer__copyright">
+        <small>&copy; {{ site.copyrightFrom }}&ndash;{{ "" | year }} {{ site.name }}. All rights reserved.</small>
+      </p>
+    </div>
+  </div>
+</footer>

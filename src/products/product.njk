@@ -1,0 +1,57 @@
+---
+pagination:
+  data: catalog
+  size: 1
+  alias: p
+  # 페이지네이션으로 만든 모든 페이지를 컬렉션(=sitemap)에 포함시킵니다.
+  addAllPagesToCollections: true
+permalink: "/products/{{ p.vendorSlug }}/{{ p.categorySlug }}/"
+layout: layouts/page.njk
+section: product
+eleventyComputed:
+  title: "{{ p.category }}"
+  eyebrow: "{{ p.vendor }}"
+  lead: "{{ p.lead }}"
+  description: "{{ p.vendor }} {{ p.category }} — {{ p.lead }}"
+---
+{#
+  모든 제품 페이지가 이 템플릿 하나에서 생성됩니다.
+  (기존에는 product_ibm_*.php / product_lenovo_*.php … 로 파일이 나뉘어 있었고
+   내용의 90%가 서로 복사본이었습니다.)
+#}
+<section class="section">
+  <div class="container">
+    {%- if p.groups | itemCount %}
+      {%- for group in p.groups %}
+      {%- if group.items and group.items.length %}
+      <div class="product-group">
+        <div class="product-group__head">
+          <h2 class="product-group__title">{{ group.title }}</h2>
+          {%- if group.description %}
+          <p class="product-group__desc">{{ group.description }}</p>
+          {%- endif %}
+        </div>
+
+        <div class="product-grid">
+          {%- for item in group.items %}
+            {% include "partials/product-card.njk" %}
+          {%- endfor %}
+        </div>
+      </div>
+      {%- endif %}
+      {%- endfor %}
+    {%- else %}
+      <div class="notice">
+        <p class="notice__title">콘텐츠 준비중입니다</p>
+        <p>
+          {{ p.vendor }} {{ p.category }} 제품 정보를 정리하고 있습니다.
+          필요한 구성이나 견적이 있으시면 먼저 문의해 주세요.
+        </p>
+        <div class="notice__actions">
+          <a class="btn btn--primary" href="/contact/inquiry/">문의하기</a>
+          <a class="btn btn--ghost" href="/products/">다른 제품 보기</a>
+        </div>
+      </div>
+    {%- endif %}
+  </div>
+</section>

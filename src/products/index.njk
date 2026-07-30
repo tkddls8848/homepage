@@ -1,0 +1,29 @@
+---
+layout: layouts/page.njk
+title: Product
+eyebrow: Product
+lead: 워크로드 특성과 예산에 맞춰 서버·스토리지·소프트웨어를 구성하고 공급합니다. 제조사를 선택해 상세 라인업을 확인하세요.
+section: product
+description: (주)트라이얼정보통신이 공급하는 IBM·Lenovo·Dell 서버와 스토리지, 소프트웨어 제품 라인업입니다.
+---
+<section class="section">
+  <div class="container">
+    <div class="grid grid--2">
+      {%- for vendor in nav.vendors %}
+      <div class="section-card reveal">
+        <p class="section-card__label">{{ vendor.label }}</p>
+        <p class="section-card__text">
+          {%- for cat in vendor.categories %}{{ cat.label }}{% if not loop.last %} · {% endif %}{% endfor -%}
+        </p>
+        <ul class="stack" style="margin-top:var(--space-2)">
+          {%- for cat in vendor.categories %}
+          <li>
+            <a class="btn btn--link" href="{{ cat.url }}">{{ cat.label }}</a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

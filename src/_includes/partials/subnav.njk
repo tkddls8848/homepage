@@ -1,0 +1,46 @@
+{#
+  섹션 내 하위 탭.
+  기존 사이트의 `inside_tab`(1차/2차 탭)을 대체합니다. 하드코딩된 <li> 목록
+  대신 nav 데이터에서 만들고, 모바일에서는 가로 스크롤되는 탭 바가 됩니다.
+
+  - Product 섹션: 1차 = 벤더, 2차 = 해당 벤더의 카테고리
+  - 그 외 섹션  : 하위 페이지 한 줄
+#}
+{%- if section == "product" and p -%}
+<div class="subnav" data-level="2">
+  <nav class="subnav__row subnav__row--primary" aria-label="제조사">
+    <ul class="subnav__list container">
+      {%- for vendor in nav.vendors %}
+      <li>
+        <a href="{{ vendor.url }}" {% if vendor.slug == p.vendorSlug %}aria-current="true"{% endif %}>{{ vendor.label }}</a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </nav>
+
+  {%- set currentVendor = nav.vendorsBySlug[p.vendorSlug] -%}
+  {%- if currentVendor.categories.length > 1 %}
+  <nav class="subnav__row subnav__row--secondary" aria-label="제품 분류">
+    <ul class="subnav__list container">
+      {%- for cat in currentVendor.categories %}
+      <li>
+        <a href="{{ cat.url }}" {% if cat.slug == p.categorySlug %}aria-current="page"{% endif %}>{{ cat.label }}</a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </nav>
+  {%- endif %}
+</div>
+{%- elif section and nav.children[section] and nav.children[section].length > 1 -%}
+<div class="subnav" data-level="1">
+  <nav class="subnav__row subnav__row--primary" aria-label="{{ section }} 하위 메뉴">
+    <ul class="subnav__list container">
+      {%- for child in nav.children[section] %}
+      <li>
+        <a href="{{ child.url }}" {% if page.url == child.url %}aria-current="page"{% endif %}>{{ child.label }}</a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </nav>
+</div>
+{%- endif -%}

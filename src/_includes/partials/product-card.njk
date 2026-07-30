@@ -1,0 +1,47 @@
+{#
+  제품 카드 하나.
+  기존에는 이 30줄이 제품 수 × 페이지 수만큼 복사되어 있었습니다.
+  `item` 변수를 받아 렌더링합니다. (catalog.js 의 항목 형식 참고)
+#}
+<article class="product-card reveal">
+  <div class="product-card__media">
+    {%- if item.image %}
+    <img src="{{ item.image }}"
+         alt="{{ item.imageAlt if item.imageAlt else (item.line + ' ' + item.model + ' 제품 이미지') }}"
+         loading="lazy" decoding="async" data-fallback>
+    {%- endif %}
+  </div>
+
+  <div class="product-card__body">
+    <p class="product-card__label">{{ item.label }}</p>
+    <h3 class="product-card__name">
+      {%- if item.line %}<span class="product-card__line">{{ item.line }}</span>{% endif %}
+      <span class="product-card__model">{{ item.model }}</span>
+    </h3>
+
+    {%- if item.summary %}
+    <p class="product-card__summary">{{ item.summary }}</p>
+    {%- endif %}
+
+    {%- if item.features and item.features.length %}
+    <ul class="product-card__features">
+      {%- for feature in item.features %}
+      {%- set parsed = feature | labelSplit %}
+      <li>
+        {%- if parsed.label %}<b>{{ parsed.label }}</b> {% endif -%}
+        {{ parsed.text }}
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+
+    {%- if item.link %}
+    <p class="product-card__action">
+      <a class="btn btn--link" href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+        자세히보기
+        <span class="sr-only">({{ item.line }} {{ item.model }}, 새 창)</span>
+      </a>
+    </p>
+    {%- endif %}
+  </div>
+</article>
