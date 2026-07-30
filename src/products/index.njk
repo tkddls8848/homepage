@@ -18,7 +18,7 @@ description: (주)트라이얼정보통신이 공급하는 IBM·Lenovo·Dell 서
         <ul class="stack" style="margin-top:var(--space-2)">
           {%- for cat in vendor.categories %}
           <li>
-            <a class="btn btn--link" href="{{ cat.url }}">{{ cat.label }}</a>
+            <a class="btn btn--link" href="{{ cat.url | url }}">{{ cat.label }}</a>
           </li>
           {%- endfor %}
         </ul>

@@ -2,8 +2,8 @@
 <footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__brand">
-      <a href="/" aria-label="{{ site.name }} 홈으로">
-        <img src="/images/logo/logo_wt.svg" alt="{{ site.name }}" width="180" height="34">
+      <a href="{{ '/' | url }}" aria-label="{{ site.name }} 홈으로">
+        <img src="{{ '/images/logo/logo_wt.svg' | url }}" alt="{{ site.name }}" width="180" height="34">
         <span class="brand__fallback">{{ site.nameShort }}</span>
       </a>
       <p class="site-footer__tagline">{{ site.tagline }}</p>
@@ -15,7 +15,7 @@
         <h2 class="site-footer__heading">{{ item.label }}</h2>
         <ul>
           {%- for child in nav.children[item.key] %}
-          <li><a href="{{ child.url }}">{{ child.label }}</a></li>
+          <li><a href="{{ child.url | url }}">{{ child.label }}</a></li>
           {%- endfor %}
         </ul>
       </div>
@@ -34,7 +34,7 @@
       </address>
       <ul class="site-footer__utility">
         {%- for item in nav.utility %}
-        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        <li><a href="{{ item.url | url }}">{{ item.label }}</a></li>
         {%- endfor %}
       </ul>
       <p class="site-footer__copyright">

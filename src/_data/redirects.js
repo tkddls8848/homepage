@@ -3,9 +3,12 @@
  * 외부에 이미 퍼져 있는 링크와 검색엔진 색인을 잃지 않기 위한 301 목록입니다.
  *
  * 이 데이터로 두 가지가 생성됩니다.
- *   - /_redirects        : Netlify / Cloudflare Pages 형식
- *   - 각 경로의 HTML     : meta refresh + canonical (GitHub Pages 등 서버 설정이
- *                          불가능한 호스팅에서도 동작하도록)
+ *   - /_redirects  : Netlify / Cloudflare Pages 형식
+ *   - /.htaccess   : Apache (기존 호스팅) 형식
+ *
+ * GitHub Pages 는 서버 리다이렉트 설정을 지원하지 않으므로 이 목록이 적용되지
+ * 않습니다. 기존 .php 주소를 살려야 하면 Netlify / Cloudflare Pages / Apache
+ * 중 하나로 배포하거나, 도메인 앞단(CDN)에서 리다이렉트를 처리해 주세요.
  */
 export default [
   // Product (기존에는 index.php 가 IBM Power UNIX Server 페이지였습니다)

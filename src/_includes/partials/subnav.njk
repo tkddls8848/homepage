@@ -12,7 +12,7 @@
     <ul class="subnav__list container">
       {%- for vendor in nav.vendors %}
       <li>
-        <a href="{{ vendor.url }}" {% if vendor.slug == p.vendorSlug %}aria-current="true"{% endif %}>{{ vendor.label }}</a>
+        <a href="{{ vendor.url | url }}" {% if vendor.slug == p.vendorSlug %}aria-current="true"{% endif %}>{{ vendor.label }}</a>
       </li>
       {%- endfor %}
     </ul>
@@ -24,7 +24,7 @@
     <ul class="subnav__list container">
       {%- for cat in currentVendor.categories %}
       <li>
-        <a href="{{ cat.url }}" {% if cat.slug == p.categorySlug %}aria-current="page"{% endif %}>{{ cat.label }}</a>
+        <a href="{{ cat.url | url }}" {% if cat.slug == p.categorySlug %}aria-current="page"{% endif %}>{{ cat.label }}</a>
       </li>
       {%- endfor %}
     </ul>
@@ -37,7 +37,7 @@
     <ul class="subnav__list container">
       {%- for child in nav.children[section] %}
       <li>
-        <a href="{{ child.url }}" {% if page.url == child.url %}aria-current="page"{% endif %}>{{ child.label }}</a>
+        <a href="{{ child.url | url }}" {% if page.url == child.url %}aria-current="page"{% endif %}>{{ child.label }}</a>
       </li>
       {%- endfor %}
     </ul>

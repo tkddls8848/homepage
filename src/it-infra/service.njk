@@ -64,7 +64,7 @@ eleventyComputed:
       <div class="section-card reveal">
         <p class="section-card__label">{{ other.title }}</p>
         <p class="section-card__text">{{ other.lead }}</p>
-        <a class="section-card__more section-card__link" href="{{ other.url }}">
+        <a class="section-card__more section-card__link" href="{{ other.url | url }}">
           자세히 보기<span class="sr-only"> — {{ other.title }}</span>
         </a>
       </div>

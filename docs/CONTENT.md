@@ -23,7 +23,10 @@ HTML 을 몰라도 대부분의 내용은 `src/_data/` 안의 파일만 고쳐�
 | 🟢 낮음 | 오시는 길 교통편 | `src/contact/index.njk` | 지하철·주차 안내가 대략적인 초안 |
 
 > ✅ **확인된 실제 정보** (원본 사이트 그대로 유지): 회사명, 주소, 전화, 팩스, 이메일,
-> 회사소개 문구, 메인 슬라이드 문구, IBM Power UNIX Server 제품 8종의 설명·특징·링크·사진 경로.
+> 회사소개 문구, 메인 슬라이드 문구, IBM Power UNIX Server 제품 8종의 설명·특징·링크.
+>
+> 🖼 **이미지**: 원본 사진 파일은 받을 수 없어 로고·슬라이드·제품 이미지를 벡터로
+> 그려 넣었습니다. 실제 사진으로 교체하는 방법은 [ASSETS.md](ASSETS.md) 참고.
 
 ---
 
@@ -59,7 +62,8 @@ contact: {
     "짧은 특징은 그냥 한 줄로 써도 됩니다.",
   ],
   link: "https://www.ibm.com/kr-ko/products/power-s1024",  // 없으면 버튼 숨김
-  image: "/images/photo/product/ibm/UnixServer/power10_s1024.png",
+  image: "/images/photo/product/server-2u.svg",             // docs/ASSETS.md
+  imageAlt: "IBM Power S1024 2U 랙마운트 서버 이미지",
 }
 ```
 
@@ -83,7 +87,8 @@ contact: {
 ### 메인 슬라이드 바꾸기
 
 `src/_data/hero.js`. 항목을 늘리면 슬라이드와 인디케이터가 함께 늘어납니다.
-사진이 없으면 브랜드 그라디언트만 표시되고 레이아웃은 그대로입니다.
+`image` 를 비우거나 파일이 없으면 브랜드 그라디언트만 표시되고 레이아웃은
+그대로입니다. 현재 들어 있는 이미지와 교체 방법은 [ASSETS.md](ASSETS.md) 참고.
 
 ### 메뉴 바꾸기
 

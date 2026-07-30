@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 34" width="180" height="34"
+     role="img" aria-label="(주)트라이얼정보통신 Trial Info Communication">
+  <!--
+    어두운 배경용 로고 (히어로 위에 겹친 헤더 / 푸터).
+    밝은 배경용은 같은 폴더의 logo.svg 입니다. 두 파일의 조형은 동일하고
+    색만 다릅니다.
+  -->
+  <g transform="translate(0 2) scale(0.46875)">
+    <rect width="64" height="64" rx="14" fill="#fff"/>
+    <path d="M15 20h34v7H36.5v22h-8.5V27H15z" fill="#041c3c"/>
+    <circle cx="49" cy="46" r="4.5" fill="#00a6c8"/>
+  </g>
+
+  <text x="39" y="17.5" textLength="102" lengthAdjust="spacingAndGlyphs"
+        font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+        font-size="16" font-weight="800" fill="#fff">TRIALINFO</text>
+
+  <text x="39" y="28.5" textLength="102" lengthAdjust="spacingAndGlyphs"
+        font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+        font-size="7" font-weight="600" fill="#8fd3e8">COMMUNICATION</text>
+</svg>

@@ -1,10 +1,17 @@
 name: Build & Deploy
 
 # 정적 사이트를 빌드해 GitHub Pages 로 배포합니다.
-# GitHub Pages 는 기본으로 HTTPS 를 제공하므로, 기존 사이트의 http 접속 문제가
-# 배포 방식만 바꿔도 해결됩니다.
+#
+# HTTPS:
+#   *.github.io 는 GitHub 이 인증서를 제공하고 http 요청을 https 로
+#   리다이렉트합니다. 즉 http://<계정>.github.io/... 로 들어와도 https 로
+#   바뀝니다. 이 워크플로는 canonical/OG/sitemap 주소도 실제 배포 주소(https)로
+#   맞춰서, 검색엔진이 http 판이나 다른 도메인을 색인하지 않게 합니다.
+#
+# 준비:
 #   저장소 Settings → Pages → Source: "GitHub Actions" 로 설정하세요.
-#   사용자 도메인(www.trialinfo.com)을 쓸 경우 Custom domain 입력 후
+#   사용자 도메인(www.trialinfo.com)을 쓸 경우 DNS 설정을 마친 뒤
+#   Variables 에 CUSTOM_DOMAIN 을 추가하고, Pages 설정에서
 #   "Enforce HTTPS" 를 켜 주세요.
 
 on:
@@ -34,19 +41,51 @@ jobs:
 
       - run: npm ci
 
+      # 배포 주소를 GitHub 에서 직접 받아옵니다.
+      # 프로젝트 사이트는 https://<계정>.github.io/<저장소>/ 처럼 저장소 이름이
+      # 경로에 붙기 때문에(base_path), 이 값을 빌드에 넘겨야 CSS·이미지 경로가
+      # 맞습니다. 넘기지 않으면 /assets, /images 가 모두 404 가 됩니다.
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Resolve site URL / path prefix
+        id: target
+        env:
+          # 커스텀 도메인을 설정했으면 루트 배포이므로 경로 접두사가 없습니다.
+          # (DNS 설정을 마친 뒤 저장소 Variables 에 CUSTOM_DOMAIN 을 추가하세요.)
+          CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
+          PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          if [ -n "$CUSTOM_DOMAIN" ]; then
+            site_url="https://$CUSTOM_DOMAIN"
+            path_prefix="/"
+          else
+            # origin 은 항상 https 입니다 (GitHub Pages 는 HTTPS 로 서비스).
+            site_url="$PAGES_ORIGIN"
+            path_prefix="${PAGES_BASE_PATH:-/}"
+          fi
+          echo "site_url=$site_url" >> "$GITHUB_OUTPUT"
+          echo "path_prefix=$path_prefix" >> "$GITHUB_OUTPUT"
+          echo "배포 주소: $site_url$path_prefix"
+
       - name: Build
         run: npm run build
         env:
-          # canonical / OG / sitemap 에 쓰이는 사이트 주소
-          SITE_URL: ${{ vars.SITE_URL || 'https://www.trialinfo.com' }}
+          # canonical / OG / sitemap 에 쓰이는 사이트 주소 (https)
+          SITE_URL: ${{ steps.target.outputs.site_url }}
+          # 하위 경로 배포용 접두사 (예: /homepage/)
+          PATH_PREFIX: ${{ steps.target.outputs.path_prefix }}
           # 문의 폼을 처리할 엔드포인트 (없으면 mailto 로 동작)
           FORM_ENDPOINT: ${{ vars.FORM_ENDPOINT }}
-          # 커스텀 도메인. 설정하면 CNAME 파일이 생성됩니다.
-          # DNS 설정을 마친 뒤에 저장소 Variables 에 추가하세요.
+          # 설정하면 CNAME 파일이 생성됩니다.
           CUSTOM_DOMAIN: ${{ vars.CUSTOM_DOMAIN }}
 
       - name: Check internal links
         run: npm run check:links
+        env:
+          PATH_PREFIX: ${{ steps.target.outputs.path_prefix }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -6,7 +6,7 @@
 <article class="product-card reveal">
   <div class="product-card__media">
     {%- if item.image %}
-    <img src="{{ item.image }}"
+    <img src="{{ item.image | url }}"
          alt="{{ item.imageAlt if item.imageAlt else (item.line + ' ' + item.model + ' 제품 이미지') }}"
          loading="lazy" decoding="async" data-fallback>
     {%- endif %}

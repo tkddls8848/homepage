@@ -16,8 +16,8 @@ layout: layouts/base.njk
     {%- if sectionMeta %}
     <nav class="breadcrumb" aria-label="현재 위치">
       <ol>
-        <li><a href="/">Home</a></li>
-        <li><a href="{{ sectionMeta.url }}">{{ sectionMeta.label }}</a></li>
+        <li><a href="{{ '/' | url }}">Home</a></li>
+        <li><a href="{{ sectionMeta.url | url }}">{{ sectionMeta.label }}</a></li>
         <li><span aria-current="page">{{ title }}</span></li>
       </ol>
     </nav>
