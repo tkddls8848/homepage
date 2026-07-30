@@ -98,44 +98,55 @@
    ========================================================================== */
 @layer tokens {
   :root {
-    /* ── 브랜드 컬러 ─────────────────────────────────────────────────── */
-    --brand-950: #041c3c;
-    --brand-900: #06284f;
-    --brand-800: #083463;
-    --brand-700: #0b3f7d;
-    --brand-600: #0f5299;
-    --brand-500: #1a6fc4;
-    --brand-300: #7fb2e6;
-    --brand-100: #e4eefb;
-    --brand-50: #f2f7fe;
+    /* ── 브랜드 컬러 ───────────────────────────────────────────────────
+       기존 사이트(old-site/css)의 팔레트를 그대로 따릅니다.
+         #ed2024  시그니처 레드 — 제목, 버튼, 강조
+         #d41d20  진한 레드     — 1차 탭 active, hover
+       작은 글씨에 쓰는 슬롯(700 이상)은 흰 배경 대비 4.5:1 을 넘도록
+       한 단계 더 어둡게 두었습니다. 색상은 같은 계열로 읽힙니다. */
+    --brand-950: #4a0a0b;
+    --brand-900: #6b0f11;
+    --brand-800: #931416;
+    --brand-700: #b81a1c;
+    --brand-600: #d41d20;
+    --brand-500: #ed2024;
+    --brand-300: #f4797b;
+    --brand-100: #fde4e5;
+    --brand-50: #fef6f6;
 
-    --accent-600: #0089a7;
-    --accent-500: #00a6c8;
-    --accent-300: #7cd8e9;
+    --accent-600: #931416;
+    --accent-500: #d41d20;
+    --accent-300: #f4797b;
 
-    /* ── 중립 컬러 ───────────────────────────────────────────────────── */
-    --ink-900: #0d1522;
-    --ink-800: #1b2739;
-    --ink-700: #2a3a52;
-    --ink-500: #5b6b82;
-    --ink-400: #8492a6;
-    --ink-300: #aab6c6;
+    /* ── 중립 컬러 ─────────────────────────────────────────────────────
+       기존 사이트: 본문 #333, 보조 #555, 흐림 #999, 경계선 #ddd */
+    --ink-900: #222222;
+    --ink-800: #333333;
+    --ink-700: #444444;
+    --ink-500: #555555;
+    --ink-400: #808080;
+    --ink-300: #999999;
 
-    --line: #e3e9f1;
-    --line-strong: #ccd6e4;
+    --line: #dddddd;
+    --line-strong: #c4c4c4;
 
     --surface: #ffffff;
-    --surface-2: #f6f8fc;
-    --surface-3: #eaf0f8;
+    --surface-2: #f7f7f8;
+    --surface-3: #eeeeef;
+
+    /* 기존 사이트 푸터 색 (nav.css) */
+    --footer-bg: #323b4a;
+    --footer-bg-sub: #2d3645;
 
     --state-error: #c62828;
     --state-ok: #1b7f4f;
 
     /* ── 타이포그래피 ─────────────────────────────────────────────────
-       외부 웹폰트를 쓰지 않습니다(HTTPS·성능·개인정보 이슈 없음).
-       Pretendard 를 self-host 하면 자동으로 우선 적용됩니다. */
-    --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
-      "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic", "맑은 고딕", "Noto Sans KR",
+       기존 사이트는 Noto Sans KR 을 썼습니다(base.css 의 @import).
+       외부 웹폰트를 새로 불러오지 않고, 설치되어 있으면 쓰고 없으면
+       시스템 한글 글꼴로 떨어지도록 스택 앞쪽에 둡니다. */
+    --font-sans: "Noto Sans KR", "Pretendard Variable", Pretendard, -apple-system,
+      BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic", "맑은 고딕",
       system-ui, sans-serif;
     --font-en: "Segoe UI", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 
@@ -174,7 +185,8 @@
     --shadow-lg: 0 4px 8px rgb(13 21 34 / 6%), 0 28px 56px -20px rgb(13 21 34 / 22%);
 
     /* ── 레이아웃 ────────────────────────────────────────────────────── */
-    --container: 1240px;
+    /* 기존 사이트의 콘텐츠 폭 (base.css / nav.css 의 max-width: 1580px) */
+    --container: 1580px;
     --gutter: clamp(1.25rem, 4vw, 3rem);
     --header-h: 68px;
 
@@ -626,7 +638,7 @@
     position: fixed;
     inset: 0;
     z-index: 90;
-    background: rgb(6 20 40 / 45%);
+    background: rgb(0 0 0 / 45%);
     opacity: 0;
     transition: opacity var(--dur) var(--ease);
   }
@@ -838,7 +850,8 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    opacity: 0.55;
+    /* 기존 사이트는 슬라이드 사진을 그대로 보여줍니다(투명도 없음). */
+    opacity: 1;
   }
 
   /* 사진 위 텍스트 가독성 확보용 스크림 */
@@ -846,11 +859,14 @@
     content: "";
     position: absolute;
     inset: 0;
+    /* 기존 사이트는 스크림 없이 사진을 그대로 보여주고 제목의 text-shadow
+       만으로 가독성을 확보했습니다. 여기서는 제목 외에 본문·버튼도 사진 위에
+       올라가므로, 색을 입히지 않는 중립 검정으로 최소한만 덮습니다. */
     background: linear-gradient(
       100deg,
-      rgb(4 28 60 / 88%) 0%,
-      rgb(4 28 60 / 62%) 45%,
-      rgb(4 28 60 / 18%) 100%
+      rgb(0 0 0 / 55%) 0%,
+      rgb(0 0 0 / 38%) 45%,
+      rgb(0 0 0 / 12%) 100%
     );
   }
 
@@ -859,7 +875,8 @@
     font-weight: 800;
     line-height: 1.12;
     letter-spacing: -0.035em;
-    text-shadow: 0 2px 24px rgb(0 0 0 / 22%);
+    /* 기존 사이트 base.css 의 슬라이드 제목 그림자 */
+    text-shadow: 0 1px 6px rgb(0 0 0 / 40%), 0 2px 24px rgb(0 0 0 / 30%);
   }
 
   .hero__title span {
@@ -1196,6 +1213,8 @@
     overflow: hidden;
     background: var(--surface);
     border: 1px solid var(--line);
+    /* 기존 사이트 product.css: border-bottom 8px solid #ed2024 */
+    border-bottom: 8px solid var(--brand-500);
     border-radius: var(--radius);
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease),
       transform var(--dur) var(--ease);
@@ -1203,6 +1222,8 @@
 
   .product-card:hover {
     border-color: var(--brand-300);
+    /* 하단 강조선은 hover 에서도 브랜드 레드를 유지합니다 */
+    border-bottom-color: var(--brand-600);
     box-shadow: var(--shadow);
     transform: translateY(-3px);
   }
@@ -1907,7 +1928,7 @@
 
   /* ── 푸터 ──────────────────────────────────────────────────────────── */
   .site-footer {
-    background: var(--ink-900);
+    background: var(--footer-bg);
     color: rgb(255 255 255 / 72%);
     font-size: var(--step--1);
   }
@@ -2127,5 +2148,822 @@
   .page-head__lead,
   .page-head__eyebrow {
     color: #000;
+  }
+}
+
+/* ==========================================================================
+   Original-site visual parity
+   ========================================================================== */
+@layer base {
+  :root {
+    --header-h: 64px;
+    --gutter: 20px;
+  }
+
+  body {
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    word-break: keep-all;
+  }
+
+  main {
+    padding-top: var(--header-h);
+  }
+
+  .home main {
+    padding-top: 0;
+  }
+
+  h2,
+  .section__title {
+    font-size: 36px;
+    font-weight: 600;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}
+
+@layer layout {
+  .container {
+    max-width: 1580px;
+  }
+
+  .section {
+    padding: 80px 0 160px;
+  }
+
+  .page-content {
+    display: grid;
+    grid-template-columns: 180px minmax(0, calc(100% - 300px));
+    justify-content: space-between;
+    padding-top: 80px;
+    padding-bottom: 160px;
+  }
+
+  .page-content__title {
+    padding-top: 1px;
+  }
+
+  .page-content__main {
+    min-width: 0;
+  }
+
+  .page-content__main > .page-head__lead {
+    margin: 0 0 40px;
+    color: #555;
+  }
+
+  .page-content__main .section {
+    padding: 0;
+  }
+
+  .page-content__main .section > .container {
+    max-width: none;
+    padding-inline: 0;
+  }
+}
+
+@layer components {
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 64px;
+    background: #fff;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .site-header__inner {
+    height: 64px;
+  }
+
+  .brand__logo {
+    height: 34px;
+  }
+
+  .site-header--overlay:not(.is-stuck) {
+    background: transparent;
+    color: #fff;
+  }
+
+  .site-header.is-stuck {
+    background: #fff;
+    color: #333;
+    box-shadow: 0 1px 5px rgb(0 0 0 / 10%);
+  }
+
+  .site-nav__list {
+    gap: clamp(28px, 3vw, 64px);
+  }
+
+  .site-nav__link {
+    padding: 21px 0 20px;
+    color: #333;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .site-header--overlay:not(.is-stuck) .site-nav__link {
+    color: #fff;
+  }
+
+  .site-nav__link::after {
+    bottom: 0;
+    height: 2px;
+    background: #ed2024;
+  }
+
+  .site-nav__sub {
+    top: 64px;
+    padding: 16px 20px;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .hero {
+    height: 100vh;
+    min-height: 540px;
+    background: #222;
+  }
+
+  .hero__track,
+  .hero__slide {
+    height: 100%;
+  }
+
+  .hero__slide {
+    min-height: 100vh;
+    padding: 0;
+    align-items: start;
+    opacity: 0.35;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .hero__slide[data-active="true"] {
+    opacity: 1;
+  }
+
+  .hero__media::after {
+    display: none;
+  }
+
+  .hero__slide > .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    padding-top: calc(50vh - 80px);
+    text-align: center;
+  }
+
+  .hero__title {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-shadow: 0 1px 6px rgb(0 0 0 / 40%);
+  }
+
+  .hero__text,
+  .hero__actions {
+    display: none;
+  }
+
+  .hero__controls {
+    bottom: 220px;
+  }
+
+  .hero__arrow {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .home-tabs {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: 3fr 2fr 2fr;
+    height: 200px;
+    margin-top: -200px;
+    padding-inline: 0;
+  }
+
+  .home-tab {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background-image: var(--home-tab-image);
+    background-position: center;
+    background-size: 100% auto;
+    filter: grayscale(1);
+    color: #fff;
+    transition: filter 0.35s ease, background-size 0.5s ease;
+  }
+
+  .home-tab::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 24%);
+  }
+
+  .home-tab:hover,
+  .home-tab:focus-visible {
+    filter: grayscale(0);
+    background-size: 110% auto;
+  }
+
+  .home-tab__content {
+    position: absolute;
+    z-index: 1;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .home-tab h3 {
+    color: #fff;
+    text-shadow: 0 1px 6px rgb(0 0 0 / 50%);
+  }
+
+  .home-tab p {
+    max-width: 390px;
+    margin-top: 12px;
+    color: #fff;
+    text-shadow: 0 1px 4px rgb(0 0 0 / 55%);
+  }
+
+  .page-head {
+    display: none;
+  }
+
+  .page-head .breadcrumb {
+    margin: 0;
+    padding-top: 20px;
+    color: #999;
+  }
+
+  .page-head .breadcrumb [aria-current],
+  .page-head .breadcrumb a:hover {
+    color: #333;
+  }
+
+  .page-head__eyebrow {
+    margin: 0 0 8px;
+    color: #ed2024;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .page-head__title {
+    margin: 0;
+    color: #ed2024;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+  }
+
+  .subnav {
+    top: 64px;
+    background: #fff;
+    border: 0;
+    backdrop-filter: none;
+  }
+
+  .subnav__row {
+    border-bottom: 1px solid #ddd;
+  }
+
+  .subnav__row + .subnav__row {
+    border-top: 0;
+    background: #fff;
+  }
+
+  .subnav__list {
+    gap: 0;
+    padding-inline: 0;
+  }
+
+  .subnav__list li {
+    flex: 1 0 auto;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .subnav__row--primary .subnav__list li {
+    border-left: 1px solid #ddd;
+  }
+
+  .subnav__row--primary .subnav__list li:last-child {
+    border-right: 1px solid #ddd;
+  }
+
+  .subnav__list a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 18px;
+    color: #555;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .subnav__row--primary a:hover {
+    background: #ed2024;
+    color: #fff;
+  }
+
+  .subnav__row--primary a[aria-current] {
+    background: #d41d20;
+    color: #fff;
+  }
+
+  .subnav__row--primary a::after {
+    display: none;
+  }
+
+  .subnav__row--secondary .subnav__list {
+    overflow-x: auto;
+  }
+
+  .subnav__row--secondary .subnav__list li {
+    flex: 0 0 auto;
+  }
+
+  .subnav__row--secondary a {
+    height: 60px;
+    min-width: 120px;
+    padding: 0 24px;
+    color: #999;
+  }
+
+  .subnav__row--secondary a::after {
+    inset: 8px auto auto 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #ed2024;
+  }
+
+  .subnav__row--secondary a[aria-current] {
+    color: #333;
+  }
+
+  .subnav__row--secondary a[aria-current]::after {
+    transform: translateX(-50%) scale(1);
+  }
+
+  .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .product-card {
+    position: relative;
+    display: flex;
+    width: calc((100% - 41px) / 3);
+    min-height: 420px;
+    margin: 0 20px 20px 0;
+    padding: 32px 24px 0;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-bottom: 8px solid #ed2024;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .product-card:nth-child(3n) {
+    margin-right: 0;
+  }
+
+  .product-card:hover,
+  .product-card:focus-within {
+    border-color: #ddd;
+    border-bottom-color: #ed2024;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .product-card__body {
+    display: block;
+    flex: 0 0 auto;
+    padding: 0;
+  }
+
+  .product-card__label {
+    color: #999;
+    font-size: 12px;
+  }
+
+  .product-card__name {
+    display: block;
+    margin-top: 5px;
+    color: #333;
+    line-height: 1.25;
+  }
+
+  .product-card__line,
+  .product-card__model {
+    display: inline;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .product-card__media {
+    flex: 1;
+    min-height: 0;
+    aspect-ratio: auto;
+    margin-top: 15px;
+    padding: 0;
+    background: #fff;
+    border: 0;
+  }
+
+  .product-card__media img {
+    max-height: 270px;
+    mix-blend-mode: normal;
+  }
+
+  .product-card:hover .product-card__media img {
+    transform: none;
+  }
+
+  .product_info {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 34px 25px 24px;
+    background: rgb(212 29 32 / 90%);
+    color: #fff;
+    transform: translateX(-101%);
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .product_info,
+  .product-card:focus-within .product_info {
+    transform: translateX(0);
+  }
+
+  .product-card__summary {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .product-card__features {
+    gap: 7px;
+    margin-top: 18px;
+    padding: 0;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .product-card__features li {
+    padding-left: 13px;
+  }
+
+  .product-card__features li::before {
+    top: 0.62em;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+  }
+
+  .product-card__features b {
+    display: inline;
+    color: #fff;
+  }
+
+  .product-card__action {
+    margin-top: auto;
+    padding: 15px 0 0;
+  }
+
+  .product-card__detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 40px;
+    border: 1px solid #fff;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .site-footer {
+    min-height: 300px;
+    background: #323b4a;
+    color: #fff;
+  }
+
+  .site-footer__inner {
+    grid-template-columns: 190px minmax(0, 1fr) 360px;
+    gap: 60px;
+    min-height: 300px;
+    padding: 55px 20px 35px;
+  }
+
+  .site-footer__brand img {
+    height: 34px;
+  }
+
+  .site-footer__nav {
+    grid-template-columns: repeat(5, minmax(90px, 1fr));
+    gap: 28px;
+  }
+
+  .site-footer__toggle {
+    width: 100%;
+    padding: 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    cursor: default;
+  }
+
+  .site-footer__col dd {
+    margin-top: 14px;
+  }
+
+  .site-footer__col ul {
+    gap: 8px;
+  }
+
+  .site-footer__col dd a,
+  .site-footer__info,
+  .site-footer__tagline {
+    color: rgb(255 255 255 / 70%);
+    font-size: 14px;
+  }
+
+  .site-footer__info {
+    text-align: right;
+  }
+
+  .site-footer__heading {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .site-footer__contact {
+    justify-items: end;
+  }
+
+  .site-footer__utility {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 1600px) {
+  .product-card__features {
+    display: none;
+  }
+}
+
+@media (max-width: 1400px) {
+  @layer components {
+    .site-footer__inner {
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 35px;
+    }
+
+    .site-footer__info {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      text-align: left;
+    }
+
+    .site-footer__info address,
+    .site-footer__copyright {
+      grid-column: 1;
+    }
+
+    .site-footer__utility {
+      grid-column: 2;
+      grid-row: 1 / 3;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  @layer base {
+    :root {
+      --header-h: 50px;
+      --gutter: 20px;
+    }
+
+    h2,
+    .section__title {
+      font-size: 24px;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+  @layer layout {
+    .section {
+      padding: 40px 0 60px;
+    }
+
+    .page-content {
+      display: block;
+      padding-top: 40px;
+      padding-bottom: 60px;
+    }
+
+    .page-content__main {
+      margin-top: 25px;
+    }
+  }
+
+  @layer components {
+    .site-header,
+    .site-header__inner {
+      height: 50px;
+    }
+
+    .brand__logo {
+      height: 27px;
+    }
+
+    .subnav {
+      top: 50px;
+    }
+
+    .hero__title,
+    .page-head__title {
+      font-size: 24px;
+    }
+
+    .hero__controls {
+      bottom: 190px;
+    }
+
+    .home-tabs {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, 60px);
+      height: 180px;
+      margin-top: -180px;
+    }
+
+    .home-tab {
+      background-size: cover;
+    }
+
+    .home-tab:hover,
+    .home-tab:focus-visible {
+      background-size: cover;
+    }
+
+    .home-tab__content {
+      left: 20px;
+    }
+
+    .home-tab p {
+      display: none;
+    }
+
+    .site-footer__inner {
+      display: block;
+      padding: 35px 20px 0;
+    }
+
+    .site-footer__brand {
+      margin-bottom: 25px;
+    }
+
+    .site-footer__nav {
+      display: block;
+      margin-inline: -20px;
+      background: #2d3645;
+    }
+
+    .site-footer__col {
+      border-top: 1px solid rgb(255 255 255 / 10%);
+    }
+
+    .site-footer__toggle {
+      position: relative;
+      height: 40px;
+      padding: 0 20px;
+      cursor: pointer;
+    }
+
+    .site-footer__toggle span {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      width: 16px;
+      height: 16px;
+      transform: translateY(-50%);
+      background: url("../../images/icon/nav/plus.png") center / contain no-repeat;
+    }
+
+    .site-footer__toggle[aria-expanded="true"] span {
+      background-image: url("../../images/icon/nav/minus.png");
+    }
+
+    .site-footer__col dd {
+      display: none;
+      margin: 0;
+      padding: 0 20px 14px;
+    }
+
+    .site-footer__col.open dd {
+      display: block;
+    }
+
+    .site-footer__info {
+      display: block;
+      padding: 28px 0;
+      text-align: left;
+    }
+
+    .site-footer__contact {
+      justify-items: start;
+    }
+
+    .site-footer__utility {
+      justify-content: flex-start;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .product-card__summary {
+    display: none;
+  }
+
+  @layer components {
+    .product-card {
+      min-height: 330px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  @layer components {
+    .product-card {
+      width: calc((100% - 10px) / 2);
+      min-height: 260px;
+      margin-right: 10px;
+      padding: 18px 12px 0;
+    }
+
+    .product-card:nth-child(3n) {
+      margin-right: 10px;
+    }
+
+    .product-card:nth-child(2n) {
+      margin-right: 0;
+    }
+
+    .product-card__line,
+    .product-card__model {
+      font-size: 16px;
+    }
+
+    .product_info {
+      padding: 18px 12px;
+    }
   }
 }

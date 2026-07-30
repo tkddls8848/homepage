@@ -44,7 +44,7 @@ function expectedAssets() {
   const list = new Set([
     "/images/logo/logo.svg",
     "/images/logo/logo_wt.svg",
-    // og:image (base.njk) — 생성 스크립트: npm run make:og
+    // og:image (base.njk)
     "/images/og/og-default.png",
   ]);
   for (const slide of hero) if (slide.image) list.add(slide.image);

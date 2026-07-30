@@ -36,7 +36,7 @@ export default {
   },
 
   // 문의하기 폼을 처리할 엔드포인트.
-  // 정적 호스팅에서는 Netlify Forms / Formspree / 자체 API 등을 연결하세요.
+  // GitHub Pages 는 서버가 없으므로 Formspree 같은 외부 폼 서비스를 연결하세요.
   // 비워 두면 폼은 메일 클라이언트(mailto) 로 대체 동작합니다.
   formEndpoint: process.env.FORM_ENDPOINT || "",
 };

@@ -3,8 +3,27 @@ layout: layouts/base.njk
 title: null
 description: "(주)트라이얼정보통신은 IBM·Lenovo·Dell 서버와 스토리지 공급, IT 인프라 컨설팅·구축·유지보수를 제공하는 IT Service 전문기업입니다."
 headerOverlay: true
+bodyClass: home
 ---
 {% include "partials/hero.njk" %}
+
+<nav class="home-tabs container" aria-label="주요 메뉴">
+  <a class="home-tab home-tab--about" href="{{ '/about/' | url }}"
+     style="--home-tab-image: url('{{ '/images/photo/tab/about.png' | url }}')">
+    <span class="home-tab__content">
+      <h3>회사소개</h3>
+      <p>신뢰와 기술을 바탕으로 고객과 함께 성장하는 IT 서비스 전문기업입니다.</p>
+    </span>
+  </a>
+  <a class="home-tab home-tab--infra" href="{{ '/it-infra/' | url }}"
+     style="--home-tab-image: url('{{ '/images/photo/tab/infra.png' | url }}')">
+    <span class="home-tab__content"><h3>IT Infra Service</h3></span>
+  </a>
+  <a class="home-tab home-tab--product" href="{{ '/products/' | url }}"
+     style="--home-tab-image: url('{{ '/images/photo/tab/product.png' | url }}')">
+    <span class="home-tab__content"><h3>Product</h3></span>
+  </a>
+</nav>
 
 {#
   기존 사이트의 3분할 탭(회사소개 / IT Infra Service / Product)을

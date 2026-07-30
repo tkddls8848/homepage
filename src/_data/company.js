@@ -1,72 +1,68 @@
-/**
- * 회사 개요 / 연혁 / 조직도 데이터.
- *
- * ⚠️ 확인 필요
- * 원본 사이트(about-us_about.php, about-us_history.php, about-us_division.php)의
- * 본문을 가져올 수 없어, 아래 `overview` 중 일부와 `history`, `org` 는
- * 형식만 잡아 둔 자리(placeholder)입니다. `TODO` 표시된 값을 실제 내용으로
- * 바꿔 주세요. 표시만 바꾸면 페이지·조직도·타임라인이 자동으로 갱신됩니다.
- */
 export default {
-  /** 회사개요 표 — 아래 항목은 footer 등에서 확인된 실제 정보입니다. */
-  overview: [
-    { key: "회사명", value: "(주)트라이얼정보통신" },
-    { key: "영문명", value: "Trial Info Communication Co., Ltd." },
-    { key: "사업분야", value: "IT 인프라 컨설팅 · 구축 · 유지보수, 서버 · 스토리지 · 소프트웨어 공급" },
-    { key: "주소", value: "(우) 07282 서울특별시 영등포구 선유로 13길 25, 1312 ~ 1314호 (문래동6가, 에이스하이테크시티2차)" },
-    { key: "대표전화", value: "02-6972-1521" },
-    { key: "팩스", value: "02-6972-1525" },
-    { key: "이메일", value: "master@trialinfo.com" },
-    // TODO: 설립일 / 대표자 / 자본금 / 사업자등록번호 등 공개 가능한 항목을 추가하세요.
-    // { key: "설립일", value: "" },
-    // { key: "대표자", value: "" },
+  headline: [
+    "21세기, 한국의 IT산업을 이끌어갈",
+    "중추적인 역할을 하리라는 원대한 꿈을 갖고,",
+    "설립한 회사",
   ],
-
-  /** 회사 소개 문단 (원본 사이트의 회사소개 문구) */
-  introduction: [
-    "20년 이상의 전문 경력을 바탕으로 IT Service 전문대표기업으로 새롭게 태어났습니다.",
-    "정보통신산업의 든든한 기둥! 정보강국의 첨병이 되어 대한민국 종합정보통신의 살아있는 역사를 바로 세워가겠습니다.",
-  ],
-
-  /** 핵심 역량 */
-  strengths: [
-    {
-      title: "검증된 전문 인력",
-      text: "20년 이상 현장에서 축적한 UNIX·x86·스토리지 운영 경험을 바탕으로 설계와 구축을 수행합니다.",
-    },
-    {
-      title: "멀티 벤더 대응",
-      text: "IBM, Lenovo, Dell 등 주요 제조사 제품을 함께 다루므로 특정 벤더에 얽매이지 않은 구성을 제안합니다.",
-    },
-    {
-      title: "생애주기 서비스",
-      text: "컨설팅과 구축에서 끝나지 않고, 운영 단계의 유지보수까지 한 창구에서 책임집니다.",
-    },
-  ],
-
-  /**
-   * 연혁 — 최신 연도가 위로 오도록 정렬합니다.
-   * TODO: 실제 연혁으로 교체하세요. 형식: { year, items: [{ date, text }] }
-   */
-  history: [
-    {
-      year: "TODO",
-      items: [{ date: "", text: "원본 사이트의 회사연혁 내용을 이 자리에 옮겨 주세요." }],
-    },
-  ],
-
-  /**
-   * 조직도 — root 아래 부문(row)을 배열로 둡니다.
-   * TODO: 실제 조직 구성으로 교체하세요.
-   */
-  org: {
-    root: { title: "대표이사", desc: "" },
-    rows: [
-      [
-        { title: "경영지원", desc: "TODO: 담당 업무" },
-        { title: "영업본부", desc: "TODO: 담당 업무" },
-        { title: "기술본부", desc: "TODO: 담당 업무" },
-      ],
-    ],
+  introduction:
+    "트라이얼정보통신은 Unix Server, NT Server, Storage, LTO 등 Hardware 전반에 걸쳐 컨설팅,구축, 유지보수를 주사업으로 하고 있습니다.",
+  philosophy: {
+    title: "이념",
+    text: "트라이얼정보통신은 대고객 만족을 위해 처음부터 끝까지 함께하며 책임지는 기업이념을 모토로 설립된 회사입니다.",
   },
+  belief: {
+    title: "신념",
+    text: "고객이 없으면 우리도 없다는 신념으로 임직원 모두가 한마음 한 뜻으로 뭉쳐진 회사인 트라이얼정보통신은 여러분들의 IT발전에 많은 공헌을 할 것입니다.",
+  },
+  history: [
+    { year: "2018", items: [{ date: "5월", text: "전주지사 개설" }] },
+    {
+      year: "2017",
+      items: [
+        { date: "4월", text: "한국IBM Gold 비즈니스파트너사 선정" },
+        { date: "4월", text: "LENOVO 비즈니스 파트너 체결" },
+        { date: "5월", text: "고용노동부 강소기업 선정" },
+      ],
+    },
+    { year: "2016", items: [{ date: "6월", text: "국민건강보험공단 감사패 수상" }] },
+    {
+      year: "2015",
+      items: [
+        { date: "2월", text: "한국IBM Power System Specialty 인증 획득" },
+        { date: "8월", text: "DELL 비즈니스 파트너 체결" },
+        { date: "10월", text: "본사 이전 (문래동)" },
+        { date: "11월", text: "원주지사 개설" },
+      ],
+    },
+    { year: "2013", items: [{ date: "10월", text: "국민연금공단 공로패 수상" }] },
+    { year: "2011", items: [{ date: "4월", text: "한국IBM Premier 비즈니스파트너사 선정" }] },
+    { year: "2010", items: [{ date: "9월", text: "경영혁신형 중소기업(MAIN-BIZ) 선정" }] },
+    {
+      year: "2009",
+      items: [
+        { date: "4월", text: "자본금 증자(총150백만원)" },
+        { date: "4월", text: "정보통신공사업 면허 취득" },
+      ],
+    },
+    {
+      year: "2007",
+      items: [
+        { date: "4월", text: "한국IBM Business Partner 유지정비 서비스 자격 취득" },
+        { date: "9월", text: "신흥대학 성장동력특성화대학 지원사업 참여(2007.9~2008.8)" },
+      ],
+    },
+    { year: "2006", items: [{ date: "1월", text: "한국 IBM Value Partner 체결" }] },
+    { year: "2005", items: [{ date: "11월", text: "본사 이전 (구로구)" }] },
+    {
+      year: "2004",
+      items: [
+        { date: "1월", text: "㈜트라이얼정보통신으로 사명 변경, 원순배 대표이사 취임" },
+        { date: "1월", text: "본사 이전 ( 여의도 )" },
+        { date: "1월", text: "한국IBM Business Partner 체결" },
+        { date: "1월", text: "소프트웨어사업자 및 SI업체 등록" },
+        { date: "10월", text: "시립인천전문대학 산학협력업체 체결" },
+      ],
+    },
+    { year: "2000", items: [{ date: "4월", text: "㈜한국모드컴 설립" }] },
+  ],
 };

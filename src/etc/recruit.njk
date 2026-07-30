@@ -2,22 +2,34 @@
 layout: layouts/page.njk
 title: 채용정보
 eyebrow: Etc
-lead: 진행 중인 채용과 상시 지원 방법을 안내합니다.
+lead: (주)트라이얼정보통신의 채용 절차와 인사·복리후생 제도를 안내합니다.
 description: (주)트라이얼정보통신 채용 정보 안내입니다.
 ---
 <section class="section">
-  <div class="container container--narrow">
-    <div class="notice" style="text-align:left">
-      <p class="notice__title">채용 정보는 Career 페이지에서 확인하실 수 있습니다</p>
-      <p>
-        인재상, 복리후생, 전형 절차와 진행 중인 공고를 Career 페이지에 모아 두었습니다.
-        상시 지원은 <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a> 으로
-        이력서를 보내주시면 검토 후 연락드립니다.
-      </p>
-      <div class="notice__actions" style="justify-content:flex-start">
-        <a class="btn btn--primary" href="{{ '/career/' | url }}">Career 페이지로 이동</a>
-        <a class="btn btn--ghost" href="mailto:{{ site.contact.email }}?subject={{ '[입사지원] 상시지원' | urlencode }}">이력서 보내기</a>
-      </div>
+  <div class="container">
+    <picture>
+      <source media="(max-width: 47.99rem)" srcset="{{ '/images/photo/etc/m_recruit.png' | url }}">
+      <img src="{{ '/images/photo/etc/recruit.png' | url }}" alt="트라이얼정보통신 채용 안내"
+           style="display:block; width:100%; height:auto; margin:0 auto var(--space-8)">
+    </picture>
+
+    <div class="grid grid--2">
+      {% set sections = [
+        { title: "전형방법", items: career.recruitment.process },
+        { title: "제출서류", items: career.recruitment.documents },
+        { title: "접수방법", items: career.recruitment.application },
+        { title: "근무시간", items: career.recruitment.hours },
+        { title: "인사제도", items: career.recruitment.personnel },
+        { title: "복리후생제도", items: career.recruitment.benefits }
+      ] %}
+      {%- for section in sections %}
+      <article class="section-card reveal">
+        <p class="section-card__label">{{ section.title }}</p>
+        <ul class="product-card__features">
+          {%- for item in section.items %}<li>{{ item }}</li>{% endfor %}
+        </ul>
+      </article>
+      {%- endfor %}
     </div>
   </div>
 </section>

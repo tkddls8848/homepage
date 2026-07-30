@@ -13,22 +13,23 @@ eleventyComputed:
   lead: "{{ s.lead }}"
   description: "{{ s.title }} — {{ s.lead }}"
 ---
-{# 세 개의 IT Infra Service 페이지가 이 템플릿 하나에서 생성됩니다. #}
 <section class="section">
   <div class="container">
+    <div class="section__head">
+      <p class="section__eyebrow">Service Areas</p>
+      <h2 class="section__title">{{ s.title }}</h2>
+    </div>
     <div class="split split--aside">
-      <div class="stack-lg">
-        {%- for paragraph in s.intro %}
-        <p{% if loop.first %} class="section__lead"{% endif %}>{{ paragraph }}</p>
-        {%- endfor %}
-      </div>
-
+      <img src="{{ s.image | url }}" alt="{{ s.title }} 서비스 구성도"
+           style="display:block; width:100%; height:auto; align-self:start">
       <div class="grid">
-        {%- for item in s.features %}
-        <div class="feature reveal">
-          <h2 class="feature__title">{{ item.title }}</h2>
-          <p class="feature__text">{{ item.text }}</p>
-        </div>
+        {%- for group in s.groups %}
+        <article class="section-card reveal">
+          <p class="section-card__label">{{ group.title }}</p>
+          <ul class="product-card__features">
+            {%- for item in group.items %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+        </article>
         {%- endfor %}
       </div>
     </div>
@@ -36,40 +37,7 @@ eleventyComputed:
 </section>
 
 <section class="section section--tint">
-  <div class="container">
-    <div class="section__head">
-      <p class="section__eyebrow">Process</p>
-      <h2 class="section__title">{{ s.title }} 진행 절차</h2>
-    </div>
-    <div class="steps">
-      {%- for step in s.steps %}
-      <div class="step reveal">
-        <h3 class="step__title">{{ step.title }}</h3>
-        <p class="step__text">{{ step.text }}</p>
-      </div>
-      {%- endfor %}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section__head">
-      <p class="section__eyebrow">Other Services</p>
-      <h2 class="section__title">함께 보면 좋은 서비스</h2>
-    </div>
-    <div class="grid grid--2">
-      {%- for other in services %}
-      {%- if other.slug != s.slug %}
-      <div class="section-card reveal">
-        <p class="section-card__label">{{ other.title }}</p>
-        <p class="section-card__text">{{ other.lead }}</p>
-        <a class="section-card__more section-card__link" href="{{ other.url | url }}">
-          자세히 보기<span class="sr-only"> — {{ other.title }}</span>
-        </a>
-      </div>
-      {%- endif %}
-      {%- endfor %}
-    </div>
+  <div class="container container--narrow">
+    <p class="section__lead" style="text-align:center">{{ s.lead }}</p>
   </div>
 </section>

@@ -11,7 +11,6 @@ export default function (eleventyConfig) {
   // (예: /images/photo/product/ibm/UnixServer/power11_e1180.png)
   eleventyConfig.addPassthroughCopy({ "src/images": "images" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
-  eleventyConfig.addPassthroughCopy({ "src/root": "." });
 
   eleventyConfig.addWatchTarget("src/assets/");
 

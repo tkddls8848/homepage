@@ -23,18 +23,24 @@ layout: layouts/base.njk
     </nav>
     {%- endif %}
 
-    <p class="page-head__eyebrow">{{ eyebrow if eyebrow else (sectionMeta.label if sectionMeta else site.nameShort) }}</p>
-    <h1 class="page-head__title">{{ title }}</h1>
-    {%- if lead %}
-    <p class="page-head__lead">{{ lead }}</p>
-    {%- endif %}
   </div>
 </div>
 
 {% include "partials/subnav.njk" %}
 
-<div class="page-body">
-  {{ content | safe }}
+<div class="page-content container">
+  <header class="page-content__title">
+    <p class="page-head__eyebrow">{{ eyebrow if eyebrow else (sectionMeta.label if sectionMeta else site.nameShort) }}</p>
+    <h1 class="page-head__title">{{ title }}</h1>
+  </header>
+  <div class="page-content__main">
+    {%- if lead %}
+    <p class="page-head__lead">{{ lead }}</p>
+    {%- endif %}
+    <div class="page-body">
+      {{ content | safe }}
+    </div>
+  </div>
 </div>
 
 {% include "partials/cta.njk" %}

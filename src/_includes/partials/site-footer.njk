@@ -9,16 +9,23 @@
       <p class="site-footer__tagline">{{ site.tagline }}</p>
     </div>
 
-    <nav class="site-footer__nav" aria-label="푸터 메뉴">
+    <nav class="site-footer__nav footer_nav" aria-label="푸터 메뉴">
       {%- for item in nav.primary %}
-      <div class="site-footer__col">
-        <h2 class="site-footer__heading">{{ item.label }}</h2>
-        <ul>
+      <dl class="site-footer__col">
+        <dt>
+          <button class="site-footer__toggle" type="button" aria-expanded="false"
+                  aria-controls="footer-menu-{{ loop.index }}" data-footer-toggle>
+            {{ item.label }}<span aria-hidden="true"></span>
+          </button>
+        </dt>
+        <dd id="footer-menu-{{ loop.index }}">
+          <ul>
           {%- for child in nav.children[item.key] %}
           <li><a href="{{ child.url | url }}">{{ child.label }}</a></li>
           {%- endfor %}
-        </ul>
-      </div>
+          </ul>
+        </dd>
+      </dl>
       {%- endfor %}
     </nav>
 

@@ -78,7 +78,7 @@ console.log(`검사한 HTML 파일: ${files.length}개`);
 
 if (missingImages.length) {
   console.log(`\n⚠ 아직 배치되지 않은 이미지 (${missingImages.length}개)`);
-  console.log("  docs/ASSETS.md 를 참고해 src/images/ 에 넣어 주세요.");
+  console.log("  src/images/ 에 넣은 뒤 다시 실행하세요 (npm run import:images 로 검사).");
   for (const item of [...new Set(missingImages)]) console.log(`  - ${item}`);
 }
 

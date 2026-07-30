@@ -2,22 +2,12 @@
 layout: layouts/page.njk
 title: 회사연혁
 eyebrow: About Us
-lead: 대한민국 종합정보통신의 살아있는 역사를 함께 만들어 온 발자취입니다.
+lead: 트라이얼정보통신이 걸어온 주요 발자취입니다.
 section: about
 description: (주)트라이얼정보통신의 주요 연혁입니다.
 ---
 <section class="section">
   <div class="container container--narrow">
-    {%- set isPlaceholder = company.history[0].year == "TODO" %}
-    {%- if isPlaceholder %}
-    <div class="notice">
-      <p class="notice__title">연혁 내용을 등록해 주세요</p>
-      <p>
-        <code>src/_data/company.js</code> 의 <code>history</code> 항목에 연도별 내용을
-        입력하면 이 자리에 타임라인으로 표시됩니다.
-      </p>
-    </div>
-    {%- else %}
     <div class="timeline">
       {%- for era in company.history %}
       <div class="timeline__era reveal">
@@ -33,6 +23,5 @@ description: (주)트라이얼정보통신의 주요 연혁입니다.
       </div>
       {%- endfor %}
     </div>
-    {%- endif %}
   </div>
 </section>

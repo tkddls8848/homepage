@@ -73,7 +73,15 @@ function initHeaderState() {
   // 헤더 바로 위에 1px 감지용 요소를 두고, 그것이 화면에서 벗어나면 stuck.
   const sentinel = document.createElement("div");
   sentinel.setAttribute("aria-hidden", "true");
-  sentinel.style.cssText = "position:absolute;top:0;left:0;width:1px;height:1px;";
+  const overlay = header.classList.contains("site-header--overlay");
+  const setSentinelPosition = () => {
+    const hero = document.querySelector("[data-hero]");
+    const offset = window.innerWidth <= 1024 ? 150 : 168;
+    const top = overlay && hero ? Math.max(0, hero.offsetHeight - offset) : 0;
+    sentinel.style.cssText =
+      `position:absolute;top:${top}px;left:0;width:1px;height:1px;pointer-events:none;`;
+  };
+  setSentinelPosition();
   document.body.prepend(sentinel);
 
   const observer = new IntersectionObserver(
@@ -81,6 +89,7 @@ function initHeaderState() {
     { rootMargin: "0px" }
   );
   observer.observe(sentinel);
+  window.addEventListener("resize", setSentinelPosition, { passive: true });
 }
 
 /* ==========================================================================
@@ -231,6 +240,36 @@ function initImageFallback() {
 }
 
 /* ==========================================================================
+   모바일 푸터 메뉴
+   ========================================================================== */
+function initFooterNav() {
+  const toggles = [...document.querySelectorAll("[data-footer-toggle]")];
+  if (toggles.length === 0) return;
+
+  const closeAll = (except) => {
+    toggles.forEach((toggle) => {
+      if (toggle === except) return;
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.closest("dl")?.classList.remove("open");
+    });
+  };
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      if (!window.matchMedia("(max-width: 64rem)").matches) return;
+      const open = toggle.getAttribute("aria-expanded") !== "true";
+      closeAll(toggle);
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.closest("dl")?.classList.toggle("open", open);
+    });
+  });
+
+  window.matchMedia("(min-width: 64.01rem)").addEventListener("change", (event) => {
+    if (event.matches) closeAll();
+  });
+}
+
+/* ==========================================================================
    문의 폼
    - 엔드포인트가 설정되어 있으면 fetch 로 전송
    - 없으면 mailto 로 대체 (정적 호스팅에서도 문의가 끊기지 않도록)
@@ -308,6 +347,7 @@ const boot = () => {
   initHero();
   initReveal();
   initImageFallback();
+  initFooterNav();
   initForm();
 };
 

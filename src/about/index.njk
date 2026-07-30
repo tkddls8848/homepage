@@ -2,79 +2,43 @@
 layout: layouts/page.njk
 title: 회사개요
 eyebrow: About Us
-lead: 20년 이상의 전문 경력을 바탕으로 IT Service 전문대표기업으로 새롭게 태어났습니다.
+lead: 21세기, 한국의 IT산업을 이끌어갈 중추적인 역할을 하리라는 원대한 꿈을 갖고 설립한 회사
 section: about
-description: (주)트라이얼정보통신의 회사 개요와 핵심 역량을 소개합니다.
+description: (주)트라이얼정보통신의 회사 개요와 기업 이념을 소개합니다.
 ---
 <section class="section">
   <div class="container">
     <div class="split split--aside">
       <div class="stack-lg">
         <div>
-          <p class="section__eyebrow">Greeting</p>
-          <h2 class="section__title">정보통신산업의 든든한 기둥</h2>
+          <p class="section__eyebrow">Trial Info Communication</p>
+          <h2 class="section__title">트라이얼정보통신</h2>
         </div>
-        {%- for paragraph in company.introduction %}
-        <p>{{ paragraph }}</p>
-        {%- endfor %}
+        <p class="section__lead">
+          {%- for line in company.headline %}{{ line }}{% if not loop.last %}<br>{% endif %}{% endfor -%}
+        </p>
+        <p>{{ company.introduction }}</p>
       </div>
-
-      <div class="contact-card">
-        <div class="contact-card__row">
-          <p class="contact-card__key">Tel</p>
-          <p class="contact-card__value">
-            <a href="{{ site.contact.tel | telHref }}">{{ site.contact.tel }}</a>
-          </p>
-        </div>
-        <div class="contact-card__row">
-          <p class="contact-card__key">E-mail</p>
-          <p class="contact-card__value">
-            <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
-          </p>
-        </div>
-        <div class="contact-card__row">
-          <p class="contact-card__key">Address</p>
-          <p class="contact-card__value flow-tight">
-            {{ site.contact.address1 }}<br>{{ site.contact.address2 }}
-          </p>
-        </div>
-        <p><a class="btn btn--ghost" href="{{ '/contact/' | url }}">오시는 길 보기</a></p>
-      </div>
+      <img src="{{ '/images/photo/about/future.png' | url }}"
+           alt="미래를 향해 뻗은 도시의 모습"
+           style="width:100%; height:100%; min-height:22rem; object-fit:cover">
     </div>
   </div>
 </section>
 
 <section class="section section--tint">
   <div class="container">
-    <div class="section__head">
-      <p class="section__eyebrow">Strengths</p>
-      <h2 class="section__title">우리가 잘하는 일</h2>
+    <div class="grid grid--2">
+      <article class="section-card reveal">
+        <img src="{{ '/images/photo/about/tech.png' | url }}" alt="" style="width:100%; aspect-ratio:16/9; object-fit:cover">
+        <p class="section-card__label">{{ company.philosophy.title }}</p>
+        <p class="section-card__text">{{ company.philosophy.text }}</p>
+      </article>
+      <article class="section-card reveal">
+        <img src="{{ '/images/photo/about/building.png' | url }}" alt="" style="width:100%; aspect-ratio:16/9; object-fit:cover">
+        <p class="section-card__label">{{ company.belief.title }}</p>
+        <p class="section-card__text">{{ company.belief.text }}</p>
+      </article>
     </div>
-    <div class="grid grid--3">
-      {%- for item in company.strengths %}
-      <div class="feature reveal">
-        <p class="feature__icon" aria-hidden="true">{{ loop.index }}</p>
-        <h3 class="feature__title">{{ item.title }}</h3>
-        <p class="feature__text">{{ item.text }}</p>
-      </div>
-      {%- endfor %}
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section__head">
-      <p class="section__eyebrow">Overview</p>
-      <h2 class="section__title">일반 현황</h2>
-    </div>
-    <dl class="datalist">
-      {%- for row in company.overview %}
-      <div class="datalist__row">
-        <dt class="datalist__key">{{ row.key }}</dt>
-        <dd class="datalist__value">{{ row.value }}</dd>
-      </div>
-      {%- endfor %}
-    </dl>
   </div>
 </section>
