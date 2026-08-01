@@ -99,6 +99,39 @@ const isRelevant = (title) => {
   return KEYWORDS.some((k) => lower.includes(k.toLowerCase()));
 };
 
+/**
+ * 피드를 받아옵니다. 실패하면 잠시 쉬었다 다시 시도합니다.
+ *
+ * GitHub Actions 러너(미국)에서 국내 언론사 서버로 붙을 때 연결이 간헐적으로
+ * 타임아웃됩니다(UND_ERR_CONNECT_TIMEOUT). 같은 워크플로가 어떤 때는 성공하고
+ * 어떤 때는 실패했습니다. 서버가 막은 것이 아니라 그저 느린 것이라, 다시
+ * 걸어 보면 대개 붙습니다.
+ */
+async function fetchFeed(url, attempts = 3) {
+  let lastError;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await fetch(url, {
+        signal: AbortSignal.timeout(30000),
+        // User-Agent 없이 오는 요청을 막는 서버가 많습니다. 브라우저인 척하는
+        // 것이 아니라, 누가 왜 가져가는지 밝히는 값입니다.
+        headers: {
+          "User-Agent": "trialinfo-homepage-bot/1.0 (+https://www.trialinfo.com)",
+          Accept: "application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
+        },
+      });
+    } catch (error) {
+      lastError = error;
+      if (i < attempts) {
+        const wait = i * 3000;
+        console.warn(`    ${i}차 시도 실패 (${error.cause?.code || error.message}). ${wait / 1000}초 후 재시도`);
+        await new Promise((r) => setTimeout(r, wait));
+      }
+    }
+  }
+  throw lastError;
+}
+
 async function collectArticles() {
   const cutoff = Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000;
   const articles = [];
@@ -109,15 +142,7 @@ async function collectArticles() {
     let kept = 0;
     let total = 0;
     try {
-      const res = await fetch(feed.url, {
-        signal: AbortSignal.timeout(20000),
-        // User-Agent 없이 오는 요청을 막는 서버가 많습니다. 브라우저인 척하는
-        // 것이 아니라, 누가 왜 가져가는지 밝히는 값입니다.
-        headers: {
-          "User-Agent": "trialinfo-homepage-bot/1.0 (+https://www.trialinfo.com)",
-          Accept: "application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
-        },
-      });
+      const res = await fetchFeed(feed.url);
       if (!res.ok) {
         failed++;
         console.warn(`  피드를 읽지 못했습니다 (HTTP ${res.status}): ${feed.url}`);
