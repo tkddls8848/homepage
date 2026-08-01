@@ -12,6 +12,8 @@
     "verify:deps": "npm audit --audit-level=high",
     "clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('_site',{recursive:true,force:true}))\"",
     "check:links": "node tools/check-links.mjs",
+    "draft:post": "node tools/draft-post.mjs",
+    "make:icons": "node tools/make-icons.mjs",
     "crawl:old-site": "node tools/crawl-old-site.mjs",
     "import:images": "node tools/import-images.mjs"
   },

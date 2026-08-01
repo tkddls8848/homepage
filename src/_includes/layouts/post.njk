@@ -1,0 +1,58 @@
+---
+layout: layouts/page.njk
+section: blog
+eyebrow: Tech Blog
+cta: false
+---
+{#
+  기술 블로그 글 한 편.
+  front matter 로 받는 값
+    title    : 제목 (필수)
+    date     : 발행일 (필수, YYYY-MM-DD)
+    summary  : 목록과 검색 결과에 쓰는 한 줄 요약 (필수)
+    topics   : 분류 (선택). Eleventy 의 tags 는 컬렉션용이라 이름을 나눕니다
+    sources  : 참고한 기사 [{ title, url, publisher }] (선택)
+    aiDraft  : true 면 "AI 초안" 표시가 붙습니다 (선택)
+#}
+<article class="post">
+  <p class="post__meta">
+    <time datetime="{{ page.date | isoDate }}">{{ page.date | postDate }}</time>
+    {%- if topics %}
+    {%- for tag in topics %}<span class="post__tag">{{ tag }}</span>{% endfor %}
+    {%- endif %}
+  </p>
+
+  {#-
+    AI 가 초안을 쓴 글은 그 사실을 밝힙니다. 읽는 사람이 내용을 어느 정도로
+    신뢰할지 판단할 근거가 되고, 회사가 사실관계를 보증하는 글과 구분됩니다.
+  -#}
+  {%- if aiDraft %}
+  <p class="post__notice">
+    이 글은 AI(IBM watsonx.ai)가 작성한 초안을 담당자가 검토·수정해 발행한 것입니다.
+  </p>
+  {%- endif %}
+
+  <div class="post__body prose">
+    {{ content | safe }}
+  </div>
+
+  {#-
+    참고 기사는 원문으로 링크만 겁니다. 기사 본문을 옮겨 싣지 않는 것이
+    저작권 측면에서 안전하고, 읽는 사람도 원문을 확인할 수 있습니다.
+  -#}
+  {%- if sources and sources.length %}
+  <aside class="post__sources">
+    <h2>참고한 기사</h2>
+    <ul>
+      {%- for source in sources %}
+      <li>
+        <a href="{{ source.url }}" target="_blank" rel="noopener noreferrer">{{ source.title }}</a>
+        {%- if source.publisher %} <span>— {{ source.publisher }}</span>{% endif %}
+      </li>
+      {%- endfor %}
+    </ul>
+  </aside>
+  {%- endif %}
+
+  <p class="post__back"><a href="{{ '/blog/' | url }}">← 전체 글 목록</a></p>
+</article>

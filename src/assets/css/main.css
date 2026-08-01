@@ -3613,3 +3613,135 @@
     }
   }
 }
+
+/* ==========================================================================
+   기술 블로그
+   ========================================================================== */
+@layer components {
+  /* ── 글 목록 ─────────────────────────────────────────────────────────── */
+  .post-list {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 52rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-list__item {
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-list__item:last-child {
+    border-bottom: 0;
+  }
+
+  .post-list__meta,
+  .post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+    margin: 0 0 var(--space-2);
+    font-size: var(--step--2);
+    color: var(--ink-400);
+  }
+
+  .post-list__title {
+    margin: 0 0 var(--space-2);
+    font-size: var(--step-2);
+    line-height: 1.35;
+  }
+
+  .post-list__title a {
+    color: var(--ink-900);
+  }
+
+  .post-list__title a:hover {
+    color: var(--brand-600);
+  }
+
+  .post-list__summary {
+    margin: 0;
+    color: var(--ink-500);
+  }
+
+  .post-list__tags {
+    margin: var(--space-3) 0 0;
+  }
+
+  .post-list__empty {
+    color: var(--ink-400);
+  }
+
+  /* AI 초안임을 목록에서도 알 수 있게 */
+  .post-list__badge {
+    padding: 0.15em 0.6em;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    color: var(--ink-500);
+  }
+
+  .post__tag {
+    padding: 0.15em 0.6em;
+    border-radius: var(--radius-full);
+    background: var(--surface-2);
+    font-size: var(--step--2);
+    color: var(--ink-500);
+  }
+
+  /* ── 글 본문 ─────────────────────────────────────────────────────────── */
+  .post {
+    max-width: 46rem;
+  }
+
+  /* 사실관계를 회사가 보증하는 글과 구분되도록 눈에 띄게 둡니다. */
+  .post__notice {
+    margin: var(--space-4) 0 var(--space-6);
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--brand-500);
+    background: var(--surface-2);
+    font-size: var(--step--1);
+    color: var(--ink-600);
+  }
+
+  .post__sources {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .post__sources h2 {
+    margin: 0 0 var(--space-3);
+    font-size: var(--step-0);
+  }
+
+  .post__sources ul {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding-left: var(--space-5);
+    font-size: var(--step--1);
+  }
+
+  .post__sources a {
+    color: var(--brand-600);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .post__sources span {
+    color: var(--ink-400);
+  }
+
+  .post__back {
+    margin-top: var(--space-8);
+  }
+
+  .post__back a {
+    font-weight: 600;
+    color: var(--brand-600);
+  }
+}

@@ -1,0 +1,38 @@
+---
+layout: layouts/page.njk
+title: Tech Blog
+eyebrow: Tech Blog
+lead: IT 인프라·서버·스토리지 분야의 소식과 저희 관점을 정리합니다.
+section: blog
+description: (주)트라이얼정보통신 기술 블로그입니다. IT 인프라·서버·스토리지 소식과 관점을 전합니다.
+cta: false
+---
+<section class="section">
+  <div class="container">
+    {%- if collections.posts.length %}
+    <ul class="post-list">
+      {%- for post in collections.posts %}
+      <li class="post-list__item">
+        <p class="post-list__meta">
+          <time datetime="{{ post.date | isoDate }}">{{ post.date | postDate }}</time>
+          {%- if post.data.aiDraft %}<span class="post-list__badge">AI 초안 검토본</span>{% endif %}
+        </p>
+        <h2 class="post-list__title">
+          <a href="{{ post.url | url }}">{{ post.data.title }}</a>
+        </h2>
+        {%- if post.data.summary %}
+        <p class="post-list__summary">{{ post.data.summary }}</p>
+        {%- endif %}
+        {%- if post.data.topics %}
+        <p class="post-list__tags">
+          {%- for tag in post.data.topics %}<span class="post__tag">{{ tag }}</span>{% endfor %}
+        </p>
+        {%- endif %}
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p class="post-list__empty">아직 등록된 글이 없습니다.</p>
+    {%- endif %}
+  </div>
+</section>

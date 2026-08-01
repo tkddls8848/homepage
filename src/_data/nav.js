@@ -32,6 +32,7 @@ const primary = [
   { label: "About Us", url: "/about/", key: "about" },
   { label: "Product", url: "/products/", key: "product" },
   { label: "IT Infra", url: "/it-infra/", key: "it-infra" },
+  { label: "Tech Blog", url: "/blog/", key: "blog" },
   { label: "Career", url: "/career/", key: "career" },
   { label: "Contact Us", url: "/contact/", key: "contact" },
 ];
@@ -72,6 +73,7 @@ const children = {
     { label: "Maintenance", url: "/it-infra/maintenance/" },
   ],
   product: vendors.map((v) => ({ label: v.label, url: v.url })),
+  blog: [{ label: "전체 글", url: "/blog/" }],
   career: [{ label: "Career", url: "/career/" }],
   contact: [
     { label: "오시는 길", url: "/contact/" },
