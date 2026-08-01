@@ -1,11 +1,11 @@
 /**
- * IBM watsonx.ai 로 기술 블로그 초안을 만듭니다.
+ * IBM Bob (Bob Shell) 로 기술 블로그 초안을 만듭니다.
  *
  *   node tools/draft-post.mjs
  *
  * 흐름
  *   1. 지정한 RSS 피드에서 최근 IT 인프라 기사의 제목·링크·발행일을 모읍니다.
- *   2. 그 목록(제목과 링크만)을 watsonx.ai 에 보내 한국어 초안을 받습니다.
+ *   2. 그 목록(제목과 링크만)을 Bob Shell 에 넘겨 한국어 초안을 받습니다.
  *   3. src/blog/posts/ 에 draft: true 인 Markdown 파일로 저장합니다.
  *
  * 저장된 글은 draft: true 라서 사이트에 나오지 않습니다. 사람이 읽고 고친 뒤
@@ -16,18 +16,26 @@
  *    "무슨 일이 있었는지"만 알려 주고 회사 관점의 글을 새로 쓰게 합니다.
  *    참고한 기사는 본문에 옮기지 않고 원문 링크로만 남깁니다.
  *
+ * ⚠️ Bob 은 텍스트 생성 API 가 아니라 에이전트입니다. 파일을 읽고 쓰고 명령을
+ *    실행할 수 있으므로, 저장소가 아니라 **빈 임시 디렉터리**에서 실행합니다.
+ *    글 파일은 Bob 이 아니라 이 스크립트가 직접 씁니다. 에이전트가 저장소를
+ *    임의로 고치는 경로를 아예 만들지 않기 위한 것입니다.
+ *
  * 필요한 환경 변수 (GitHub Secrets)
- *   WATSONX_API_KEY     IBM Cloud IAM API 키
- *   WATSONX_PROJECT_ID  watsonx.ai 프로젝트 ID
- *   WATSONX_URL         지역 엔드포인트 (예: https://us-south.ml.cloud.ibm.com)
- *   WATSONX_MODEL_ID    (선택) 기본값은 아래 DEFAULT_MODEL
+ *   BOBSHELL_API_KEY   IBM Bob API 키
+ *   BOBSHELL_BIN       (선택) 실행 파일 경로. 기본값 "bob"
  */
-import { writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { writeFileSync, existsSync, mkdirSync, mkdtempSync } from "node:fs";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+import { tmpdir } from "node:os";
 import path from "node:path";
 
+const execFileAsync = promisify(execFile);
 const POSTS_DIR = path.resolve("src/blog/posts");
-const DEFAULT_MODEL = "ibm/granite-3-8b-instruct";
-const IAM_URL = "https://iam.cloud.ibm.com/identity/token";
+
+/** Bob 이 응답을 만드는 데 줄 최대 시간 */
+const BOB_TIMEOUT_MS = 5 * 60 * 1000;
 
 /**
  * 어떤 기사를 모을지.
@@ -136,24 +144,15 @@ async function collectArticles() {
   return articles.sort((a, b) => b.at - a.at).slice(0, MAX_ARTICLES);
 }
 
-/* ── 2. watsonx.ai 호출 ─────────────────────────────────────────────────── */
-async function getAccessToken(apiKey) {
-  const res = await fetch(IAM_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "urn:ibm:params:oauth:grant-type:apikey",
-      apikey: apiKey,
-    }),
-  });
-  if (!res.ok) throw new Error(`IAM 토큰 발급 실패: HTTP ${res.status} ${await res.text()}`);
-  return (await res.json()).access_token;
-}
-
+/* ── 2. Bob Shell 호출 ──────────────────────────────────────────────────── */
 function buildPrompt(articles) {
   const list = articles.map((a, i) => `${i + 1}. ${a.title} (${a.publisher})`).join("\n");
 
-  return `당신은 IT 인프라 전문기업 "(주)트라이얼정보통신"의 기술 블로그 필자입니다.
+  return `이것은 글쓰기 작업입니다. 코드 작업이 아닙니다.
+파일을 만들거나 고치지 말고, 명령을 실행하지 말고, 웹을 검색하지 마세요.
+아래 요청에 대한 글만 그대로 출력하면 됩니다.
+
+당신은 IT 인프라 전문기업 "(주)트라이얼정보통신"의 기술 블로그 필자입니다.
 이 회사는 IBM·Lenovo·Dell 서버와 스토리지를 공급하고, IT 인프라 컨설팅·구축·유지보수를 합니다.
 
 아래는 최근 일주일 업계 기사 제목입니다.
@@ -173,42 +172,47 @@ ${list}
 빈 줄 뒤부터 본문을 쓰세요.`;
 }
 
+/** 터미널 색상 코드 제거. Bob Shell 출력에 섞여 들어옵니다. */
+// eslint-disable-next-line no-control-regex
+const stripAnsi = (s) => s.replace(/\u001B\[[0-9;]*[A-Za-z]/g, "");
+
 async function generate(articles) {
-  const apiKey = env("WATSONX_API_KEY");
-  const projectId = env("WATSONX_PROJECT_ID");
-  const baseUrl = env("WATSONX_URL").replace(/\/+$/, "");
-  const modelId = process.env.WATSONX_MODEL_ID || DEFAULT_MODEL;
+  // 키 자체는 Bob 이 환경 변수에서 직접 읽습니다. 여기서는 있는지만 확인해,
+  // 없을 때 Bob 의 낯선 오류 대신 알아보기 쉬운 메시지를 내보냅니다.
+  env("BOBSHELL_API_KEY");
 
-  const token = await getAccessToken(apiKey);
+  const bin = process.env.BOBSHELL_BIN || "bob";
 
-  const res = await fetch(`${baseUrl}/ml/v1/text/generation?version=2024-05-31`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      model_id: modelId,
-      project_id: projectId,
-      input: buildPrompt(articles),
-      parameters: {
-        decoding_method: "greedy",
-        max_new_tokens: 1200,
-        min_new_tokens: 200,
-        repetition_penalty: 1.05,
-      },
-    }),
-  });
+  /*
+   * 저장소가 아니라 빈 임시 디렉터리에서 실행합니다.
+   * Bob 은 에이전트라 실행 위치의 파일을 읽고 고칠 수 있습니다. 초안 글을
+   * 받아오는 것이 목적이므로, 애초에 건드릴 것이 없는 곳에서 돌립니다.
+   */
+  const cwd = mkdtempSync(path.join(tmpdir(), "bob-draft-"));
 
-  if (!res.ok) {
-    throw new Error(`watsonx.ai 호출 실패: HTTP ${res.status} ${await res.text()}`);
+  let stdout;
+  try {
+    // 인자를 배열로 넘기므로 셸 인용 문제가 없습니다(프롬프트에 따옴표·줄바꿈이
+    // 들어가도 그대로 전달됩니다).
+    ({ stdout } = await execFileAsync(
+      bin,
+      ["--auth-method", "api-key", "-p", buildPrompt(articles)],
+      { cwd, timeout: BOB_TIMEOUT_MS, maxBuffer: 10 * 1024 * 1024 }
+    ));
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      throw new Error(
+        `Bob Shell 실행 파일을 찾지 못했습니다 ("${bin}").\n` +
+          "설치: curl -fsSL https://bob.ibm.com/download/bobshell.sh | bash\n" +
+          "다른 경로에 있으면 BOBSHELL_BIN 환경 변수로 지정하세요."
+      );
+    }
+    throw new Error(`Bob Shell 실행 실패: ${error.message}`);
   }
 
-  const json = await res.json();
-  const text = json?.results?.[0]?.generated_text;
-  if (!text) throw new Error("watsonx.ai 응답에 생성된 텍스트가 없습니다.");
-  return text.trim();
+  const text = stripAnsi(stdout).trim();
+  if (!text) throw new Error("Bob Shell 이 아무 내용도 돌려주지 않았습니다.");
+  return text;
 }
 
 /* ── 3. 초안 파일로 저장 ─────────────────────────────────────────────────── */
@@ -216,17 +220,30 @@ const yamlString = (s) => `"${String(s).replace(/"/g, '\\"')}"`;
 
 function saveDraft(generated, articles) {
   const lines = generated.split("\n");
-  const titleLine = lines.find((l) => l.startsWith("TITLE:"));
-  const summaryLine = lines.find((l) => l.startsWith("SUMMARY:"));
 
-  const title = titleLine ? titleLine.replace("TITLE:", "").trim() : "제목을 붙여 주세요";
-  const summary = summaryLine ? summaryLine.replace("SUMMARY:", "").trim() : "";
+  /*
+   * Bob 은 에이전트라 배너나 진행 상황을 먼저 찍을 수 있고, 줄 앞에 공백이
+   * 붙기도 합니다. 인덱스를 직접 찾아 두어야 합니다 — 값으로 indexOf 를 하면
+   * 표시가 없을 때 빈 문자열을 찾아 엉뚱한 빈 줄을 가리킵니다.
+   */
+  const findIndex = (marker) => lines.findIndex((l) => l.trimStart().startsWith(marker));
+  const titleAt = findIndex("TITLE:");
+  const summaryAt = findIndex("SUMMARY:");
 
-  const bodyStart = Math.max(
-    lines.indexOf(titleLine ?? ""),
-    lines.indexOf(summaryLine ?? "")
-  );
-  const body = lines.slice(bodyStart + 1).join("\n").trim();
+  const after = (index, marker) =>
+    index === -1 ? "" : lines[index].trimStart().slice(marker.length).trim();
+
+  const title = after(titleAt, "TITLE:") || "제목을 붙여 주세요";
+  const summary = after(summaryAt, "SUMMARY:");
+
+  // 표시를 하나도 못 찾으면 출력 전체를 본문으로 봅니다(형식이 어긋나도
+  // 내용을 잃지 않게). 사람이 검토하면서 제목·요약을 채우면 됩니다.
+  const lastMarker = Math.max(titleAt, summaryAt);
+  const body = (lastMarker === -1 ? lines : lines.slice(lastMarker + 1)).join("\n").trim();
+
+  if (titleAt === -1 || summaryAt === -1) {
+    console.warn("  ⚠️ 출력에서 TITLE/SUMMARY 를 찾지 못했습니다. 검토할 때 채워 주세요.");
+  }
 
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
   const file = path.join(POSTS_DIR, `${today}-ai-draft.md`);
@@ -267,7 +284,7 @@ if (articles.length === 0) {
   process.exit(0);
 }
 
-console.log("watsonx.ai 로 초안 생성 중…");
+console.log("IBM Bob 으로 초안 생성 중…");
 const generated = await generate(articles);
 
 const file = saveDraft(generated, articles);

@@ -297,20 +297,25 @@ draft: true                   # 있으면 발행되지 않음
 **`draft: true` 인 글은 페이지 자체가 만들어지지 않습니다.** 목록에서만 빼면
 주소를 아는 사람에게는 열리므로, 검토 전 글이 공개된 것과 같기 때문입니다.
 
-### AI 초안 (IBM watsonx.ai)
+### AI 초안 (IBM Bob)
 
 `.github/workflows/draft-post.yml` 이 매주 월요일에 돌면서, 업계 기사를 모아
-watsonx.ai 로 초안을 만들고 **PR 을 엽니다.** 자동 발행이 아닙니다 —
+IBM Bob 으로 초안을 만들고 **PR 을 엽니다.** 자동 발행이 아닙니다 —
 사람이 읽고 `draft: true` 를 지워야 사이트에 나옵니다.
 
 ```
-RSS 수집 → 키워드로 선별 → watsonx.ai 로 초안 → draft PR → (사람 검토) → 발행
+RSS 수집 → 키워드로 선별 → Bob Shell 로 초안 → draft PR → (사람 검토) → 발행
 ```
 
-수동 실행: `npm run draft:post`
+수동 실행: `npm run draft:post` (Bob Shell 설치 + `BOBSHELL_API_KEY` 필요)
 
 **설계상 정한 것**
 
+- **Bob 은 저장소 밖 빈 임시 디렉터리에서 실행합니다.** Bob 은 텍스트 생성
+  API 가 아니라 **에이전트**라 파일을 읽고 쓰고 명령을 실행할 수 있습니다.
+  우리에게 필요한 건 글 한 편이므로, 애초에 건드릴 것이 없는 곳에서 돌리고
+  글 파일은 Bob 이 아니라 스크립트가 직접 씁니다. 프롬프트에도 "글쓰기 작업이며
+  파일·명령을 건드리지 말라"고 명시했습니다.
 - **기사 본문을 모델에 넣지 않습니다.** 제목과 링크만 넘기고, 회사 관점의 글을
   새로 쓰게 합니다. 기사를 요약해 옮기면 저작권 문제가 될 수 있습니다.
   참고한 기사는 본문에 옮기지 않고 **원문 링크로만** 남깁니다.
@@ -324,13 +329,13 @@ RSS 수집 → 키워드로 선별 → watsonx.ai 로 초안 → draft PR → (�
 
 | 이름 | 내용 |
 | --- | --- |
-| `WATSONX_API_KEY` | IBM Cloud IAM API 키 |
-| `WATSONX_PROJECT_ID` | watsonx.ai 프로젝트 ID |
-| `WATSONX_URL` | 지역 엔드포인트 (예: `https://us-south.ml.cloud.ibm.com`) |
-| `WATSONX_MODEL_ID` | (선택) 기본값은 `tools/draft-post.mjs` 참고 |
+| `BOBSHELL_API_KEY` | IBM Bob API 키 |
 
-> 이 값들은 **진짜 비밀입니다.** 사이트 빌드와 무관하므로 Cloudflare 가 아니라
+> **진짜 비밀입니다.** 사이트 빌드와 무관하므로 Cloudflare 가 아니라
 > GitHub Secrets 에 넣으세요. 초안 생성은 GitHub Actions 에서만 돕니다.
+
+**다른 LLM 으로 바꾸려면** `tools/draft-post.mjs` 의 `generate()` 함수 하나만
+고치면 됩니다. 수집·선별·저장은 그 함수와 분리되어 있습니다.
 
 ### 문의 폼 수신 (Web3Forms)
 
