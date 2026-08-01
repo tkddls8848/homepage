@@ -165,14 +165,26 @@ Cloudflare 는 `npm run build` 만 실행하지만, 취약점이 있거나 내�
 
 ### HTTPS
 
-Cloudflare 가 인증서를 무료로 발급하고 갱신합니다(Universal SSL). 커스텀 도메인도
-동일합니다. 추가로 대시보드에서 켜 주세요.
+**설정할 것이 없습니다.** Cloudflare 가 인증서 발급·갱신과 http → https 리다이렉트를
+전부 처리합니다. `*.pages.dev` 도, 나중에 붙일 커스텀 도메인도 동일합니다.
 
-- **SSL/TLS → Overview → 암호화 모드: Full (strict)**
-- **SSL/TLS → Edge Certificates → Always Use HTTPS: 켬** (http 요청을 https 로 리다이렉트)
+```
+$ curl -sI http://<프로젝트>.pages.dev
+HTTP/1.1 301 Moved Permanently
+Location: https://<프로젝트>.pages.dev/     ← 설정 없이 자동
+```
 
-HSTS 헤더(`Strict-Transport-Security`)는 `_headers` 에서 이미 내보내므로 대시보드의
-HSTS 설정은 켜지 않아도 됩니다. 두 곳에서 켜면 값이 어긋날 때 추적이 어렵습니다.
+> **대시보드에서 SSL/TLS 메뉴를 찾지 마세요.** 그 메뉴는 **도메인(Zone) 단위**라
+> `Workers & Pages` 아래에 없습니다. Cloudflare 에 도메인을 추가했을 때 그 도메인
+> 대시보드에 생기며, DNS 를 기존 등록업체에 두고 CNAME 만 걸면 끝까지 생기지
+> 않습니다. 어느 경우든 HTTPS 는 정상 동작합니다.
+>
+> `Full (strict)` 같은 암호화 모드도 신경 쓸 필요가 없습니다. 그건 Cloudflare 와
+> **원본 서버** 사이의 구간 설정인데, Pages 는 원본 서버 없이 Cloudflare 가 정적
+> 파일을 직접 서빙하므로 해당 사항이 없습니다.
+
+HSTS(`Strict-Transport-Security`)는 대시보드가 아니라 `_headers` 에서 나갑니다
+(`src/headers.11ty.js`). 두 곳에서 관리하면 어긋나므로 대시보드 HSTS 는 켜지 마세요.
 
 ### www.trialinfo.com 붙이기
 
