@@ -103,13 +103,23 @@ async function collectArticles() {
   const cutoff = Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000;
   const articles = [];
   const seen = new Set();
+  let failed = 0;
 
   for (const feed of FEEDS) {
     let kept = 0;
     let total = 0;
     try {
-      const res = await fetch(feed.url, { signal: AbortSignal.timeout(20000) });
+      const res = await fetch(feed.url, {
+        signal: AbortSignal.timeout(20000),
+        // User-Agent 없이 오는 요청을 막는 서버가 많습니다. 브라우저인 척하는
+        // 것이 아니라, 누가 왜 가져가는지 밝히는 값입니다.
+        headers: {
+          "User-Agent": "trialinfo-homepage-bot/1.0 (+https://www.trialinfo.com)",
+          Accept: "application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8",
+        },
+      });
       if (!res.ok) {
+        failed++;
         console.warn(`  피드를 읽지 못했습니다 (HTTP ${res.status}): ${feed.url}`);
         continue;
       }
@@ -135,10 +145,25 @@ async function collectArticles() {
         kept++;
       }
     } catch (error) {
-      console.warn(`  피드 오류: ${feed.url} — ${error.message}`);
+      failed++;
+      // Node 의 fetch 는 실패 사유를 error.cause 에 숨겨 둡니다. 이걸 안 찍으면
+      // 로그에 "fetch failed" 만 남아 원인을 알 수 없습니다.
+      const cause = error.cause?.code || error.cause?.message || "";
+      console.warn(`  피드 오류: ${feed.url}\n    ${error.message}${cause ? ` (${cause})` : ""}`);
       continue;
     }
     console.log(`  ${feed.publisher}: ${total}건 중 ${kept}건 해당`);
+  }
+
+  /*
+   * 피드가 전부 실패한 것과, 잘 읽었는데 해당 기사가 없는 것은 다릅니다.
+   * 전자를 조용히 넘기면 피드 주소가 죽어도 워크플로가 계속 "성공" 으로
+   * 끝나서 몇 주가 지나도 아무도 모릅니다.
+   */
+  if (failed === FEEDS.length) {
+    throw new Error(
+      `피드 ${FEEDS.length}개를 모두 읽지 못했습니다. 주소가 바뀌었거나 차단된 것일 수 있습니다.`
+    );
   }
 
   return articles.sort((a, b) => b.at - a.at).slice(0, MAX_ARTICLES);
