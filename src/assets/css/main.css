@@ -796,7 +796,11 @@
   /* ── 히어로 ────────────────────────────────────────────────────────── */
   .hero {
     position: relative;
-    background: var(--brand-950);
+    /* 사진이 내려받아지기 전까지 보이는 면. 브랜드 빨강을 쓰면 로딩 때마다
+       화면이 빨갛게 번쩍이므로 중립 어두운 색으로 둡니다.
+       (아래쪽에 같은 값을 주는 규칙이 하나 더 있습니다 — 둘을 맞춰 두어야
+        한쪽만 지웠을 때 빨간 면이 되살아나지 않습니다.) */
+    background: #222;
     color: #fff;
     isolation: isolate;
   }
@@ -827,17 +831,16 @@
     overflow: hidden;
   }
 
-  /* 사진이 없어도 성립하는 배경 (사진은 그 위에 얹힙니다) */
-  .hero__slide::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    background:
-      radial-gradient(90% 120% at 85% 15%, var(--brand-600) 0%, transparent 55%),
-      radial-gradient(70% 90% at 10% 90%, var(--accent-600) 0%, transparent 50%),
-      linear-gradient(135deg, var(--brand-950), var(--brand-800));
-  }
+  /*
+   * 슬라이드 뒤 배경은 .hero 의 중립 어두운 색(#222)에 맡깁니다.
+   *
+   * 예전에는 여기에 빨간 그라데이션을 깔아 두었습니다("사진이 없어도 성립하는
+   * 배경"). 그런데 사진(.hero__media)은 z-index -1 로 이 위에 얹히므로, 사진이
+   * 내려받아지기 전까지 그 빨간 면이 그대로 노출됩니다. 결과적으로 첫 방문과
+   * 새로고침마다 화면 전체가 빨갛게 번쩍인 뒤 사진으로 바뀌었습니다.
+   * 사진은 모든 슬라이드에 있으므로(hero.njk) 이 대체 배경은 로딩 중에만
+   * 보이는 셈이었고, 없애는 편이 낫습니다.
+   */
 
   .hero__media {
     position: absolute;
@@ -1838,6 +1841,34 @@
     color: var(--brand-700);
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+
+  /* 카카오 지도 임베드.
+     위젯이 자체 크기를 인라인 스타일로 잡으므로 폭만 맞춰 주고, 높이는
+     지도가 뜨기 전에도 자리가 무너지지 않도록 최소값을 둡니다. */
+  .map-embed {
+    margin-top: var(--space-4);
+  }
+
+  .map-embed .root_daum_roughmap {
+    width: 100% !important;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .map-embed .root_daum_roughmap .wrap_map {
+    height: 320px !important;
+  }
+
+  /* 스크립트가 막혔을 때 보이는 대체 링크 */
+  .map-embed noscript a {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-full);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--ink-700);
   }
 
   .map-links {
@@ -3580,5 +3611,137 @@
       min-height: 44px;
       font-size: 16px;
     }
+  }
+}
+
+/* ==========================================================================
+   기술 블로그
+   ========================================================================== */
+@layer components {
+  /* ── 글 목록 ─────────────────────────────────────────────────────────── */
+  .post-list {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 52rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-list__item {
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-list__item:last-child {
+    border-bottom: 0;
+  }
+
+  .post-list__meta,
+  .post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+    margin: 0 0 var(--space-2);
+    font-size: var(--step--2);
+    color: var(--ink-400);
+  }
+
+  .post-list__title {
+    margin: 0 0 var(--space-2);
+    font-size: var(--step-2);
+    line-height: 1.35;
+  }
+
+  .post-list__title a {
+    color: var(--ink-900);
+  }
+
+  .post-list__title a:hover {
+    color: var(--brand-600);
+  }
+
+  .post-list__summary {
+    margin: 0;
+    color: var(--ink-500);
+  }
+
+  .post-list__tags {
+    margin: var(--space-3) 0 0;
+  }
+
+  .post-list__empty {
+    color: var(--ink-400);
+  }
+
+  /* AI 초안임을 목록에서도 알 수 있게 */
+  .post-list__badge {
+    padding: 0.15em 0.6em;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    color: var(--ink-500);
+  }
+
+  .post__tag {
+    padding: 0.15em 0.6em;
+    border-radius: var(--radius-full);
+    background: var(--surface-2);
+    font-size: var(--step--2);
+    color: var(--ink-500);
+  }
+
+  /* ── 글 본문 ─────────────────────────────────────────────────────────── */
+  .post {
+    max-width: 46rem;
+  }
+
+  /* 사실관계를 회사가 보증하는 글과 구분되도록 눈에 띄게 둡니다. */
+  .post__notice {
+    margin: var(--space-4) 0 var(--space-6);
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--brand-500);
+    background: var(--surface-2);
+    font-size: var(--step--1);
+    color: var(--ink-600);
+  }
+
+  .post__sources {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .post__sources h2 {
+    margin: 0 0 var(--space-3);
+    font-size: var(--step-0);
+  }
+
+  .post__sources ul {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding-left: var(--space-5);
+    font-size: var(--step--1);
+  }
+
+  .post__sources a {
+    color: var(--brand-600);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .post__sources span {
+    color: var(--ink-400);
+  }
+
+  .post__back {
+    margin-top: var(--space-8);
+  }
+
+  .post__back a {
+    font-weight: 600;
+    color: var(--brand-600);
   }
 }

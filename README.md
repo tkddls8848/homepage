@@ -264,6 +264,74 @@ CSP 가 폼 전송을 막아버리는 사고를 방지하기 위한 것입니다
   `src/security-txt.11ty.js` 가 생성하며, 필수 필드인 `Expires` 는 빌드할 때마다
   1년 뒤로 다시 계산됩니다(만료된 채 방치되지 않도록).
 
+## 기술 블로그
+
+`/blog/` — 기존 사이트에 없던 기능입니다.
+
+```
+src/blog/index.njk              글 목록
+src/blog/posts/*.md             글 (파일 하나 = 글 하나)
+src/blog/posts/posts.11tydata.js  글 공통 설정
+src/_includes/layouts/post.njk  글 본문 골격
+```
+
+### 글 쓰기
+
+`src/blog/posts/` 에 `YYYY-MM-DD-슬러그.md` 로 만들면 됩니다.
+주소는 날짜를 뗀 `/blog/슬러그/` 가 됩니다.
+
+```markdown
+---
+title: 글 제목
+date: 2026-08-01
+summary: 목록에 보이는 한 줄 요약
+topics: [스토리지, IBM]      # 선택
+draft: true                   # 있으면 발행되지 않음
+---
+본문 (Markdown)
+```
+
+> ⚠️ 분류는 `tags` 가 아니라 **`topics`** 입니다. `tags` 는 Eleventy 가 컬렉션을
+> 만드는 데 쓰는 이름이라, 글에서 덮어쓰면 그 글이 목록에서 사라집니다.
+
+**`draft: true` 인 글은 페이지 자체가 만들어지지 않습니다.** 목록에서만 빼면
+주소를 아는 사람에게는 열리므로, 검토 전 글이 공개된 것과 같기 때문입니다.
+
+### AI 초안 (IBM watsonx.ai)
+
+`.github/workflows/draft-post.yml` 이 매주 월요일에 돌면서, 업계 기사를 모아
+watsonx.ai 로 초안을 만들고 **PR 을 엽니다.** 자동 발행이 아닙니다 —
+사람이 읽고 `draft: true` 를 지워야 사이트에 나옵니다.
+
+```
+RSS 수집 → 키워드로 선별 → watsonx.ai 로 초안 → draft PR → (사람 검토) → 발행
+```
+
+수동 실행: `npm run draft:post`
+
+**설계상 정한 것**
+
+- **기사 본문을 모델에 넣지 않습니다.** 제목과 링크만 넘기고, 회사 관점의 글을
+  새로 쓰게 합니다. 기사를 요약해 옮기면 저작권 문제가 될 수 있습니다.
+  참고한 기사는 본문에 옮기지 않고 **원문 링크로만** 남깁니다.
+- AI 가 초안을 쓴 글에는 `aiDraft: true` 가 붙어 **목록과 본문에 그 사실이
+  표시됩니다.** 회사가 사실관계를 보증하는 글과 구분하기 위한 것입니다.
+- 전자신문은 IT 전용 RSS 가 없어 종합 피드를 받아 **키워드로 걸러냅니다**
+  (`tools/draft-post.mjs` 의 `KEYWORDS`). 실행 로그에 매체별 수집·선별 건수가
+  찍히므로, 피드 주소가 바뀌어 0건이 되는 상황을 알아챌 수 있습니다.
+
+**필요한 Secret** (저장소 Settings → Secrets and variables → Actions)
+
+| 이름 | 내용 |
+| --- | --- |
+| `WATSONX_API_KEY` | IBM Cloud IAM API 키 |
+| `WATSONX_PROJECT_ID` | watsonx.ai 프로젝트 ID |
+| `WATSONX_URL` | 지역 엔드포인트 (예: `https://us-south.ml.cloud.ibm.com`) |
+| `WATSONX_MODEL_ID` | (선택) 기본값은 `tools/draft-post.mjs` 참고 |
+
+> 이 값들은 **진짜 비밀입니다.** 사이트 빌드와 무관하므로 Cloudflare 가 아니라
+> GitHub Secrets 에 넣으세요. 초안 생성은 GitHub Actions 에서만 돕니다.
+
 ### 문의 폼 수신 (Web3Forms)
 
 원본 사이트는 `<form action="./inquiry_post.php">` 로 **서버가 문의를 받았습니다.**

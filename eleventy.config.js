@@ -65,6 +65,16 @@ export default function (eleventyConfig) {
   /** ISO 날짜 (sitemap) */
   eleventyConfig.addFilter("isoDate", (d) => new Date(d || Date.now()).toISOString());
 
+  /** 블로그 발행일 표기 (예: 2026년 8월 1일) */
+  eleventyConfig.addFilter("postDate", (d) =>
+    new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone: "Asia/Seoul",
+    }).format(new Date(d || Date.now()))
+  );
+
   /**
    * "비즈니스 연속성: 미션 크리티컬 …" 처럼 콜론으로 앞머리 라벨이 붙은 문장을
    * { label, text } 로 나눕니다. 라벨만 굵게 보여주기 위한 용도.
@@ -85,6 +95,21 @@ export default function (eleventyConfig) {
   );
 
   // ── 컬렉션 ─────────────────────────────────────────────────────────────
+  /**
+   * 기술 블로그 글. 최신 글이 위로 오게 정렬합니다.
+   *
+   * `draft: true` 인 글은 목록에서 빼되 파일 자체는 남겨 둡니다. AI 가 만든
+   * 초안을 사람이 검토하는 동안 저장소에는 두고 사이트에는 안 나오게 하는
+   * 용도입니다. (permalink 도 함께 꺼서 페이지 자체가 생성되지 않습니다 —
+   * 목록에만 없고 주소로는 열리면 검토 전 글이 공개된 것과 같습니다.)
+   */
+  eleventyConfig.addCollection("posts", (collection) =>
+    collection
+      .getFilteredByTag("posts")
+      .filter((item) => !item.data.draft)
+      .sort((a, b) => b.date - a.date)
+  );
+
   // sitemap 에서 제외할 페이지는 front matter 에 `sitemap: false`
   eleventyConfig.addCollection("sitemapPages", (collection) =>
     collection
