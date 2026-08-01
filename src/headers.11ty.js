@@ -29,9 +29,17 @@ export default class HeadersFile {
      * 방어(주입된 스크립트의 실행 차단)를 그만큼 넓히는 일입니다.
      * 카카오가 신뢰할 만한 상대라 실질 위험은 낮다고 보고 받아들였습니다.
      *
-     *   ssl.daumcdn.net   최초 로더
-     *   t1.kakaocdn.net   로더가 document.write 로 불러오는 실제 지도 스크립트,
-     *                     지도 타일 이미지, 스타일
+     * 불러오는 순서가 여러 단계라 서브도메인을 특정할 수 없습니다.
+     *   1. ssl.daumcdn.net/dmaps/.../roughmapLoader.js   최초 로더
+     *   2. t1.kakaocdn.net/.../roughmapLander.js         위젯 본체
+     *   3. t1.kakaocdn.net/roughmap/{key}.json           등록된 지도 데이터
+     *   4. ssl.daumcdn.net/dmaps/map_js_init/v3.js       카카오맵 SDK
+     *   5. SDK 가 지도 타일 이미지를 받아옴  ← 여기가 문제였습니다
+     *
+     * 처음에는 위 두 호스트만 허용했더니 4번까지는 통과하고 5번이 막혀서,
+     * 지도 자리에 빈 네모만 남았습니다. 타일 서버는 map1~4.daumcdn.net 처럼
+     * 여러 개이고 언제든 늘 수 있어 개별 지정이 어렵습니다. 두 CDN 도메인
+     * 전체를 허용합니다.
      *
      * 로그 수집 서버(stlog1-local.kakao.com)는 일부러 넣지 않았습니다.
      * 지도 표시에 필요하지 않고, 방문자 데이터를 넘길 이유도 없습니다.
@@ -41,8 +49,7 @@ export default class HeadersFile {
      *    그래서 전역 정책에 넣습니다. 지도 스크립트를 실제로 불러오는 페이지는
      *    front matter 에 kakaoMap: true 를 준 곳뿐입니다.
      */
-    const KAKAO_SCRIPT = "https://ssl.daumcdn.net https://t1.kakaocdn.net";
-    const KAKAO_ASSET = "https://t1.kakaocdn.net https://ssl.daumcdn.net";
+    const KAKAO = "https://*.daumcdn.net https://*.kakaocdn.net";
 
     const csp = [
       "default-src 'self'",
@@ -51,13 +58,14 @@ export default class HeadersFile {
       "frame-src 'none'",
       // meta 로는 무시되던 지시어. 이 사이트를 iframe 에 넣지 못하게 합니다.
       "frame-ancestors 'none'",
-      `script-src 'self' ${KAKAO_SCRIPT}`,
+      `script-src 'self' ${KAKAO}`,
       // 템플릿의 style="..." 속성 때문에 남아 있습니다. 그 속성들을
       // main.css 클래스로 옮기면 제거할 수 있습니다.
-      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com ${KAKAO_ASSET}`,
+      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com ${KAKAO}`,
       "font-src 'self' https://fonts.gstatic.com",
-      `img-src 'self' data: ${KAKAO_ASSET}`,
-      `connect-src 'self'${extra} ${KAKAO_ASSET}`,
+      // blob: 은 지도 SDK 가 타일을 합성해 그릴 때 씁니다.
+      `img-src 'self' data: blob: ${KAKAO}`,
+      `connect-src 'self'${extra} ${KAKAO}`,
       `form-action 'self'${extra}`,
       "upgrade-insecure-requests",
     ].join("; ");
