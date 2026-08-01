@@ -796,7 +796,11 @@
   /* ── 히어로 ────────────────────────────────────────────────────────── */
   .hero {
     position: relative;
-    background: var(--brand-950);
+    /* 사진이 내려받아지기 전까지 보이는 면. 브랜드 빨강을 쓰면 로딩 때마다
+       화면이 빨갛게 번쩍이므로 중립 어두운 색으로 둡니다.
+       (아래쪽에 같은 값을 주는 규칙이 하나 더 있습니다 — 둘을 맞춰 두어야
+        한쪽만 지웠을 때 빨간 면이 되살아나지 않습니다.) */
+    background: #222;
     color: #fff;
     isolation: isolate;
   }
@@ -827,17 +831,16 @@
     overflow: hidden;
   }
 
-  /* 사진이 없어도 성립하는 배경 (사진은 그 위에 얹힙니다) */
-  .hero__slide::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    background:
-      radial-gradient(90% 120% at 85% 15%, var(--brand-600) 0%, transparent 55%),
-      radial-gradient(70% 90% at 10% 90%, var(--accent-600) 0%, transparent 50%),
-      linear-gradient(135deg, var(--brand-950), var(--brand-800));
-  }
+  /*
+   * 슬라이드 뒤 배경은 .hero 의 중립 어두운 색(#222)에 맡깁니다.
+   *
+   * 예전에는 여기에 빨간 그라데이션을 깔아 두었습니다("사진이 없어도 성립하는
+   * 배경"). 그런데 사진(.hero__media)은 z-index -1 로 이 위에 얹히므로, 사진이
+   * 내려받아지기 전까지 그 빨간 면이 그대로 노출됩니다. 결과적으로 첫 방문과
+   * 새로고침마다 화면 전체가 빨갛게 번쩍인 뒤 사진으로 바뀌었습니다.
+   * 사진은 모든 슬라이드에 있으므로(hero.njk) 이 대체 배경은 로딩 중에만
+   * 보이는 셈이었고, 없애는 편이 낫습니다.
+   */
 
   .hero__media {
     position: absolute;
