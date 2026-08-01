@@ -5,7 +5,11 @@
  */
 
 // 배포 환경에서 SITE_URL 을 주면 canonical / OG / sitemap 에 반영됩니다.
-const url = process.env.SITE_URL || "https://www.trialinfo.com";
+//
+// 끝의 슬래시는 제거합니다. 대시보드에 주소를 붙여넣을 때 "https://…dev/" 처럼
+// 슬래시가 딸려 들어오는 일이 흔한데, 이 값에 경로를 이어붙이는 곳(security.txt)
+// 에서 "…dev//.well-known/…" 같은 잘못된 주소가 만들어지기 때문입니다.
+const url = (process.env.SITE_URL || "https://www.trialinfo.com").replace(/\/+$/, "");
 
 const formEndpoint = process.env.FORM_ENDPOINT || "";
 
