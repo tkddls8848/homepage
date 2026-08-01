@@ -1008,6 +1008,19 @@
     max-width: 46rem;
     margin-top: var(--space-4);
     font-size: var(--step-1);
+  }
+
+  /*
+   * 흰 글씨는 어두운 히어로(.page-head) 안에서만 씁니다.
+   *
+   * 하위 페이지에서 이 문구는 .page-head 가 아니라 .page-content__main 안,
+   * 즉 밝은 배경 위에 놓입니다. 색을 여기서 무조건 흰색으로 주면
+   * @layer layout 의 본문용 회색(.page-content__main > .page-head__lead)을
+   * 덮어버립니다 — 레이어 순서상 components 가 layout 을 이기기 때문입니다.
+   * 그 결과 모든 하위 페이지에서 설명 문구가 흰 배경에 흰 글씨가 되어
+   * 글자는 있는데 화면에는 아무것도 보이지 않았습니다.
+   */
+  .page-head .page-head__lead {
     color: rgb(255 255 255 / 80%);
   }
 
@@ -2326,7 +2339,10 @@
   }
 
   .hero {
+    /* 모바일 브라우저에서 100vh 는 주소창 높이를 포함해 계산되어 화면 아래가
+       잘립니다. svh(작은 뷰포트)를 쓰고, 모르는 브라우저는 위 vh 를 씁니다. */
     height: 100vh;
+    height: 100svh;
     min-height: 540px;
     background: #222;
   }
@@ -2338,6 +2354,7 @@
 
   .hero__slide {
     min-height: 100vh;
+    min-height: 100svh;
     padding: 0;
     align-items: start;
     opacity: 0.35;
@@ -3498,6 +3515,70 @@
     .home-cider__steps img {
       width: 88px;
       height: 88px;
+    }
+  }
+}
+
+/* ==========================================================================
+   터치 기기 보정
+   마우스가 없는 기기에서 콘텐츠에 아예 닿을 수 없거나, 브라우저가 화면을
+   멋대로 확대해 버리던 문제들입니다. 데스크톱 동작은 건드리지 않습니다.
+   ========================================================================== */
+@layer components {
+  /* ── 제품 카드: 터치에서는 정보를 항상 펼쳐 둡니다 ──────────────────────
+     요약·특징·자세히보기가 .product_info 안에 들어 있는데, 이 패널은
+     translateX(-101%) 로 화면 밖에 있다가 :hover 일 때만 들어옵니다.
+     마우스가 없는 기기에는 hover 가 없으므로 제품 정보에 닿을 방법이
+     없었습니다. hover 를 지원하지 않는 환경에서는 카드 안에 그대로
+     흐르게 두어 세로로 쌓습니다. */
+  @media (hover: none) {
+    .product-card {
+      padding-bottom: 20px;
+    }
+
+    .product-card__media {
+      flex: 0 0 auto;
+      min-height: 0;
+    }
+
+    .product-card__media img {
+      max-height: 150px;
+    }
+
+    /* 패널을 덮개에서 일반 흐름으로 되돌립니다. */
+    .product_info {
+      position: static;
+      margin-top: 16px;
+      padding: 15px 0 0;
+      border-top: 1px solid #eee;
+      background: none;
+      color: inherit;
+      transform: none;
+    }
+
+    /* 빨간 배경 위에서 쓰던 흰 글씨를 밝은 배경용으로 되돌립니다. */
+    .product-card__summary,
+    .product-card__features {
+      color: #555;
+    }
+
+    .product-card__detail {
+      width: 100%;
+      min-height: 44px;
+    }
+  }
+
+  /* ── 폼 입력 ────────────────────────────────────────────────────────────
+     iOS 사파리는 글씨가 16px 미만인 입력란을 탭하면 화면을 확대합니다.
+     확대된 화면은 되돌아오지 않아 이후 조작이 불편해집니다.
+     본문 크기(--step-0)는 clamp 로 15px 근처까지 내려가므로 여기서
+     고정값으로 올려 줍니다. 함께 터치 영역도 44px 이상으로 맞춥니다. */
+  @media (max-width: 64rem) {
+    .field input,
+    .field textarea,
+    .field select {
+      min-height: 44px;
+      font-size: 16px;
     }
   }
 }
