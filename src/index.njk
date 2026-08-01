@@ -12,7 +12,11 @@ bodyClass: home
      style="--home-tab-image: url('{{ '/images/photo/tab/about.png' | url }}')">
     <span class="home-tab__content">
       <h3>회사소개</h3>
-      <p>신뢰와 기술을 바탕으로 고객과 함께 성장하는 IT 서비스 전문기업입니다.</p>
+      <p>
+        20년 이상의 전문 경력을 바탕으로 IT Service 전문대표기업으로
+        새롭게 태어났습니다. 정보통신산업의 든든한 기둥, 정보강국의 첨병이 되어
+        대한민국 종합정보통신의 살아있는 역사를 바로 세워가겠습니다.
+      </p>
     </span>
   </a>
   <a class="home-tab home-tab--infra" href="{{ '/it-infra/' | url }}"
@@ -25,177 +29,39 @@ bodyClass: home
   </a>
 </nav>
 
-<section class="home-story" aria-labelledby="home-story-title">
-  <div class="home-story__media">
-    <img src="{{ '/images/photo/about/future.png' | url }}"
-         alt="빛을 향해 이어지는 계단"
-         loading="lazy" decoding="async">
-  </div>
-  <div class="home-story__panel">
-    <p class="home-kicker">About Trial Info</p>
-    <h2 id="home-story-title">기술과 신뢰로<br>다음 인프라를 만듭니다.</h2>
-    <p>
-      20년 이상의 전문 경험을 바탕으로 고객의 업무 환경을 정확히 이해하고,
-      설계부터 구축, 운영까지 IT 인프라의 전 과정을 책임집니다.
-    </p>
-    <a class="home-arrow-link home-arrow-link--light" href="{{ '/about/' | url }}">
-      회사 이야기 보기 <span aria-hidden="true">→</span>
-    </a>
-  </div>
-</section>
-
-<section class="home-showcase home-showcase--infra" aria-labelledby="home-infra-title">
+{#
+  기존 사이트(index.php)의 홈은 Product 탭이 활성인 상태로 열려서
+  1차 탭(IBM / Lenovo / Dell / S/W)이 바로 아래에 놓였습니다.
+  그 배치를 그대로 두되, 목록은 catalog.js 에서 자동 생성합니다.
+#}
+<section class="section section--tint">
   <div class="container">
-    <div class="home-section-head">
-      <div>
-        <p class="home-kicker">IT Infra Service</p>
-        <h2 id="home-infra-title">컨설팅에서 유지보수까지,<br>하나의 흐름으로 연결합니다.</h2>
-      </div>
-      <p>
-        요구사항과 현행 환경을 분석해 최적의 구성을 설계하고,
-        검증된 절차로 구축한 뒤 안정적인 운영까지 지원합니다.
+    <div class="section__head">
+      <p class="section__eyebrow">Product</p>
+      <h2 class="section__title">검증된 제조사의 서버·스토리지·소프트웨어</h2>
+      <p class="section__lead">
+        워크로드 특성과 예산에 맞춰 UNIX 서버부터 x86 서버, 스토리지, 파일 시스템
+        소프트웨어까지 구성하고 공급합니다.
       </p>
     </div>
 
-    <div class="home-infra-grid">
-      <a class="home-infra-card" href="{{ '/it-infra/' | url }}">
-        <span class="home-infra-card__number">01</span>
-        <span class="home-infra-card__media">
-          <img src="{{ '/images/photo/infra/graph_consulting.png' | url }}"
-               alt="" loading="lazy" decoding="async">
-        </span>
-        <span class="home-infra-card__body">
-          <strong>Consulting</strong>
-          <span>현재 환경과 목표를 분석해 실행 가능한 인프라 전략을 제안합니다.</span>
+    <div class="grid grid--4">
+      {%- for vendor in nav.vendors %}
+      <a class="feature reveal" href="{{ vendor.url | url }}">
+        <span class="feature__icon" aria-hidden="true">{{ vendor.label | truncate(4, true, "") }}</span>
+        <span class="feature__title">{{ vendor.label }}</span>
+        <span class="feature__text">
+          {%- for cat in vendor.categories %}{{ cat.label }}{% if not loop.last %} · {% endif %}{% endfor -%}
         </span>
       </a>
-
-      <a class="home-infra-card" href="{{ '/it-infra/build/' | url }}">
-        <span class="home-infra-card__number">02</span>
-        <span class="home-infra-card__media">
-          <img src="{{ '/images/photo/infra/graph_build.png' | url }}"
-               alt="" loading="lazy" decoding="async">
-        </span>
-        <span class="home-infra-card__body">
-          <strong>IT Infra 구축</strong>
-          <span>서버·스토리지·네트워크를 업무 환경에 맞게 설계하고 구축합니다.</span>
-        </span>
-      </a>
-
-      <a class="home-infra-card" href="{{ '/it-infra/maintenance/' | url }}">
-        <span class="home-infra-card__number">03</span>
-        <span class="home-infra-card__media">
-          <img src="{{ '/images/photo/infra/graph_maintenance.png' | url }}"
-               alt="" loading="lazy" decoding="async">
-        </span>
-        <span class="home-infra-card__body">
-          <strong>Maintenance</strong>
-          <span>예방 점검과 신속한 장애 대응으로 안정적인 운영을 지킵니다.</span>
-        </span>
-      </a>
+      {%- endfor %}
     </div>
   </div>
 </section>
 
-<section class="home-showcase home-showcase--products" aria-labelledby="home-products-title">
-  <div class="container">
-    <div class="home-section-head home-section-head--inverse">
-      <div>
-        <p class="home-kicker">Product</p>
-        <h2 id="home-products-title">검증된 글로벌 인프라,<br>현장에 맞는 구성.</h2>
-      </div>
-      <p>
-        IBM·Lenovo·Dell의 서버와 스토리지를 워크로드와 예산에 맞춰
-        구성하고 공급합니다.
-      </p>
-    </div>
-
-    <div class="home-product-grid">
-      <a class="home-product" href="{{ '/products/ibm/power-unix-server/' | url }}">
-        <span class="home-product__vendor">IBM</span>
-        <span class="home-product__media">
-          <img src="{{ '/images/photo/product/ibm/UnixServer/power11_e1180.png' | url }}"
-               alt="IBM Power E1180 서버" loading="lazy" decoding="async">
-        </span>
-        <span class="home-product__copy">
-          <strong>Power UNIX Server</strong>
-          <span>미션 크리티컬 업무를 위한 강력하고 안정적인 플랫폼</span>
-        </span>
-        <span class="home-product__arrow" aria-hidden="true">↗</span>
-      </a>
-
-      <a class="home-product" href="{{ '/products/lenovo/x86-server/' | url }}">
-        <span class="home-product__vendor">Lenovo</span>
-        <span class="home-product__media">
-          <img src="{{ '/images/photo/product/lenovo/x86/sr650.png' | url }}"
-               alt="Lenovo ThinkSystem SR650 서버" loading="lazy" decoding="async">
-        </span>
-        <span class="home-product__copy">
-          <strong>x86 Server</strong>
-          <span>유연한 확장성과 효율적인 운영을 위한 엔터프라이즈 서버</span>
-        </span>
-        <span class="home-product__arrow" aria-hidden="true">↗</span>
-      </a>
-
-      <a class="home-product" href="{{ '/products/dell/x86-server/' | url }}">
-        <span class="home-product__vendor">Dell</span>
-        <span class="home-product__media">
-          <img src="{{ '/images/photo/product/dell/x86/r740.png' | url }}"
-               alt="Dell PowerEdge R740 서버" loading="lazy" decoding="async">
-        </span>
-        <span class="home-product__copy">
-          <strong>PowerEdge Server</strong>
-          <span>다양한 워크로드에 대응하는 고성능 데이터센터 플랫폼</span>
-        </span>
-        <span class="home-product__arrow" aria-hidden="true">↗</span>
-      </a>
-    </div>
-
-    <p class="home-products-more">
-      <a class="home-arrow-link home-arrow-link--light" href="{{ '/products/' | url }}">
-        전체 제품군 보기 <span aria-hidden="true">→</span>
-      </a>
-    </p>
-  </div>
-</section>
-
-<section class="home-cider" aria-labelledby="home-cider-title">
-  <div class="container home-cider__inner">
-    <div class="home-cider__copy">
-      <p class="home-kicker">Cider Solution</p>
-      <h2 id="home-cider-title">데이터 보호의 전 과정을<br>더 단단하게.</h2>
-      <p>
-        진단부터 복구, 복제와 결과 보고까지 운영 현장에서 필요한
-        데이터 보호 기능을 하나의 솔루션으로 제공합니다.
-      </p>
-      <a class="home-arrow-link" href="{{ '/products/sw/cider/' | url }}">
-        Cider 자세히 보기 <span aria-hidden="true">→</span>
-      </a>
-    </div>
-
-    <ol class="home-cider__steps">
-      <li>
-        <img src="{{ '/images/icon/CiderSolution/Audit%26Health%20Check.png' | url }}"
-             alt="" loading="lazy" decoding="async">
-        <strong>Audit &amp;<br>Health Check</strong>
-      </li>
-      <li>
-        <img src="{{ '/images/icon/CiderSolution/Backup%26Recovery.png' | url }}"
-             alt="" loading="lazy" decoding="async">
-        <strong>Backup &amp;<br>Recovery</strong>
-      </li>
-      <li>
-        <img src="{{ '/images/icon/CiderSolution/Duplicate%20%26%20Deploy.png' | url }}"
-             alt="" loading="lazy" decoding="async">
-        <strong>Duplicate &amp;<br>Deploy</strong>
-      </li>
-      <li>
-        <img src="{{ '/images/icon/CiderSolution/Result%26Report.png' | url }}"
-             alt="" loading="lazy" decoding="async">
-        <strong>Result &amp;<br>Report</strong>
-      </li>
-    </ol>
-  </div>
-</section>
+{#
+  Tech Blog 는 기존 사이트에 없던 메뉴라 홈 본문에는 넣지 않고
+  상단 내비게이션(_data/nav.js)에만 추가해 두었습니다.
+#}
 
 {% include "partials/cta.njk" %}
