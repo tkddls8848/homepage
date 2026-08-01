@@ -21,6 +21,29 @@ export default class HeadersFile {
   render({ site }) {
     const extra = site.formEndpointOrigin ? ` ${site.formEndpointOrigin}` : "";
 
+    /*
+     * 카카오 "지도 퍼가기"에 필요한 출처.
+     *
+     * 오시는 길 페이지의 지도는 카카오 CDN 에서 스크립트를 받아 실행합니다.
+     * 즉 script-src 에 외부 출처가 들어가며, 이는 이 사이트에서 가장 강한
+     * 방어(주입된 스크립트의 실행 차단)를 그만큼 넓히는 일입니다.
+     * 카카오가 신뢰할 만한 상대라 실질 위험은 낮다고 보고 받아들였습니다.
+     *
+     *   ssl.daumcdn.net   최초 로더
+     *   t1.kakaocdn.net   로더가 document.write 로 불러오는 실제 지도 스크립트,
+     *                     지도 타일 이미지, 스타일
+     *
+     * 로그 수집 서버(stlog1-local.kakao.com)는 일부러 넣지 않았습니다.
+     * 지도 표시에 필요하지 않고, 방문자 데이터를 넘길 이유도 없습니다.
+     *
+     * ⚠️ Cloudflare _headers 는 경로별로 정책을 나눠도 두 정책이 함께
+     *    적용(교집합)되므로, 지도 페이지만 따로 완화할 수 없습니다.
+     *    그래서 전역 정책에 넣습니다. 지도 스크립트를 실제로 불러오는 페이지는
+     *    front matter 에 kakaoMap: true 를 준 곳뿐입니다.
+     */
+    const KAKAO_SCRIPT = "https://ssl.daumcdn.net https://t1.kakaocdn.net";
+    const KAKAO_ASSET = "https://t1.kakaocdn.net https://ssl.daumcdn.net";
+
     const csp = [
       "default-src 'self'",
       "base-uri 'none'",
@@ -28,13 +51,13 @@ export default class HeadersFile {
       "frame-src 'none'",
       // meta 로는 무시되던 지시어. 이 사이트를 iframe 에 넣지 못하게 합니다.
       "frame-ancestors 'none'",
-      "script-src 'self'",
+      `script-src 'self' ${KAKAO_SCRIPT}`,
       // 템플릿의 style="..." 속성 때문에 남아 있습니다. 그 속성들을
       // main.css 클래스로 옮기면 제거할 수 있습니다.
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com ${KAKAO_ASSET}`,
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data:",
-      `connect-src 'self'${extra}`,
+      `img-src 'self' data: ${KAKAO_ASSET}`,
+      `connect-src 'self'${extra} ${KAKAO_ASSET}`,
       `form-action 'self'${extra}`,
       "upgrade-insecure-requests",
     ].join("; ");

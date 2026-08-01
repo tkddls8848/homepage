@@ -5,6 +5,8 @@ eyebrow: Contact Us
 lead: 본사와 원주지사의 위치 및 연락처입니다.
 section: contact
 description: (주)트라이얼정보통신 본사와 원주지사 위치 안내입니다.
+# 이 페이지에서만 카카오 지도 스크립트를 불러옵니다 (base.njk 참고).
+kakaoMap: true
 ---
 <section class="section">
   <div class="container">
@@ -22,9 +24,13 @@ description: (주)트라이얼정보통신 본사와 원주지사 위치 안내�
           <p class="contact-card__key">E-Mail</p>
           <p class="contact-card__value"><a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></p>
         </div>
-        <div class="map-links">
-          <a href="https://map.kakao.com/?q={{ '서울특별시 영등포구 선유로 13길 25' | urlencode }}"
-             target="_blank" rel="noopener noreferrer">지도에서 본사 보기</a>
+        {#- 카카오 지도. 컨테이너 id 의 숫자는 kakao-map.js 의 timestamp 와 짝입니다. -#}
+        <div class="map-embed">
+          <div id="daumRoughmapContainer1607656468304" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+          <noscript>
+            <a href="https://map.kakao.com/?q={{ '서울특별시 영등포구 선유로 13길 25' | urlencode }}"
+               target="_blank" rel="noopener noreferrer">카카오맵에서 본사 위치 보기</a>
+          </noscript>
         </div>
       </article>
 
@@ -41,9 +47,12 @@ description: (주)트라이얼정보통신 본사와 원주지사 위치 안내�
           <p class="contact-card__key">E-Mail</p>
           <p class="contact-card__value"><a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></p>
         </div>
-        <div class="map-links">
-          <a href="https://map.kakao.com/?q={{ '강원도 원주시 건강로 25' | urlencode }}"
-             target="_blank" rel="noopener noreferrer">지도에서 원주지사 보기</a>
+        <div class="map-embed">
+          <div id="daumRoughmapContainer1670571451133" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+          <noscript>
+            <a href="https://map.kakao.com/?q={{ '강원도 원주시 건강로 25' | urlencode }}"
+               target="_blank" rel="noopener noreferrer">카카오맵에서 원주지사 위치 보기</a>
+          </noscript>
         </div>
       </article>
     </div>

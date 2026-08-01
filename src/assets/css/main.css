@@ -1843,6 +1843,34 @@
     text-underline-offset: 3px;
   }
 
+  /* 카카오 지도 임베드.
+     위젯이 자체 크기를 인라인 스타일로 잡으므로 폭만 맞춰 주고, 높이는
+     지도가 뜨기 전에도 자리가 무너지지 않도록 최소값을 둡니다. */
+  .map-embed {
+    margin-top: var(--space-4);
+  }
+
+  .map-embed .root_daum_roughmap {
+    width: 100% !important;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .map-embed .root_daum_roughmap .wrap_map {
+    height: 320px !important;
+  }
+
+  /* 스크립트가 막혔을 때 보이는 대체 링크 */
+  .map-embed noscript a {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-full);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--ink-700);
+  }
+
   .map-links {
     display: flex;
     flex-wrap: wrap;
