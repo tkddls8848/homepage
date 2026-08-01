@@ -254,10 +254,30 @@ async function generate(articles) {
     throw new Error(`Cloudflare Workers AI 오류: HTTP ${res.status} ${detail}`);
   }
 
-  const text = (json.result?.response || "").trim();
-  if (!text) throw new Error("Cloudflare Workers AI 응답이 비어 있습니다.");
+  /*
+   * /ai/run 은 보낸 형식에 맞춰 응답 형식을 바꿉니다.
+   *   prompt 로 보내면      → result.response
+   *   messages 로 보내면    → result.choices[0].message.content (OpenAI 호환)
+   * 우리는 messages 를 쓰지만, 형식이 바뀌어도 견디도록 둘 다 봅니다.
+   */
+  const result = json.result ?? json;
+  const text = (
+    result.response ??
+    result.choices?.[0]?.message?.content ??
+    result.choices?.[0]?.text ??
+    ""
+  ).trim();
 
-  const used = json.result?.usage;
+  if (!text) {
+    // 응답 구조가 또 바뀌었을 때 로그만 보고 고칠 수 있게 남깁니다.
+    throw new Error(
+      "Cloudflare Workers AI 응답에서 본문을 찾지 못했습니다.\n" +
+        `  result 의 키: ${Object.keys(result).join(", ") || "(없음)"}\n` +
+        `  응답 일부: ${JSON.stringify(result).slice(0, 400)}`
+    );
+  }
+
+  const used = result.usage;
   if (used) {
     console.log(`  토큰: 입력 ${used.prompt_tokens ?? "?"} / 출력 ${used.completion_tokens ?? "?"}`);
   }
