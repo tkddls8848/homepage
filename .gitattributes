@@ -1,0 +1,11 @@
+# 줄바꿈 고정.
+#
+# Windows 에서 작업하면 git 이 체크아웃할 때 LF 를 CRLF 로 바꿉니다. 아래 파일들은
+# 값을 줄 단위로 그대로 읽는 설정 파일이라, 끝에 \r 이 붙으면 파서가 오작동합니다.
+#   .nvmrc      → "24\r" 을 버전으로 해석하려다 실패 (빌드 Node 버전이 어긋남)
+#   _redirects  → 규칙의 상태코드가 "301\r" 이 되어 리다이렉트가 무시될 수 있음
+# 저장소와 체크아웃 모두 LF 로 고정합니다.
+.nvmrc      text eol=lf
+_redirects  text eol=lf
+
+# _headers 는 빌드할 때 Node 가 생성하므로(src/headers.11ty.js) 여기 없습니다.

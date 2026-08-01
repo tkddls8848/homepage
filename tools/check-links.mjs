@@ -89,3 +89,41 @@ if (brokenLinks.length) {
 }
 
 console.log("\n✓ 내부 링크 이상 없음");
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Cloudflare Pages 의 _redirects 점검
+   기존 .php 주소로 들어오는 방문자·검색엔진이 가는 곳이라, 대상이 하나라도
+   틀리면 그 주소는 조용히 404 가 됩니다. 페이지 URL 이 바뀌었는데 규칙을
+   같이 안 고치는 경우를 잡기 위해 빌드마다 확인합니다.
+   ────────────────────────────────────────────────────────────────────────── */
+const redirectsFile = path.join(ROOT, "_redirects");
+const redirectProblems = [];
+
+if (existsSync(redirectsFile)) {
+  const rules = (await readFile(redirectsFile, "utf8"))
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#"));
+
+  const seen = new Set();
+
+  for (const rule of rules) {
+    const [from, to, code] = rule.split(/\s+/);
+
+    if (seen.has(from)) redirectProblems.push(`원본이 중복됩니다: ${from}`);
+    seen.add(from);
+
+    // 301 이어야 검색엔진이 기존 주소의 평가를 새 주소로 넘깁니다.
+    if (code !== "301") redirectProblems.push(`301 이 아닙니다: ${rule}`);
+
+    if (!resolveTarget(to)) redirectProblems.push(`대상 페이지가 없습니다: ${from} → ${to}`);
+  }
+
+  if (redirectProblems.length) {
+    console.error(`\n✗ _redirects 문제 (${redirectProblems.length}개)`);
+    for (const item of redirectProblems) console.error(`  - ${item}`);
+    process.exit(1);
+  }
+
+  console.log(`✓ _redirects 규칙 ${rules.length}개 이상 없음`);
+}

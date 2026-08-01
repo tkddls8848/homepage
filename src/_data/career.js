@@ -190,7 +190,10 @@ export default {
       "최종학교 전학년 성적증명서 1부 (신입사원에 해당)",
     ],
     application: [
-      "방법 : e-mail 접수 (master@trialinfo.com)",
+      // 대표 이메일과 같은 값을 씁니다. site.js 의 contact.email 과 동일하게
+      // CONTACT_EMAIL 환경 변수로 덮어쓸 수 있어, 테스트 주소로 바꿀 때
+      // 사이트 전체가 한 번에 따라옵니다.
+      `방법 : e-mail 접수 (${process.env.CONTACT_EMAIL || "master@trialinfo.com"})`,
       "문의 : 경영지원부 조영아 / 연락처. 02-6972-1524",
     ],
     hours: ["평일 09:00 ~ 18:00 (주5일제 근무)"],

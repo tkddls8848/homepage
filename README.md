@@ -19,21 +19,32 @@
 | 애니메이션 | 길고 큰 이동, 끌 수 없음 | 220~420ms 짧은 모션 + `prefers-reduced-motion` 존중 |
 | 모바일 | 별도 마크업(`m_tab`)을 따로 유지 | 같은 마크업이 반응형으로 동작 |
 | 접근성 | 이미지 텍스트, 키보드 이동 어려움 | 시맨틱 마크업, `aria-current`, 포커스 표시, 건너뛰기 링크, 텍스트 조직도 |
-| HTTPS | 미적용 | GitHub Pages 가 인증서를 제공하고 http → https 자동 리다이렉트 |
+| 호스팅 | 자체 서버 (PHP) | Cloudflare Pages. 푸시하면 자동 빌드·배포 |
+| HTTPS | 미적용 | Cloudflare 가 인증서를 발급·갱신, http → https 리다이렉트 |
+| 기존 `.php` 주소 | — | 28개 전부 301 로 새 주소 연결 (`src/_redirects`) |
+| 보안 헤더 | 없음 | CSP, HSTS, X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy |
+| 문의 수신 | 서버 스크립트(`inquiry_post.php`) | Web3Forms. 실패 시 mailto 자동 폴백 |
+| 문의 폼 보안 | 개인정보 동의 절차 없음, 길이·형식 제한 없음 | 동의 체크박스(법정 고지 4항목), 길이·형식 검증, 중복 전송·봇 차단 |
+| 의존성 관리 | — | Dependabot 월 1회 PR + 빌드 시 `npm audit` 차단 |
 
 ## 시작하기
 
 ```bash
 npm install
 npm run dev           # http://localhost:8080 (파일 저장 시 자동 반영)
-npm run build         # _site/ 에 정적 파일 생성
-npm run check:links   # 빌드 결과의 내부 링크·이미지 경로 점검
+npm run build         # npm audit → 빌드 → 링크·리다이렉트 점검 (배포와 동일)
+npm run build:only    # 검증 없이 빌드만 (빠른 반복용)
+npm run check:links   # 빌드 결과의 내부 링크·이미지·_redirects 대상 점검
 
 npm run crawl:old-site   # 기존 사이트(http) 미러링 → ./old-site
 npm run import:images    # 받은 images 폴더를 src/images/ 로 합치고 누락 검사
 ```
 
-Node 20 이상이 필요합니다.
+**Node 24 (LTS "Krypton")** 이 필요합니다. 버전은 `.nvmrc` 한 곳에 적어 두고
+로컬(`nvm use`)과 CI(`setup-node`의 `node-version-file`)가 같은 값을 씁니다.
+
+> Node 20 "Iron" 은 2026년 4월, Node 23 은 2025년 6월에 지원이 끝났습니다.
+> `node -v` 가 24.x 가 아니면 먼저 올려 주세요.
 
 ## 디렉터리 구조
 
@@ -73,103 +84,255 @@ src/
 기존 사이트는 `index.php` 가 제품 페이지였는데, 새 구조에서는 `/` 를 회사 소개
 성격의 홈으로 두고 제품 페이지는 `/products/…` 로 분리했습니다.
 
-> ⚠️ **GitHub Pages 는 서버 리다이렉트를 지원하지 않습니다.** 기존 `.php` 주소로
-> 들어오는 방문자와 검색엔진은 301 로 넘어가지 못하고 404 페이지를 보게 됩니다.
-> 기존 주소를 살려야 하면 도메인 앞단(CDN)에서 리다이렉트를 처리하세요.
+기존 `.php` 주소 **28개 전부**가 `src/_redirects` 에서 301 로 새 주소를 가리킵니다.
+Cloudflare Pages 가 서버에서 처리하므로 기존 주소로 들어오는 방문자와 검색엔진이
+404 를 보지 않고, 검색엔진은 기존 주소의 평가를 새 주소로 넘깁니다.
+
+> GitHub Pages 를 쓰던 동안에는 이게 불가능했습니다(서버 리다이렉트 미지원).
+> Cloudflare 로 옮기면서 해결된 항목입니다.
+
+규칙이 실제 존재하는 페이지를 가리키는지는 `npm run check:links` 가 빌드마다
+확인합니다. 페이지 URL 을 바꿀 때 `src/_redirects` 를 같이 고치지 않으면
+빌드가 실패합니다.
 
 ## 콘텐츠 수정 방법
 
 콘텐츠는 대부분 `src/_data/` 안에 있습니다. 각 파일 상단 주석에 형식이 적혀 있습니다.
 
 - **연락처·주소 변경** → `src/_data/site.js`
+- **대표 이메일** → `src/_data/site.js` 의 `contact.email` **한 곳**. 헤더·푸터·
+  연락처 카드 2곳·채용 접수 안내·문의 폼 mailto 폴백·security.txt·JSON-LD 가
+  모두 여기서 나옵니다. 테스트 주소로 잠깐 바꿀 때는 코드를 고치지 말고
+  환경 변수 `CONTACT_EMAIL` 을 쓰세요 (아래 "환경 변수" 참고)
 - **제품 추가/수정** → `src/_data/catalog.js`
 - **메뉴 추가** → `src/_data/nav.js`
 - **사진 교체** → `src/images/` (경로는 기존 사이트와 동일)
 
 ## 배포
 
-**GitHub Pages 전용**입니다. `.github/workflows/deploy.yml` 이 `main` 브랜치
-푸시마다 빌드·배포합니다.
+**Cloudflare Pages (Git 연동)** 입니다. `main` 브랜치에 푸시하면 Cloudflare 가
+저장소를 가져다 직접 빌드·배포합니다. GitHub Actions 워크플로는 없습니다.
 
-**최초 1회 설정** (이걸 하지 않으면 deploy 단계가 `404 Ensure GitHub Pages has been
-enabled` 로 실패합니다. 저장소 설정이라 코드로는 켤 수 없습니다.)
+Git 연동을 고른 이유는 **API 토큰을 만들지 않기 위해서**입니다. GitHub Actions 에서
+`wrangler` 로 올리는 방식도 가능하지만, 그러려면 장기 유효한 Cloudflare 토큰을
+GitHub Secrets 에 보관해야 합니다. 회전·폐기를 챙길 사람이 없으면 그 토큰은
+그대로 방치되므로, 아예 만들지 않는 쪽을 택했습니다.
 
-1. 저장소 **Settings → Pages → Source** 를 `GitHub Actions` 로 변경
-2. **Actions → Build & Deploy → Re-run all jobs** 로 재실행
+대신 검증이 배포 경로에서 빠지지 않도록 `npm run build` 자체에 엮었습니다.
 
-이 상태에서 `https://tkddls8848.github.io/homepage/` 로 접속됩니다.
-
-### 하위 경로(`/homepage/`) 주의
-
-프로젝트 사이트는 주소에 저장소 이름이 붙습니다. 그래서 `/assets/css/main.css`,
-`/images/...` 같은 **루트 기준 경로가 모두 404** 가 되고, 결과적으로 스타일과
-이미지가 전부 사라진 것처럼 보입니다.
-
-워크플로가 `actions/configure-pages` 로 실제 배포 주소를 받아 빌드에 넘기므로
-(`PATH_PREFIX=/homepage/`) 별도 설정 없이 맞춰집니다. 로컬에서 같은 조건을
-확인하려면:
-
-```bash
-PATH_PREFIX=/homepage/ npm run build
-PATH_PREFIX=/homepage/ npm run check:links
+```
+build = verify:deps (npm audit) → eleventy → check:links
 ```
 
-커스텀 도메인(루트 배포)에서는 접두사가 붙지 않습니다.
+Cloudflare 는 `npm run build` 만 실행하지만, 취약점이 있거나 내부 링크·리다이렉트
+대상이 깨져 있으면 **빌드가 실패해 배포가 멈춥니다.** 빌드만 하려면 `build:only`.
+
+### 최초 1회 설정 (Cloudflare 대시보드)
+
+저장소 코드로는 켤 수 없는 부분이라 직접 하셔야 합니다.
+
+1. **Workers & Pages → Create → Pages → Connect to Git**
+   GitHub 앱을 승인하고 이 저장소를 선택합니다.
+
+2. **빌드 설정**
+
+   | 항목 | 값 |
+   | --- | --- |
+   | Framework preset | None |
+   | Build command | `npm run build` |
+   | Build output directory | `_site` |
+   | Root directory | (비움) |
+
+3. **환경 변수** (Settings → Environment variables)
+
+   | 이름 | 값 | 비고 |
+   | --- | --- | --- |
+   | `SITE_URL` | 배포 주소 | 아래 주의 참고 |
+
+   > **Node 버전은 설정하지 마세요.** Cloudflare Pages 는 저장소 루트의 `.nvmrc`
+   > 를 읽습니다(`24`). `NODE_VERSION` 환경 변수로도 지정할 수 있지만, 둘 다 두면
+   > 진실의 출처가 두 곳이 되어 나중에 어긋납니다. 버전을 올릴 때는 `.nvmrc`
+   > 한 곳만 고치세요.
+
+   > ⚠️ **`SITE_URL` 을 처음부터 `https://www.trialinfo.com` 으로 두지 마세요.**
+   > 도메인을 붙이기 전까지는 사이트가 `*.pages.dev` 에 있는데, canonical·OG·sitemap
+   > 이 아직 살아 있지 않은 주소를 가리키게 됩니다. 도메인 연결 전에는
+   > `https://<프로젝트>.pages.dev`, 연결 후에 `https://www.trialinfo.com` 으로
+   > 바꾸세요. (`*.pages.dev` 는 `_headers` 가 `X-Robots-Tag: noindex` 를 붙여
+   > 검색엔진이 색인하지 않으므로 중복 콘텐츠 문제는 생기지 않습니다.)
+
+4. **저장 후 첫 배포**가 돌면 `https://<프로젝트>.pages.dev` 로 접속됩니다.
 
 ### HTTPS
 
-`*.github.io` 는 GitHub 이 인증서를 제공하고 http 요청을 https 로 리다이렉트합니다.
-`http://tkddls8848.github.io/homepage/` 로 들어와도 https 로 바뀝니다.
-빌드는 canonical·OG·sitemap 주소도 실제 배포 주소(https)로 맞추므로,
-검색엔진이 http 판이나 다른 도메인을 색인하지 않습니다.
+Cloudflare 가 인증서를 무료로 발급하고 갱신합니다(Universal SSL). 커스텀 도메인도
+동일합니다. 추가로 대시보드에서 켜 주세요.
 
-### www.trialinfo.com 을 HTTPS 로 붙이기
+- **SSL/TLS → Overview → 암호화 모드: Full (strict)**
+- **SSL/TLS → Edge Certificates → Always Use HTTPS: 켬** (http 요청을 https 로 리다이렉트)
 
-GitHub Pages 는 커스텀 도메인에 Let's Encrypt 인증서를 무료로 자동 발급합니다.
-**순서를 지키는 것이 중요합니다.** DNS 가 준비되기 전에 CNAME 파일을 올리면
-사이트에 접속할 수 없게 됩니다.
+HSTS 헤더(`Strict-Transport-Security`)는 `_headers` 에서 이미 내보내므로 대시보드의
+HSTS 설정은 켜지 않아도 됩니다. 두 곳에서 켜면 값이 어긋날 때 추적이 어렵습니다.
 
-1. **DNS 레코드 추가** (도메인 등록업체 관리 화면)
+### www.trialinfo.com 붙이기
 
-   | 종류 | 이름 | 값 |
-   | --- | --- | --- |
-   | CNAME | `www` | `tkddls8848.github.io.` |
+1. **Cloudflare Pages → 프로젝트 → Custom domains → Set up a domain** 에
+   `www.trialinfo.com` 입력
+2. 화면에 표시되는 **CNAME 레코드를 도메인 등록업체 DNS 에 추가**
+   (도메인 자체를 Cloudflare 로 이관했다면 레코드가 자동 생성됩니다)
+3. 검증이 끝나면 인증서가 자동 발급됩니다 (보통 몇 분)
+4. 환경 변수 `SITE_URL` 을 `https://www.trialinfo.com` 으로 바꾸고 재배포
 
-   `trialinfo.com`(www 없는 주소)까지 함께 쓰려면 A 레코드 4개를 추가합니다.
-   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   (IPv6 는 AAAA 로 `2606:50c0:8000::153` ~ `2606:50c0:8003::153`)
+> ⚠️ 현재 `www.trialinfo.com` 은 기존 서버를 가리킵니다. DNS 를 Cloudflare 로
+> 돌리는 시점부터 기존 사이트는 보이지 않습니다. 전환 시점을 정한 뒤 진행하세요.
 
-2. **DNS 전파 확인** — `dig www.trialinfo.com CNAME +short` 가 위 값을 돌려주면 완료.
-   보통 몇 분~수 시간 걸립니다.
+### 하위 경로 배포는 이제 없습니다
 
-3. **저장소 Variables 에 `CUSTOM_DOMAIN` 추가**
-   Settings → Secrets and variables → Actions → Variables → New variable
-   이름 `CUSTOM_DOMAIN`, 값 `www.trialinfo.com`
-   → 다음 빌드에서 `CNAME` 파일이 자동 생성됩니다.
+GitHub Pages 프로젝트 사이트는 주소에 저장소 이름이 붙어서(`/homepage/`)
+`PATH_PREFIX` 로 맞춰 줘야 했습니다. Cloudflare Pages 는 루트 배포라 접두사가
+없습니다. `PATH_PREFIX` 환경 변수는 기본값 `/` 로 남겨 두었고 설정할 필요가
+없습니다.
 
-4. **Settings → Pages → Custom domain** 에 `www.trialinfo.com` 입력 후 저장.
-   DNS 검증이 끝나면 **Enforce HTTPS** 체크박스가 활성화되므로 켜 주세요.
-   (인증서 발급에 보통 15분 이내 소요)
+### 보안 헤더
 
-`CUSTOM_DOMAIN` 을 설정하면 canonical·OG·sitemap 주소가 그 도메인으로 맞춰지고
-경로 접두사도 사라집니다(루트 배포). 따로 `SITE_URL` 을 넣을 필요는 없습니다.
+`src/headers.11ty.js` 가 `_headers` 파일을 생성하고, Cloudflare Pages 가 이를
+**진짜 HTTP 응답 헤더**로 내보냅니다. `_headers` 는 생성물이므로 직접 고치지 마세요.
 
-> ⚠️ 현재 `www.trialinfo.com` 은 기존 서버를 가리키고 있습니다. 3번 이전에
-> DNS 를 GitHub 로 돌리면 그 시점부터 기존 사이트는 보이지 않습니다.
-> 전환 시점을 정한 뒤 진행하세요.
+| 헤더 | 역할 |
+| --- | --- |
+| `Content-Security-Policy` | 아래 참고 |
+| `Strict-Transport-Security` | 1년간 이 도메인은 https 로만 접속 |
+| `X-Frame-Options: DENY` | 클릭재킹 차단 (CSP 를 못 읽는 구형 브라우저용 보완) |
+| `X-Content-Type-Options: nosniff` | 브라우저의 Content-Type 추측 금지 |
+| `Referrer-Policy` | 외부로 나갈 때 전체 URL 대신 출처만 전달 |
+| `Permissions-Policy` | 위치·마이크·카메라·결제·USB 기능 차단 |
+
+```
+default-src 'self'; base-uri 'none'; object-src 'none'; frame-src 'none';
+frame-ancestors 'none'; script-src 'self';
+style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;
+connect-src 'self'; form-action 'self'; upgrade-insecure-requests
+```
+
+핵심은 `script-src 'self'` 입니다. 어떤 경로로든 스크립트가 주입되어도
+`/assets/js/main.js` 외에는 실행되지 않습니다.
+
+**GitHub Pages 시절과 달라진 점** — 그때는 헤더를 설정할 수 없어 CSP 를 `<meta>` 로
+넣었고, 그 방식에서는 `frame-ancestors` 와 HSTS 가 **무시됐습니다**. 즉 클릭재킹을
+막을 방법이 없었습니다. 지금은 둘 다 동작합니다. 정책이 두 곳으로 갈리지 않도록
+`base.njk` 의 meta 판은 제거했습니다.
+
+**의도적으로 넣지 않은 것**
+
+- `style-src` 의 `'unsafe-inline'` 은 남아 있습니다. 템플릿 여러 곳에 `style="..."`
+  속성이 있기 때문입니다 (`src/index.njk`, `src/about/*.njk`,
+  `src/it-infra/service.njk`, `src/etc/recruit.njk`). 이 속성들을 `main.css` 의
+  클래스로 옮기면 제거할 수 있습니다.
+- HSTS 에 `includeSubDomains` 와 `preload` 를 **빼 두었습니다.** 다른 하위 도메인이
+  http 로 서비스 중이면 그것들까지 접속 불가가 되고, `preload` 는 브라우저에 박혀
+  되돌리는 데 몇 달이 걸립니다. 하위 도메인을 전부 확인한 뒤 붙이세요.
+
+`FORM_ENDPOINT` 를 설정하면 그 출처가 `connect-src` 와 `form-action` 에
+자동으로 추가됩니다 (`src/_data/site.js` 의 `formEndpointOrigin`).
+CSP 가 폼 전송을 막아버리는 사고를 방지하기 위한 것입니다.
+
+### 의존성 보안
+
+- **Node 24 (LTS "Krypton")** — 버전은 `.nvmrc` 한 곳. 로컬(`nvm use`)과
+  Cloudflare 빌드 환경이 같은 파일을 읽으므로 어긋날 여지가 없습니다.
+- **Dependabot** (`.github/dependabot.yml`) — npm 의존성의 새 버전이 나오면
+  매월 PR 을 엽니다. 이 설정이 없어서 예전 GitHub Actions 들이 2~3 메이저
+  뒤처져 있었습니다. PR 은 자동 병합되지 않으니 확인 후 병합하세요.
+  (`github-actions` 항목은 워크플로를 없앤 뒤에도 남겨 뒀습니다. 나중에 액션을
+  다시 쓰게 되면 그때부터 자동으로 따라갑니다.)
+- **`npm audit --audit-level=high`** — `npm run build` 의 첫 단계입니다.
+  고위험 취약점이 있으면 빌드가 실패해 배포가 멈춥니다.
+- **`/.well-known/security.txt`** (RFC 9116) — 취약점 발견자가 연락할 곳.
+  `src/security-txt.11ty.js` 가 생성하며, 필수 필드인 `Expires` 는 빌드할 때마다
+  1년 뒤로 다시 계산됩니다(만료된 채 방치되지 않도록).
+
+### 문의 폼 수신 (Web3Forms)
+
+원본 사이트는 `<form action="./inquiry_post.php">` 로 **서버가 문의를 받았습니다.**
+정적 호스팅에는 서버가 없으므로, 그 자리를 Web3Forms 가 대신합니다.
+무료 250건/월이고 문의는 `master@trialinfo.com` 으로 도착합니다.
+
+**설정 (1회)**
+
+1. <https://web3forms.com> 에서 `master@trialinfo.com` 을 입력해 **Access Key** 발급
+   (메일로 옵니다. 가입 절차 없음)
+2. Cloudflare Pages → Settings → Environment variables 에 **두 개** 추가
+
+   | 이름 | 값 |
+   | --- | --- |
+   | `FORM_ENDPOINT` | `https://api.web3forms.com/submit` |
+   | `FORM_ACCESS_KEY` | 발급받은 키 |
+
+3. 재배포
+
+**동작**
+
+- 설정하면 `fetch` 로 전송 → 누르면 바로 접수 (원본과 같은 사용감)
+- **전송에 실패하면 자동으로 mailto 로 넘어갑니다.** 서비스 장애나 월 한도
+  초과로 문의가 통째로 사라지는 일이 없습니다
+- `FORM_ENDPOINT` 를 비우면 mailto 로만 동작합니다 (되돌리기가 변수 하나)
+
+**설계 메모**
+
+- `access_key` 는 **비밀이 아닙니다.** 이 키로 할 수 있는 일은 등록된 주소로
+  폼을 보내는 것뿐이라 클라이언트에 노출되는 것이 정상 설계입니다. Secret 이
+  아니라 일반 환경 변수로 두세요.
+- **답장 주소는 자동입니다.** Web3Forms 가 폼의 `email` 필드를 reply-to 로
+  잡으므로, 받은 메일에서 그냥 답장하면 문의자에게 갑니다.
+- 엔드포인트 출처(`https://api.web3forms.com`)는 CSP 의 `connect-src`·`form-action`
+  에 **자동으로 추가**됩니다. CSP 가 전송을 막는 사고를 방지합니다.
+- `FORM_ENDPOINT` 가 Web3Forms 인데 `FORM_ACCESS_KEY` 가 없으면 **빌드가
+  실패합니다.** 그 조합은 전송이 전부 거부되는데, 화면상으로는 멀쩡해 보여서
+  문의가 조용히 사라지기 때문입니다.
+
+### 문의 폼 검증
+
+`src/contact/inquiry.njk` 와 `src/assets/js/main.js` 의 `initForm()` 입니다.
+입력 길이 제한은 `src/_data/site.js` 의 `formLimits` 한 곳에서 관리하고
+템플릿의 `maxlength` 와 JS 검증이 같은 값을 씁니다.
+
+- **개인정보 수집·이용 동의 체크박스** — 개인정보 보호법 제15조. 고지해야 하는
+  4항목(수집 항목·이용 목적·보유 기간·거부 권리와 불이익)을 폼에 직접 적고
+  개인정보취급방침으로 링크합니다. 체크하지 않으면 전송되지 않습니다.
+  별도 저장소가 없으므로 동의 시각은 문의 메일 본문에 함께 기록됩니다.
+- **길이·형식 검증** — 브라우저 기본 검사(`required`/`type`/`pattern`/`maxlength`)
+  위에, 공백만 입력·길이 초과·제어문자를 JS 에서 한 번 더 걸러냅니다.
+  (`required` 는 `"   "` 를 통과시키고, `maxlength` 는 자동완성으로 들어온
+  값이나 개발자 도구로 속성을 지운 폼은 막지 못합니다.)
+- **봇·중복 전송** — 함정 필드 2종(`_gotcha` 는 우리 JS 가, `botcheck` 는
+  Web3Forms 서버가 확인), 페이지를 연 지 3초 안의 제출 차단, 전송 중 재클릭 차단.
 
 ### 환경 변수
+
+Cloudflare Pages 대시보드의 **Settings → Environment variables** 에서 설정합니다.
+`.env` 파일은 쓰지 않습니다 — 이 프로젝트에는 `.env` 를 읽는 코드가 없고
+(`dotenv` 의존성 없음), 빌드를 실행하는 환경이 `process.env` 로 직접 주입합니다.
 
 | 이름 | 용도 | 기본값 |
 | --- | --- | --- |
 | `SITE_URL` | canonical·OG·sitemap 에 쓰는 사이트 주소 (항상 https 로 정규화됨) | `https://www.trialinfo.com` |
-| `PATH_PREFIX` | 하위 경로 배포용 접두사 (예: `/homepage/`) | `/` |
-| `FORM_ENDPOINT` | 문의 폼을 받을 주소. 비우면 메일 클라이언트(mailto)로 대체 | (없음) |
-| `CUSTOM_DOMAIN` | 설정하면 `CNAME` 생성 + 루트 배포로 간주 | (없음) |
+| `FORM_ENDPOINT` | 문의 폼을 받을 주소. 비우면 mailto 로 대체. 설정하면 그 출처가 CSP 에 자동 추가됨 | (없음) |
+| `FORM_ACCESS_KEY` | Web3Forms access key. 공개 키라 Secret 이 아닙니다 | (없음) |
+| `CONTACT_EMAIL` | 사이트에 표시되는 대표 이메일 전체를 덮어씁니다 (테스트용) | `master@trialinfo.com` |
+| `PATH_PREFIX` | 하위 경로 배포용 접두사. Cloudflare 는 루트 배포라 쓸 일이 없습니다 | `/` |
 
-GitHub Actions 배포에서는 `SITE_URL` 과 `PATH_PREFIX` 를 워크플로가 실제 배포
-주소에서 계산하므로 직접 넣지 않아도 됩니다. 저장소 Variables 로는
-`CUSTOM_DOMAIN` 과 `FORM_ENDPOINT` 만 다루면 됩니다.
+실제로 손댈 것은 `SITE_URL` 과 폼 관련 2개입니다. Node 버전은 `.nvmrc` 가 담당합니다.
+
+여기 값들은 **비밀이 아닙니다.** `SITE_URL` 과 `FORM_ENDPOINT` 는 빌드 결과 HTML 에
+그대로 들어가 공개되므로, Secret 저장소에 넣을 성격이 아닙니다.
+
+로컬에서 값을 바꿔 확인하려면 명령 앞에 붙이면 됩니다.
+
+```bash
+SITE_URL=https://example.pages.dev npm run build          # Git Bash
+$env:SITE_URL="https://example.pages.dev"; npm run build  # PowerShell
+```
 
 ## 남은 작업
 

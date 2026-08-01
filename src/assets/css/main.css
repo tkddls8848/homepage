@@ -1730,6 +1730,32 @@
     accent-color: var(--brand-600);
   }
 
+  .form__consent label {
+    line-height: 1.7;
+  }
+
+  .form__consent b {
+    color: var(--ink-900);
+    font-weight: 700;
+  }
+
+  /* 동의하지 않고 전송을 시도했을 때. 체크박스가 .field 의 직계 자식이 아니라
+     기존의 `:user-invalid ~ .field__error` 규칙이 닿지 않으므로 따로 둡니다. */
+  .form__consent input:user-invalid {
+    outline: 2px solid var(--state-error);
+    outline-offset: 2px;
+  }
+
+  .field:has(.form__consent input:user-invalid) .field__error {
+    display: block;
+  }
+
+  /* 글자 수 초과가 임박했을 때 */
+  .field__hint[data-state="warn"] {
+    color: var(--state-error);
+    font-weight: 600;
+  }
+
   .form__actions {
     display: flex;
     flex-wrap: wrap;

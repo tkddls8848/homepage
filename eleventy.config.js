@@ -12,6 +12,11 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/images": "images" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
+  // Cloudflare Pages 설정 파일. 출력 루트에 그대로 놓여야 인식됩니다.
+  // (`_headers` 는 CSP 에 폼 엔드포인트를 끼워 넣어야 해서 정적 파일이 아니라
+  //  src/headers.11ty.js 가 생성합니다.)
+  eleventyConfig.addPassthroughCopy({ "src/_redirects": "_redirects" });
+
   eleventyConfig.addWatchTarget("src/assets/");
 
   // ── 필터 ───────────────────────────────────────────────────────────────
@@ -91,14 +96,13 @@ export default function (eleventyConfig) {
   return {
     /**
      * 하위 경로 배포 지원.
-     * GitHub Pages 의 프로젝트 사이트는 https://<계정>.github.io/<저장소>/ 처럼
-     * 저장소 이름이 경로에 붙습니다. 이때 `/assets/css/main.css` 같은 루트 기준
-     * 경로는 모두 404 가 되고(그래서 CSS·이미지가 전부 사라져 보입니다),
-     * pathPrefix 를 주면 `url` 필터가 앞에 경로를 붙여 줍니다.
      *
-     *   PATH_PREFIX=/homepage/ npm run build
+     * Cloudflare Pages 는 루트에 배포하므로 평소에는 기본값 "/" 그대로입니다.
+     * (GitHub Pages 프로젝트 사이트를 쓸 때는 주소에 저장소 이름이 붙어서
+     *  이 값이 반드시 필요했습니다. 지금은 설정할 일이 없습니다.)
      *
-     * 커스텀 도메인(www.trialinfo.com) 처럼 루트에 배포할 때는 설정하지 않습니다.
+     * 하위 경로에 올릴 일이 생기면 템플릿의 `| url` 필터가 접두사를 붙여 주므로
+     * 이 변수만 주면 됩니다:  PATH_PREFIX=/sub/ npm run build
      */
     pathPrefix: process.env.PATH_PREFIX || "/",
 
