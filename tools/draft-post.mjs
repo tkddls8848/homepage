@@ -1,11 +1,11 @@
 /**
- * IBM Bob (Bob Shell) 로 기술 블로그 초안을 만듭니다.
+ * Cloudflare Workers AI 의 IBM Granite 로 기술 블로그 초안을 만듭니다.
  *
  *   node tools/draft-post.mjs
  *
  * 흐름
  *   1. 지정한 RSS 피드에서 최근 IT 인프라 기사의 제목·링크·발행일을 모읍니다.
- *   2. 그 목록(제목과 링크만)을 Bob Shell 에 넘겨 한국어 초안을 받습니다.
+ *   2. 그 목록(제목과 링크만)을 Granite 에 넘겨 한국어 초안을 받습니다.
  *   3. src/blog/posts/ 에 draft: true 인 Markdown 파일로 저장합니다.
  *
  * 저장된 글은 draft: true 라서 사이트에 나오지 않습니다. 사람이 읽고 고친 뒤
@@ -16,26 +16,32 @@
  *    "무슨 일이 있었는지"만 알려 주고 회사 관점의 글을 새로 쓰게 합니다.
  *    참고한 기사는 본문에 옮기지 않고 원문 링크로만 남깁니다.
  *
- * ⚠️ Bob 은 텍스트 생성 API 가 아니라 에이전트입니다. 파일을 읽고 쓰고 명령을
- *    실행할 수 있으므로, 저장소가 아니라 **빈 임시 디렉터리**에서 실행합니다.
- *    글 파일은 Bob 이 아니라 이 스크립트가 직접 씁니다. 에이전트가 저장소를
- *    임의로 고치는 경로를 아예 만들지 않기 위한 것입니다.
+ * 왜 Cloudflare 인가:
+ * Granite 는 IBM 이 Apache 2.0 으로 공개한 모델이고, Cloudflare Workers AI 가
+ * 이를 호스팅합니다. 모델을 내려받아 돌리지 않으므로 실행하는 쪽(로컬이든
+ * CI 든)에 부담이 없고, 무료 한도(하루 10,000 Neurons)가 주 1회 초안 생성에는
+ * 넉넉합니다.
  *
  * 필요한 환경 변수 (GitHub Secrets)
- *   BOBSHELL_API_KEY   IBM Bob API 키
- *   BOBSHELL_BIN       (선택) 실행 파일 경로. 기본값 "bob"
+ *   CF_ACCOUNT_ID   Cloudflare 계정 ID
+ *   CF_API_TOKEN    Workers AI 권한을 가진 API 토큰
+ *   CF_AI_MODEL     (선택) 기본값은 아래 DEFAULT_MODEL
  */
-import { writeFileSync, existsSync, mkdirSync, mkdtempSync } from "node:fs";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
-import { tmpdir } from "node:os";
+import { writeFileSync, existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
 
-const execFileAsync = promisify(execFile);
 const POSTS_DIR = path.resolve("src/blog/posts");
 
-/** Bob 이 응답을 만드는 데 줄 최대 시간 */
-const BOB_TIMEOUT_MS = 5 * 60 * 1000;
+/** Cloudflare Workers AI 가 호스팅하는 IBM Granite. */
+const DEFAULT_MODEL = "@cf/ibm-granite/granite-4.0-h-micro";
+
+const GENERATE_TIMEOUT_MS = 3 * 60 * 1000;
+
+const env = (name) => {
+  const value = process.env[name];
+  if (!value) throw new Error(`환경 변수 ${name} 가 필요합니다.`);
+  return value;
+};
 
 /**
  * 어떤 기사를 모을지.
@@ -68,12 +74,6 @@ const MAX_ARTICLES = 8;
 
 /** 며칠 이내 기사만 볼지 */
 const WINDOW_DAYS = 7;
-
-const env = (name, required = true) => {
-  const value = process.env[name];
-  if (required && !value) throw new Error(`환경 변수 ${name} 가 필요합니다.`);
-  return value;
-};
 
 /* ── 1. 기사 수집 ────────────────────────────────────────────────────────
    의존성을 늘리지 않으려고 정규식으로 읽습니다. RSS 는 구조가 단순해서
@@ -144,74 +144,98 @@ async function collectArticles() {
   return articles.sort((a, b) => b.at - a.at).slice(0, MAX_ARTICLES);
 }
 
-/* ── 2. Bob Shell 호출 ──────────────────────────────────────────────────── */
+/* ── 2. Granite 호출 (Cloudflare Workers AI) ──────────────────────────────────────────────────── */
 function buildPrompt(articles) {
   const list = articles.map((a, i) => `${i + 1}. ${a.title} (${a.publisher})`).join("\n");
 
-  return `이것은 글쓰기 작업입니다. 코드 작업이 아닙니다.
-파일을 만들거나 고치지 말고, 명령을 실행하지 말고, 웹을 검색하지 마세요.
-아래 요청에 대한 글만 그대로 출력하면 됩니다.
+  return `출력 형식을 반드시 지키세요. 다른 말은 덧붙이지 마세요.
 
-당신은 IT 인프라 전문기업 "(주)트라이얼정보통신"의 기술 블로그 필자입니다.
-이 회사는 IBM·Lenovo·Dell 서버와 스토리지를 공급하고, IT 인프라 컨설팅·구축·유지보수를 합니다.
+TITLE: (여기에 글 제목 한 줄)
+SUMMARY: (여기에 한 줄 요약)
+
+(빈 줄 뒤부터 본문 Markdown. 구분선 --- 은 쓰지 마세요.)
+
+당신은 IT 인프라 업계를 지켜보는 한국어 기술 블로그 필자입니다.
+독자는 서버·스토리지 도입을 검토하는 기업의 실무 담당자입니다.
 
 아래는 최근 일주일 업계 기사 제목입니다.
 
 ${list}
 
-이 제목들을 참고해 한국어 기술 블로그 글의 초안을 쓰세요. 규칙:
+이 흐름을 보고 담당자가 알아둘 만한 점을 짚는 글을 쓰세요.
 
-- 기사 본문을 옮기거나 요약하지 마세요. 제목에서 읽히는 흐름만 참고해, 회사의 시각에서 새로 쓰세요.
-- 확실하지 않은 수치·날짜·제품명은 쓰지 마세요. 모르면 쓰지 않는 편이 낫습니다.
-- 서버·스토리지 도입을 검토하는 기업 담당자가 읽는다고 생각하고, 그들에게 무엇이 중요한지 짚으세요.
-- 홍보 문구나 과장된 표현은 쓰지 마세요.
-- 분량은 600~900자. 소제목 2~3개를 ## 로 넣으세요.
-- 출력은 본문 Markdown 만. 제목(h1)이나 머리말은 넣지 마세요.
-
-첫 줄에 "TITLE: " 로 시작하는 글 제목 한 줄, 둘째 줄에 "SUMMARY: " 로 시작하는 한 줄 요약을 쓰고,
-빈 줄 뒤부터 본문을 쓰세요.`;
+지켜야 할 것:
+- **기사에 등장하는 회사·제품을 특정 회사가 공급하거나 제공한다고 쓰지 마세요.**
+  기사 제목에 나온 이름은 그 기사 속 주체일 뿐입니다. 누가 무엇을 파는지
+  당신은 모릅니다.
+- 확실하지 않은 수치·날짜·제품명·기업명은 아예 쓰지 마세요. 모르면 빼세요.
+- 특정 회사를 홍보하지 마세요. "최선을 다합니다", "지원합니다", "제공합니다"
+  같은 표현을 쓰지 마세요. 업계를 관찰하고 해석하는 글입니다.
+- 기사 본문을 옮기거나 요약하지 마세요. 제목에서 읽히는 흐름만 참고하세요.
+- 소제목(##)은 2개 또는 3개까지만. 결론 절은 넣지 마세요.
+- 분량은 600~900자.
+- 제목(#)은 본문에 넣지 마세요. TITLE 줄에만 씁니다.`;
 }
 
-/** 터미널 색상 코드 제거. Bob Shell 출력에 섞여 들어옵니다. */
-// eslint-disable-next-line no-control-regex
-const stripAnsi = (s) => s.replace(/\u001B\[[0-9;]*[A-Za-z]/g, "");
-
 async function generate(articles) {
-  // 키 자체는 Bob 이 환경 변수에서 직접 읽습니다. 여기서는 있는지만 확인해,
-  // 없을 때 Bob 의 낯선 오류 대신 알아보기 쉬운 메시지를 내보냅니다.
-  env("BOBSHELL_API_KEY");
+  const accountId = env("CF_ACCOUNT_ID");
+  const token = env("CF_API_TOKEN");
+  const model = process.env.CF_AI_MODEL || DEFAULT_MODEL;
 
-  const bin = process.env.BOBSHELL_BIN || "bob";
+  console.log(`  모델: ${model}`);
 
-  /*
-   * 저장소가 아니라 빈 임시 디렉터리에서 실행합니다.
-   * Bob 은 에이전트라 실행 위치의 파일을 읽고 고칠 수 있습니다. 초안 글을
-   * 받아오는 것이 목적이므로, 애초에 건드릴 것이 없는 곳에서 돌립니다.
-   */
-  const cwd = mkdtempSync(path.join(tmpdir(), "bob-draft-"));
+  const url = `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${model}`;
 
-  let stdout;
+  let res;
   try {
-    // 인자를 배열로 넘기므로 셸 인용 문제가 없습니다(프롬프트에 따옴표·줄바꿈이
-    // 들어가도 그대로 전달됩니다).
-    ({ stdout } = await execFileAsync(
-      bin,
-      ["--auth-method", "api-key", "-p", buildPrompt(articles)],
-      { cwd, timeout: BOB_TIMEOUT_MS, maxBuffer: 10 * 1024 * 1024 }
-    ));
+    res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content:
+              "당신은 한국어로 글을 쓰는 IT 인프라 분야 기술 블로그 필자입니다. " +
+              "요청받은 형식을 정확히 지키고, 확인되지 않은 사실은 쓰지 않습니다.",
+          },
+          { role: "user", content: buildPrompt(articles) },
+        ],
+        // 기본값 256 은 글 한 편에 턱없이 모자랍니다.
+        max_tokens: 1500,
+        // 낮출수록 지시를 잘 지킵니다. 초안이라 창의성보다 그쪽이 중요합니다.
+        temperature: 0.4,
+      }),
+      signal: AbortSignal.timeout(GENERATE_TIMEOUT_MS),
+    });
   } catch (error) {
-    if (error.code === "ENOENT") {
-      throw new Error(
-        `Bob Shell 실행 파일을 찾지 못했습니다 ("${bin}").\n` +
-          "설치: curl -fsSL https://bob.ibm.com/download/bobshell.sh | bash\n" +
-          "다른 경로에 있으면 BOBSHELL_BIN 환경 변수로 지정하세요."
-      );
-    }
-    throw new Error(`Bob Shell 실행 실패: ${error.message}`);
+    throw new Error(`Cloudflare Workers AI 호출에 실패했습니다: ${error.message}`);
   }
 
-  const text = stripAnsi(stdout).trim();
-  if (!text) throw new Error("Bob Shell 이 아무 내용도 돌려주지 않았습니다.");
+  const json = await res.json().catch(() => null);
+
+  if (!res.ok || !json?.success) {
+    const detail = json?.errors?.map((e) => `${e.code} ${e.message}`).join(", ") || (await res.text().catch(() => ""));
+    if (res.status === 401 || res.status === 403) {
+      throw new Error(
+        `인증에 실패했습니다 (HTTP ${res.status}).\n` +
+          "  CF_API_TOKEN 에 Workers AI 권한이 있는지, CF_ACCOUNT_ID 가 맞는지 확인하세요.\n" +
+          `  응답: ${detail}`
+      );
+    }
+    throw new Error(`Cloudflare Workers AI 오류: HTTP ${res.status} ${detail}`);
+  }
+
+  const text = (json.result?.response || "").trim();
+  if (!text) throw new Error("Cloudflare Workers AI 응답이 비어 있습니다.");
+
+  const used = json.result?.usage;
+  if (used) {
+    console.log(`  토큰: 입력 ${used.prompt_tokens ?? "?"} / 출력 ${used.completion_tokens ?? "?"}`);
+  }
   return text;
 }
 
@@ -222,9 +246,9 @@ function saveDraft(generated, articles) {
   const lines = generated.split("\n");
 
   /*
-   * Bob 은 에이전트라 배너나 진행 상황을 먼저 찍을 수 있고, 줄 앞에 공백이
-   * 붙기도 합니다. 인덱스를 직접 찾아 두어야 합니다 — 값으로 indexOf 를 하면
-   * 표시가 없을 때 빈 문자열을 찾아 엉뚱한 빈 줄을 가리킵니다.
+   * 모델이 표시 앞에 공백이나 군더더기를 붙이는 일이 흔합니다.
+   * 인덱스를 직접 찾아 두어야 합니다 — 값으로 indexOf 를 하면 표시가 없을 때
+   * 빈 문자열을 찾아 엉뚱한 빈 줄을 가리킵니다.
    */
   const findIndex = (marker) => lines.findIndex((l) => l.trimStart().startsWith(marker));
   const titleAt = findIndex("TITLE:");
@@ -284,7 +308,7 @@ if (articles.length === 0) {
   process.exit(0);
 }
 
-console.log("IBM Bob 으로 초안 생성 중…");
+console.log("IBM Granite 로 초안 생성 중…");
 const generated = await generate(articles);
 
 const file = saveDraft(generated, articles);

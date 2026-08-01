@@ -297,25 +297,37 @@ draft: true                   # 있으면 발행되지 않음
 **`draft: true` 인 글은 페이지 자체가 만들어지지 않습니다.** 목록에서만 빼면
 주소를 아는 사람에게는 열리므로, 검토 전 글이 공개된 것과 같기 때문입니다.
 
-### AI 초안 (IBM Bob)
+### AI 초안 (IBM Granite)
 
 `.github/workflows/draft-post.yml` 이 매주 월요일에 돌면서, 업계 기사를 모아
-IBM Bob 으로 초안을 만들고 **PR 을 엽니다.** 자동 발행이 아닙니다 —
+IBM Granite 로 초안을 만들고 **PR 을 엽니다.** 자동 발행이 아닙니다 —
 사람이 읽고 `draft: true` 를 지워야 사이트에 나옵니다.
 
 ```
-RSS 수집 → 키워드로 선별 → Bob Shell 로 초안 → draft PR → (사람 검토) → 발행
+RSS 수집 → 키워드로 선별 → Granite 로 초안 → draft PR → (사람 검토) → 발행
 ```
 
-수동 실행: `npm run draft:post` (Bob Shell 설치 + `BOBSHELL_API_KEY` 필요)
+**Cloudflare Workers AI** 가 호스팅하는 Granite(`@cf/ibm-granite/granite-4.0-h-micro`)
+를 호출합니다. 모델을 내려받아 돌리지 않으므로 실행하는 쪽(로컬이든 CI 든)에
+부담이 없고, 무료 한도(하루 10,000 Neurons)가 주 1회 초안 생성에는 넉넉합니다.
+
+**필요한 Secret** (저장소 Settings → Secrets and variables → Actions)
+
+| 이름 | 내용 |
+| --- | --- |
+| `CF_ACCOUNT_ID` | Cloudflare 계정 ID |
+| `CF_API_TOKEN` | Workers AI 권한을 가진 API 토큰 |
+
+둘 다 Cloudflare 대시보드 → **Workers AI → Use REST API** 에서 받습니다.
+토큰 권한은 Workers AI 로만 좁히세요.
+
+> 사이트 빌드와 무관하므로 Cloudflare 환경 변수가 아니라 **GitHub Secrets** 에
+> 넣습니다. 초안 생성은 GitHub Actions 에서만 돕니다.
+
+로컬에서 확인하려면 같은 값을 환경 변수로 주고 `npm run draft:post`.
 
 **설계상 정한 것**
 
-- **Bob 은 저장소 밖 빈 임시 디렉터리에서 실행합니다.** Bob 은 텍스트 생성
-  API 가 아니라 **에이전트**라 파일을 읽고 쓰고 명령을 실행할 수 있습니다.
-  우리에게 필요한 건 글 한 편이므로, 애초에 건드릴 것이 없는 곳에서 돌리고
-  글 파일은 Bob 이 아니라 스크립트가 직접 씁니다. 프롬프트에도 "글쓰기 작업이며
-  파일·명령을 건드리지 말라"고 명시했습니다.
 - **기사 본문을 모델에 넣지 않습니다.** 제목과 링크만 넘기고, 회사 관점의 글을
   새로 쓰게 합니다. 기사를 요약해 옮기면 저작권 문제가 될 수 있습니다.
   참고한 기사는 본문에 옮기지 않고 **원문 링크로만** 남깁니다.
@@ -325,17 +337,29 @@ RSS 수집 → 키워드로 선별 → Bob Shell 로 초안 → draft PR → (�
   (`tools/draft-post.mjs` 의 `KEYWORDS`). 실행 로그에 매체별 수집·선별 건수가
   찍히므로, 피드 주소가 바뀌어 0건이 되는 상황을 알아챌 수 있습니다.
 
-**필요한 Secret** (저장소 Settings → Secrets and variables → Actions)
-
-| 이름 | 내용 |
-| --- | --- |
-| `BOBSHELL_API_KEY` | IBM Bob API 키 |
-
-> **진짜 비밀입니다.** 사이트 빌드와 무관하므로 Cloudflare 가 아니라
-> GitHub Secrets 에 넣으세요. 초안 생성은 GitHub Actions 에서만 돕니다.
+**모델을 바꾸려면** `CF_AI_MODEL` 환경 변수로 지정합니다
+([Workers AI 모델 목록](https://developers.cloudflare.com/workers-ai/models/)).
 
 **다른 LLM 으로 바꾸려면** `tools/draft-post.mjs` 의 `generate()` 함수 하나만
 고치면 됩니다. 수집·선별·저장은 그 함수와 분리되어 있습니다.
+
+> IBM 의 LLM 을 쓰는 다른 길도 있습니다 — **watsonx.ai**(텍스트 생성 API, 유료),
+> **IBM Bob**(코딩 에이전트, 크레딧제), **Ollama 로 자체 구동**(무료지만 모델을
+> 2~4GB 내려받아 CPU 로 돌려야 함). 지금은 부담이 가장 적은 Cloudflare 를 씁니다.
+
+### 초안 품질에 대해
+
+로컬에서 Granite 3B·7B 판으로 실제 생성해 본 결과, **그대로 쓸 수준이 아닙니다.**
+확인된 것들:
+
+- 기사 제목을 잘못 읽어 **사실이 아닌 문장**을 만들어 냈습니다(해법을 제시한
+  회사를 문제를 겪는 회사로 서술).
+- 소제목 개수·결론 금지 같은 형식 지시를 자주 어깁니다.
+- 각 기사에 소제목 하나씩 붙이는 나열식이 되기 쉽습니다.
+
+그래서 이 파이프라인의 값어치는 "완성된 글"이 아니라 **① 매주 관련 기사를 골라
+주는 것 ② 뼈대를 잡아 주는 것** 입니다. `draft: true` 검토 관문이 선택이 아니라
+필수인 이유이기도 합니다. 특히 **사실관계는 반드시 원문과 대조**하세요.
 
 ### 문의 폼 수신 (Web3Forms)
 
