@@ -1,0 +1,59 @@
+# 기존 사이트(.php) 주소 → 새 주소. Cloudflare Pages 가 301 로 넘겨 줍니다.
+#
+# GitHub Pages 에서는 서버 리다이렉트가 불가능해서, 기존 주소로 들어오는
+# 방문자와 검색엔진이 그대로 404 를 봤습니다. Cloudflare 로 옮기면서 해결됩니다.
+#
+# 301(영구 이동)을 쓰는 이유: 검색엔진이 기존 주소의 평가를 새 주소로 넘기고
+# 색인을 교체합니다. 302(임시)면 기존 주소를 계속 붙들고 있습니다.
+#
+# 문법: [원본] [대상] [상태코드]
+# 한도: 정적 2,000개 / 동적 100개. 아래는 28개라 여유가 많습니다.
+
+# 기존 사이트는 index.php 자체가 IBM Power 제품 페이지였습니다.
+# 새 구조에서는 / 가 회사 소개 성격의 홈이라, 제품 페이지로 보냅니다.
+/index.php                          /products/ibm/power-unix-server/   301
+
+# 회사 소개
+/about-us_about.php                 /about/                            301
+/about-us_division.php              /about/division/                   301
+/about-us_history.php               /about/history/                    301
+
+# 채용
+/career.php                         /career/                           301
+/etc_recruit.php                    /etc/recruit/                      301
+
+# 문의
+/contact-us_contact.php             /contact/                          301
+/contact-us_inquiry.php             /contact/inquiry/                  301
+
+# 기타
+/etc_ethics.php                     /etc/ethics/                       301
+/etc_privacy-policy.php             /etc/privacy-policy/               301
+
+# IT 인프라 서비스
+/it-infra-service_consulting.php    /it-infra/                         301
+/it-infra-service_it-infra-build.php /it-infra/build/                  301
+/it-infra-service_maintenance.php   /it-infra/maintenance/             301
+
+# 제품 — IBM
+/product_ibm_linux-on-power.php     /products/ibm/linux-on-power/      301
+/product_ibm_storage.php            /products/ibm/storage/             301
+
+# 제품 — Lenovo
+/product_lenovo_x86-server.php      /products/lenovo/x86-server/       301
+/product_lenovo_gpu-server.php      /products/lenovo/gpu-server/       301
+/product_lenovo_hci-server.php      /products/lenovo/hci-server/       301
+/product_lenovo_storage.php         /products/lenovo/storage/          301
+
+# 제품 — Dell
+/product_dell_x86-server.php        /products/dell/x86-server/         301
+/product_dell_gpu-server.php        /products/dell/gpu-server/         301
+/product_dell_hci-server.php        /products/dell/hci-server/         301
+/product_dell_storage.php           /products/dell/storage/            301
+
+# 제품 — S/W
+/product_sw_ibm-spectrum-scale.php  /products/sw/ibm-spectrum-scale/   301
+/product_sw_ibm-db2.php             /products/sw/ibm-db2/              301
+/product_sw_ibm-web-sphere.php      /products/sw/ibm-web-sphere/       301
+/product_sw_ibm-instana.php         /products/sw/ibm-instana/          301
+/product_sw_cider.php               /products/sw/cider/                301

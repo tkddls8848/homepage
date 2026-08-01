@@ -11,10 +11,28 @@ cta: false
   <div class="container container--narrow">
     <form class="form" data-inquiry-form
           {% if site.formEndpoint %}action="{{ site.formEndpoint }}"{% endif %}
-          method="post" data-mailto="{{ site.contact.email }}" novalidate>
+          method="post" data-mailto="{{ site.contact.email }}"
+          data-limits="{{ site.formLimits | dump }}" novalidate>
+      {#-
+        Web3Forms 설정값. FORM_ACCESS_KEY 가 있을 때만 나갑니다.
+        access_key 는 공개 키입니다(등록된 주소로 전송만 가능). 노출이 정상입니다.
+        replyto 는 따로 넣지 않습니다 — Web3Forms 가 `email` 필드를 자동으로
+        답장 주소로 잡아 주므로, 받은 메일에서 바로 답장하면 문의자에게 갑니다.
+      -#}
+      {%- if site.formAccessKey %}
+      <input type="hidden" name="access_key" value="{{ site.formAccessKey }}">
+      <input type="hidden" name="from_name" value="{{ site.name }} 홈페이지">
+      {%- endif %}
+
+      {#-
+        스팸 봇 함정 2종. 사람에게는 보이지 않고, 채워져 있으면 전송을 막습니다.
+          _gotcha  — 우리 JS 가 전송 직전에 확인 (서버로는 보내지 않음)
+          botcheck — Web3Forms 서버가 확인하는 규격 필드 (checkbox 여야 함)
+      -#}
       <div class="form__honeypot" aria-hidden="true">
         <label for="_gotcha">이 칸은 비워 두세요</label>
         <input type="text" id="_gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
       </div>
 
       <fieldset class="field">
@@ -26,35 +44,44 @@ cta: false
       <div class="form__row">
         <div class="field">
           <label class="field__label" for="name">성명 <span class="field__req" aria-hidden="true">*</span></label>
-          <input type="text" id="name" name="name" placeholder="성명을 입력해주세요." required autocomplete="name">
+          <input type="text" id="name" name="name" placeholder="성명을 입력해주세요." required
+                 maxlength="{{ site.formLimits.name }}" autocomplete="name">
           <p class="field__error">성명을 입력해 주세요.</p>
         </div>
         <div class="field">
           <label class="field__label" for="position">직책</label>
-          <input type="text" id="position" name="position" placeholder="직책을 입력해주세요." autocomplete="organization-title">
+          <input type="text" id="position" name="position" placeholder="직책을 입력해주세요."
+                 maxlength="{{ site.formLimits.position }}" autocomplete="organization-title">
         </div>
       </div>
 
       <div class="form__row">
         <div class="field">
           <label class="field__label" for="company">회사명</label>
-          <input type="text" id="company" name="company" placeholder="회사명을 입력해주세요." autocomplete="organization">
+          <input type="text" id="company" name="company" placeholder="회사명을 입력해주세요."
+                 maxlength="{{ site.formLimits.company }}" autocomplete="organization">
         </div>
         <div class="field">
           <label class="field__label" for="department">부서명</label>
-          <input type="text" id="department" name="department" placeholder="부서명을 입력해주세요.">
+          <input type="text" id="department" name="department" placeholder="부서명을 입력해주세요."
+                 maxlength="{{ site.formLimits.department }}">
         </div>
       </div>
 
       <div class="form__row">
         <div class="field">
           <label class="field__label" for="phone">연락처 <span class="field__req" aria-hidden="true">*</span></label>
-          <input type="tel" id="phone" name="phone" placeholder="연락처를 입력해주세요." required autocomplete="tel">
-          <p class="field__error">연락처를 입력해 주세요.</p>
+          {#- 숫자·하이픈·괄호·공백·국가번호(+)만 허용. 링크나 문장이 들어오는 것을 막습니다. -#}
+          <input type="tel" id="phone" name="phone" placeholder="연락처를 입력해주세요." required
+                 maxlength="{{ site.formLimits.phone }}" inputmode="tel"
+                 pattern="[0-9+()\-. ]{{ '{' }}7,{{ site.formLimits.phone }}{{ '}' }}"
+                 autocomplete="tel">
+          <p class="field__error">숫자와 - 만 사용해 연락처를 입력해 주세요.</p>
         </div>
         <div class="field">
           <label class="field__label" for="email">이메일 <span class="field__req" aria-hidden="true">*</span></label>
-          <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required autocomplete="email">
+          <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required
+                 maxlength="{{ site.formLimits.email }}" autocomplete="email">
           <p class="field__error">이메일 형식을 확인해 주세요.</p>
         </div>
       </div>
@@ -68,8 +95,32 @@ cta: false
       </fieldset>
       <div class="field">
         <label class="sr-only" for="message">문의내용</label>
-        <textarea id="message" name="message" placeholder="문의내용을 입력해주세요." required></textarea>
+        <textarea id="message" name="message" placeholder="문의내용을 입력해주세요." required
+                  maxlength="{{ site.formLimits.message }}"></textarea>
+        <p class="field__hint"><span data-count-for="message">0</span> / {{ site.formLimits.message }}자</p>
         <p class="field__error">문의 내용을 입력해 주세요.</p>
+      </div>
+
+      {#-
+        개인정보 수집·이용 동의 (개인정보 보호법 제15조).
+        성명·연락처·이메일을 받는 이상 동의 없이 수집할 수 없습니다.
+        고지해야 하는 4가지(목적·항목·보유기간·거부 권리와 불이익)를 모두 적습니다.
+        보유기간은 /etc/privacy-policy/ 의 문구와 같은 기준으로 맞췄습니다.
+      -#}
+      <div class="field">
+        <div class="form__consent">
+          <input type="checkbox" id="privacy" name="privacy" value="동의함" required>
+          <label for="privacy">
+            <strong>개인정보 수집·이용에 동의합니다.</strong>
+            <span class="field__req" aria-hidden="true">*</span><br>
+            <b>수집 항목</b> 성명, 직책, 회사명, 부서명, 연락처, 이메일, 문의내용 ·
+            <b>이용 목적</b> 문의 접수 및 답변 ·
+            <b>보유 기간</b> 문의 처리 목적 달성 후 지체 없이 파기<br>
+            동의를 거부할 수 있으나, 이 경우 문의 접수가 불가능합니다.
+            자세한 내용은 <a href="{{ '/etc/privacy-policy/' | url }}">개인정보취급방침</a>을 확인해 주세요.
+          </label>
+        </div>
+        <p class="field__error">개인정보 수집·이용에 동의해 주세요.</p>
       </div>
 
       <div class="form__actions">

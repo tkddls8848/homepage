@@ -14,11 +14,14 @@
   <meta name="format-detection" content="telephone=no">
 
   {#-
-    http 로 접속했을 때도 하위 자원은 https 로 요청하게 합니다.
-    (GitHub Pages 의 *.github.io 는 http → https 로 자동 리다이렉트되지만,
-     커스텀 도메인이나 다른 호스팅에서 혼합 콘텐츠가 생기는 것을 막아 줍니다.)
+    보안 헤더(CSP, HSTS, X-Frame-Options, Referrer-Policy 등)는 여기가 아니라
+    `_headers` 파일에서 진짜 HTTP 응답 헤더로 나갑니다 → src/headers.11ty.js
+
+    예전에는 GitHub Pages 가 헤더를 설정할 수 없어 CSP 를 meta 로 넣었는데,
+    그 방식으로는 frame-ancestors 와 HSTS 가 무시됐습니다. Cloudflare Pages 로
+    옮기면서 헤더로 일원화했습니다. 정책을 두 곳에 두면 어긋나므로 meta 판은
+    남겨 두지 않습니다.
   -#}
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
   {#- 소셜 미리보기 -#}
   <meta property="og:type" content="website">

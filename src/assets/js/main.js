@@ -273,13 +273,74 @@ function initFooterNav() {
    문의 폼
    - 엔드포인트가 설정되어 있으면 fetch 로 전송
    - 없으면 mailto 로 대체 (정적 호스팅에서도 문의가 끊기지 않도록)
+
+   검증은 브라우저 기본 검사(required / type / pattern / maxlength) 위에
+   아래를 더합니다. 브라우저 검사만으로는 막지 못하는 것들입니다.
+     · 공백만 입력  — required 는 "   " 를 통과시킵니다
+     · 길이 초과    — maxlength 는 입력을 막을 뿐, 자동완성·스크립트로 들어온
+                      값이나 maxlength 를 지운 폼은 걸러내지 못합니다
+     · 개인정보 동의 — 체크되지 않으면 전송하지 않습니다
+     · 봇          — honeypot 에 더해 "너무 빨리 제출" 을 함께 봅니다
+     · 중복 전송    — 연타로 같은 문의가 여러 번 가는 것을 막습니다
    ========================================================================== */
+
+/** 제출까지 이보다 빠르면 사람이 채운 것으로 보지 않습니다(ms). */
+const MIN_FILL_MS = 3000;
+
+/**
+ * mailto 본문. 전송 서비스가 없을 때와, 전송이 실패했을 때 모두 씁니다.
+ * 폼의 모든 항목이 빠짐없이 담기도록 한 곳에서 만듭니다.
+ */
+const mailBody = (data) =>
+  [
+    `회사명: ${data.get("company") || "-"}`,
+    `부서명: ${data.get("department") || "-"}`,
+    `성명: ${data.get("name") || "-"}`,
+    `직책: ${data.get("position") || "-"}`,
+    `연락처: ${data.get("phone") || "-"}`,
+    `이메일: ${data.get("email") || "-"}`,
+    `관심 솔루션: ${data.get("solution") || "-"}`,
+    `문의 분류: ${data.get("category") || "-"}`,
+    `개인정보 수집·이용 동의: 동의함 (${data.get("privacy_agreed_at")})`,
+    "",
+    data.get("message") || "",
+  ].join("\n");
+
+/** 필드 이름 → 화면에 쓰는 이름 (오류 메시지용). */
+const FIELD_LABELS = {
+  name: "성명",
+  position: "직책",
+  company: "회사명",
+  department: "부서명",
+  phone: "연락처",
+  email: "이메일",
+  message: "문의내용",
+};
+
+/**
+ * 제어문자(줄바꿈·탭 제외)를 제거하고 앞뒤 공백을 정리합니다.
+ * 메일 제목·본문에 제어문자가 섞여 들어가는 것을 막습니다.
+ */
+const clean = (value) =>
+  String(value ?? "")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+    .trim();
+
 function initForm() {
   const form = document.querySelector("[data-inquiry-form]");
   if (!form) return;
 
   const status = form.querySelector("[data-form-status]");
   const submit = form.querySelector("[type='submit']");
+  const loadedAt = Date.now();
+  let sending = false;
+
+  let limits = {};
+  try {
+    limits = JSON.parse(form.dataset.limits || "{}");
+  } catch {
+    limits = {};
+  }
 
   const say = (message, state) => {
     if (!status) return;
@@ -287,51 +348,127 @@ function initForm() {
     status.dataset.state = state || "";
   };
 
+  /* 문의내용 글자 수 표시. 남은 양을 알려줘 잘린 채로 보내는 일을 줄입니다. */
+  const message = form.elements.namedItem("message");
+  const counter = form.querySelector("[data-count-for='message']");
+  if (message && counter && limits.message) {
+    // 마크업이 바뀌어 hint 가 사라져도 폼 초기화 전체가 죽지 않도록 분리합니다.
+    const hint = counter.closest(".field__hint");
+    const render = () => {
+      counter.textContent = String(message.value.length);
+      if (hint) {
+        hint.dataset.state = message.value.length >= limits.message * 0.9 ? "warn" : "";
+      }
+    };
+    message.addEventListener("input", render);
+    render();
+  }
+
+  /**
+   * 브라우저 검사 이후의 추가 검증.
+   * @returns {string} 문제가 있으면 사용자에게 보여줄 메시지, 없으면 빈 문자열
+   */
+  const validate = () => {
+    for (const [field, max] of Object.entries(limits)) {
+      const input = form.elements.namedItem(field);
+      if (input && clean(input.value).length > max) {
+        return `${FIELD_LABELS[field] || field} 항목을 ${max}자 이내로 줄여 주세요.`;
+      }
+    }
+
+    for (const field of ["name", "phone", "email", "message"]) {
+      const input = form.elements.namedItem(field);
+      if (input && !clean(input.value)) {
+        return `${FIELD_LABELS[field] || field} 항목을 입력해 주세요.`;
+      }
+    }
+
+    if (!form.elements.namedItem("privacy")?.checked) {
+      return "개인정보 수집·이용에 동의해 주세요.";
+    }
+
+    return "";
+  };
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    if (sending) return;
     if (!form.reportValidity()) return;
 
     // 봇이 채우는 필드가 비어 있지 않으면 조용히 무시합니다.
     if (form.elements.namedItem("_gotcha")?.value) return;
 
+    // 사람이 채웠다고 보기 어려운 속도. 사람일 수도 있으므로 안내는 합니다.
+    if (Date.now() - loadedAt < MIN_FILL_MS) {
+      say("입력을 마친 뒤 잠시 후 다시 눌러 주세요.", "error");
+      return;
+    }
+
+    const problem = validate();
+    if (problem) {
+      say(problem, "error");
+      return;
+    }
+
     const data = new FormData(form);
+    for (const [key, value] of [...data.entries()]) {
+      if (typeof value === "string") data.set(key, clean(value));
+    }
+    // 동의 사실과 시점을 문의 내용에 함께 남깁니다(별도 저장소가 없으므로).
+    data.set("privacy_agreed_at", new Date().toISOString());
+
+    // 담당자가 메일함에서 한눈에 알아볼 제목.
+    const subject = `[홈페이지 문의] ${data.get("company") || ""} ${data.get("name") || ""}`.trim();
+    data.set("subject", subject);
+
     const endpoint = form.getAttribute("action");
 
     if (!endpoint) {
-      const subject = `[홈페이지 문의] ${data.get("company") || ""} ${data.get("name") || ""}`.trim();
-      const body = [
-        `회사명: ${data.get("company") || "-"}`,
-        `성명: ${data.get("name") || "-"}`,
-        `연락처: ${data.get("phone") || "-"}`,
-        `이메일: ${data.get("email") || "-"}`,
-        `문의 분류: ${data.get("category") || "-"}`,
-        "",
-        data.get("message") || "",
-      ].join("\n");
       window.location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(
         subject
-      )}&body=${encodeURIComponent(body)}`;
+      )}&body=${encodeURIComponent(mailBody(data))}`;
       say("메일 작성 창이 열립니다. 열리지 않으면 아래 주소로 보내주세요.", "ok");
       return;
     }
 
+    sending = true;
     submit?.setAttribute("disabled", "");
     say("전송 중입니다…");
 
     try {
+      // 우리 쪽에서만 쓰는 함정 필드는 보내지 않습니다(받는 메일이 지저분해짐).
+      const payload = Object.fromEntries(data);
+      delete payload._gotcha;
+
+      // Web3Forms 는 JSON 본문을 공식 경로로 안내합니다. 라디오·텍스트뿐이라
+      // Object.fromEntries 로 값이 유실될 필드가 없습니다(파일·다중선택 없음).
       const response = await fetch(endpoint, {
         method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      // 200 이 아니면 본문에 사유가 담겨 옵니다(키 오류, 스팸 판정 등).
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || `HTTP ${response.status}`);
+      }
+
       form.reset();
       say("문의가 접수되었습니다. 담당자가 확인 후 연락드리겠습니다.", "ok");
     } catch (error) {
       console.error(error);
-      say(`전송에 실패했습니다. ${form.dataset.mailto} 로 보내주시면 확인하겠습니다.`, "error");
+      // 전송이 실패해도 문의가 끊기지 않도록 mailto 로 넘겨 줍니다.
+      say(
+        `전송에 실패했습니다. 메일 작성 창을 엽니다. 열리지 않으면 ${form.dataset.mailto} 로 보내주세요.`,
+        "error"
+      );
+      window.location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(mailBody(data))}`;
     } finally {
+      sending = false;
       submit?.removeAttribute("disabled");
     }
   });
