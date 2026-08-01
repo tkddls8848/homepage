@@ -1,0 +1,30 @@
+{#
+  제품군 카드 컴포넌트.
+  `category`는 catalog.js에서 파생된 nav.vendors[].categories[] 항목입니다.
+  제품 추가·삭제 시 이 템플릿을 복사하지 말고 catalog.js의 데이터만 수정합니다.
+#}
+<article class="product-category-card reveal">
+  <a class="product-category-card__link" href="{{ category.url | url }}"
+     aria-label="{{ vendor.label }} {{ category.label }} 제품 보기">
+    <div class="product-category-card__meta">
+      <span class="product-category-card__vendor">{{ vendor.label }}</span>
+      <span class="product-category-card__count">
+        {%- if category.itemCount %}{{ category.itemCount }}개 제품{% else %}콘텐츠 준비중{% endif -%}
+      </span>
+    </div>
+
+    <div class="product-category-card__media{% if not category.image %} product-category-card__media--empty{% endif %}">
+      {%- if category.image %}
+      <img src="{{ category.image | url }}" alt="" loading="lazy" decoding="async" data-fallback>
+      {%- else %}
+      <span aria-hidden="true">{{ vendor.label }}</span>
+      {%- endif %}
+    </div>
+
+    <div class="product-category-card__body">
+      <h3>{{ category.label }}</h3>
+      {%- if category.lead %}<p>{{ category.lead }}</p>{% endif %}
+      <span class="product-category-card__action" aria-hidden="true">라인업 보기 <b>→</b></span>
+    </div>
+  </a>
+</article>

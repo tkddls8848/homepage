@@ -48,7 +48,7 @@ bodyClass: home
     <div class="grid grid--4">
       {%- for vendor in nav.vendors %}
       <a class="feature reveal" href="{{ vendor.url | url }}">
-        <span class="feature__icon" aria-hidden="true">{{ vendor.label | truncate(4, true, "") }}</span>
+        <span class="feature__icon" aria-hidden="true">{{ vendor.label }}</span>
         <span class="feature__title">{{ vendor.label }}</span>
         <span class="feature__text">
           {%- for cat in vendor.categories %}{{ cat.label }}{% if not loop.last %} · {% endif %}{% endfor -%}

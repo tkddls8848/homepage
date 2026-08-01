@@ -8,22 +8,20 @@ description: (주)트라이얼정보통신이 공급하는 IBM·Lenovo·Dell 서
 ---
 <section class="section">
   <div class="container">
-    <div class="grid grid--2">
-      {%- for vendor in nav.vendors %}
-      <div class="section-card reveal">
-        <p class="section-card__label">{{ vendor.label }}</p>
-        <p class="section-card__text">
-          {%- for cat in vendor.categories %}{{ cat.label }}{% if not loop.last %} · {% endif %}{% endfor -%}
-        </p>
-        <ul class="stack" style="margin-top:var(--space-2)">
-          {%- for cat in vendor.categories %}
-          <li>
-            <a class="btn btn--link" href="{{ cat.url | url }}">{{ cat.label }}</a>
-          </li>
-          {%- endfor %}
-        </ul>
-      </div>
-      {%- endfor %}
+    <div class="product-catalog">
+    {%- for vendor in nav.vendors %}
+      <section class="product-catalog__vendor" aria-labelledby="vendor-{{ vendor.slug }}">
+        <div class="product-catalog__head">
+          <p class="section__eyebrow">Product line</p>
+          <h2 id="vendor-{{ vendor.slug }}">{{ vendor.label }}</h2>
+        </div>
+        <div class="product-category-grid">
+        {%- for category in vendor.categories %}
+          {% include "partials/product-category-card.njk" %}
+        {%- endfor %}
+        </div>
+      </section>
+    {%- endfor %}
     </div>
   </div>
 </section>

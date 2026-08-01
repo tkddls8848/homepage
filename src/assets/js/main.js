@@ -224,7 +224,9 @@ function initReveal() {
 function initImageFallback() {
   const handle = (img) => {
     img.style.display = "none";
-    const holder = img.closest(".product-card__media, .hero__media, .media-placeholder");
+    const holder = img.closest(
+      ".product-card__media, .product-category-card__media, .hero__media, .media-placeholder"
+    );
     if (holder) holder.classList.add("is-empty");
     if (img.closest(".brand")) img.closest(".brand").classList.add("is-fallback");
     if (img.closest(".site-footer__brand")) {

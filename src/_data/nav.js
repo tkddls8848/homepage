@@ -17,10 +17,14 @@ for (const page of catalog) {
     vendor = { label: page.vendor, slug: page.vendorSlug, categories: [] };
     vendors.push(vendor);
   }
+  const items = (page.groups || []).flatMap((group) => group.items || []);
   vendor.categories.push({
     label: page.category,
     slug: page.categorySlug,
     url: `/products/${page.vendorSlug}/${page.categorySlug}/`,
+    lead: page.lead,
+    itemCount: items.length,
+    image: page.cardImage || items.find((item) => item.image)?.image || null,
   });
 }
 for (const vendor of vendors) {

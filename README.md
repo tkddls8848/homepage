@@ -104,7 +104,8 @@ Cloudflare Pages 가 서버에서 처리하므로 기존 주소로 들어오는 
   연락처 카드 2곳·채용 접수 안내·문의 폼 mailto 폴백·security.txt·JSON-LD 가
   모두 여기서 나옵니다. 테스트 주소로 잠깐 바꿀 때는 코드를 고치지 말고
   환경 변수 `CONTACT_EMAIL` 을 쓰세요 (아래 "환경 변수" 참고)
-- **제품 추가/수정** → `src/_data/catalog.js`
+- **제품 추가/수정/삭제** → `src/_data/catalog.js` 한 곳. `/products/`의 제품군 카드,
+  상세 제품 카드, 상단·하단 메뉴, sitemap이 같은 데이터에서 자동 갱신됩니다.
 - **메뉴 추가** → `src/_data/nav.js`
 - **사진 교체** → `src/images/` (경로는 기존 사이트와 동일)
 
