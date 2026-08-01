@@ -1,11 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Trial Info Communication">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0f5299"/>
-      <stop offset="1" stop-color="#041c3c"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="14" fill="url(#g)"/>
-  <path d="M15 20h34v7H36.5v22h-8.5V27H15z" fill="#fff"/>
-  <circle cx="49" cy="46" r="4.5" fill="#00a6c8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="(주)트라이얼정보통신">
+  <!--
+    회사 CI 에서 가져온 값으로만 구성했습니다 (src/images/logo/logo.svg).
+      #161519  워드마크 "TRIAL" 의 검정
+      #D7000F  "I" 위의 빨간 점 — 로고에서 유일한 강조색
+    회색 스워시(#DBDCDC)는 16px 탭 아이콘에서 뭉개지므로 넣지 않았습니다.
+
+    글자를 <text> 가 아니라 도형(path)으로 그린 이유:
+    폰트에 의존하면 보는 환경마다 모양이 달라지고, 해당 폰트가 없는 기기에서는
+    대체 글꼴로 엉뚱하게 그려집니다. 아이콘은 어디서나 같은 모양이어야 합니다.
+
+    바탕을 어둡게 둔 이유:
+    로고 그대로 흰 바탕에 검은 글씨로 만들면 밝은 색 브라우저 탭에서 아이콘
+    경계가 사라져 글자만 떠 있는 것처럼 보입니다. 어두운 면을 깔면 밝은 탭과
+    어두운 탭 양쪽에서 형태가 유지됩니다.
+  -->
+  <rect width="64" height="64" rx="13" fill="#161519"/>
+  <path d="M13 24H51v9H37v18H27V33H13z" fill="#fff"/>
+  <circle cx="46" cy="15.5" r="5.5" fill="#D7000F"/>
 </svg>
