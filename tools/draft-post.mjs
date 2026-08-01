@@ -333,7 +333,16 @@ function saveDraft(generated, articles) {
   // 표시를 하나도 못 찾으면 출력 전체를 본문으로 봅니다(형식이 어긋나도
   // 내용을 잃지 않게). 사람이 검토하면서 제목·요약을 채우면 됩니다.
   const lastMarker = Math.max(titleAt, summaryAt);
-  const body = (lastMarker === -1 ? lines : lines.slice(lastMarker + 1)).join("\n").trim();
+  const rawBody = (lastMarker === -1 ? lines : lines.slice(lastMarker + 1)).join("\n").trim();
+
+  /*
+   * 본문 맨 앞의 구분선(---)을 걷어냅니다.
+   *
+   * 모델이 프롬프트의 구분선을 따라 그리는 일이 잦습니다. 그게 front matter
+   * 바로 뒤에 오면 Markdown 파서가 두 번째 front matter 로 읽거나 빈 <hr> 를
+   * 그려서 글머리가 깨집니다. 프롬프트로 금지해도 계속 나와서 여기서 잘라냅니다.
+   */
+  const body = rawBody.replace(/^(\s*(-{3,}|\*{3,}|_{3,})\s*\n)+/, "").trim();
 
   if (titleAt === -1 || summaryAt === -1) {
     console.warn("  ⚠️ 출력에서 TITLE/SUMMARY 를 찾지 못했습니다. 검토할 때 채워 주세요.");
