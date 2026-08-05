@@ -7,7 +7,11 @@ bodyClass: home
 ---
 {% include "partials/hero.njk" %}
 
-<nav class="home-tabs container" aria-label="주요 메뉴">
+{#-
+  히어로 바로 아래 붙는 네비게이션 띠. 폭은 히어로와 같은 화면 전체이므로
+  가운데 정렬 컨테이너(.container)를 쓰지 않습니다 — 스타일은 .home-tabs 에.
+-#}
+<nav class="home-tabs" aria-label="주요 메뉴">
   <a class="home-tab home-tab--about" href="{{ '/about/' | url }}"
      style="--home-tab-image: url('{{ '/images/photo/tab/about.png' | url }}')">
     <span class="home-tab__content">

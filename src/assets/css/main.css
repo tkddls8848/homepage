@@ -2445,6 +2445,9 @@
   :root {
     --header-h: 64px;
     --gutter: 20px;
+    /* 홈 첫 화면을 히어로 + 네비게이션 띠로 나눠 갖는 높이.
+       둘이 겹치지 않게 히어로 높이를 여기서 빼 씁니다(.hero / .home-tabs). */
+    --home-tabs-h: 200px;
   }
 
   body {
@@ -2588,10 +2591,15 @@
 
   .hero {
     /* 모바일 브라우저에서 100vh 는 주소창 높이를 포함해 계산되어 화면 아래가
-       잘립니다. svh(작은 뷰포트)를 쓰고, 모르는 브라우저는 위 vh 를 씁니다. */
-    height: 100vh;
-    height: 100svh;
-    min-height: 540px;
+       잘립니다. svh(작은 뷰포트)를 쓰고, 모르는 브라우저는 위 vh 를 씁니다.
+
+       아래 네비게이션 띠(.home-tabs)만큼 빼서, 히어로와 띠가 겹치지 않고
+       나란히 첫 화면(100svh)을 채우게 합니다. 예전에는 띠를 margin-top:-200px
+       으로 히어로 위에 얹었는데, 두 영역이 한 겹으로 포개져 있으면 사진이
+       도착하기 전 아래 깔린 면이 그대로 비쳐 보입니다. */
+    height: calc(100vh - var(--home-tabs-h));
+    height: calc(100svh - var(--home-tabs-h));
+    min-height: calc(540px - var(--home-tabs-h));
     background: #222;
   }
 
@@ -2601,8 +2609,9 @@
   }
 
   .hero__slide {
-    min-height: 100vh;
-    min-height: 100svh;
+    /* 높이는 .hero 가 정합니다(바로 위 규칙). 여기서 100svh 를 다시 요구하면
+       띠 높이를 뺀 만큼 슬라이드가 히어로 밖으로 삐져나옵니다. */
+    min-height: 0;
     padding: 0;
     align-items: start;
     opacity: 0.35;
@@ -2641,8 +2650,10 @@
     display: none;
   }
 
+  /* 히어로가 띠 바로 위에서 끝나므로, 화살표·점은 히어로 안쪽 아래에 둡니다.
+     (예전에는 히어로가 띠 아래까지 내려와 있어 220px 을 띄웠습니다.) */
   .hero__controls {
-    bottom: 220px;
+    bottom: 20px;
   }
 
   .hero__arrow {
@@ -2650,14 +2661,21 @@
     border-radius: 0;
   }
 
+  /* 히어로 바로 아래에 붙는 독립된 띠.
+     - 히어로와 겹치지 않습니다(margin-top 음수 없음)
+     - 폭은 히어로와 같은 화면 전체입니다(가운데 정렬 컨테이너 아님)
+     - 탭 사진이 도착하기 전에는 자기 배경색이 보입니다 */
   .home-tabs {
     position: relative;
-    z-index: 5;
+    z-index: 1;
     display: grid;
     grid-template-columns: 3fr 2fr 2fr;
-    height: 200px;
-    margin-top: -200px;
+    width: 100%;
+    max-width: none;
+    height: var(--home-tabs-h);
+    margin-inline: 0;
     padding-inline: 0;
+    background: #222;
   }
 
   .home-tab {
@@ -3077,6 +3095,8 @@
     :root {
       --header-h: 50px;
       --gutter: 20px;
+      /* 60px 짜리 탭 3줄 */
+      --home-tabs-h: 180px;
     }
 
     h2,
@@ -3126,14 +3146,12 @@
     }
 
     .hero__controls {
-      bottom: 190px;
+      bottom: 10px;
     }
 
     .home-tabs {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(3, 60px);
-      height: 180px;
-      margin-top: -180px;
     }
 
     .home-tab {
