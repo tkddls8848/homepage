@@ -1855,6 +1855,44 @@
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
   }
 
+  /* 라디오·체크박스는 바로 위의 텍스트 입력 규칙에서 되돌립니다.
+     width:100% 가 그대로 걸리면 버튼 하나가 한 줄을 통째로 차지해
+     라벨 글자가 다음 줄로 밀려납니다. */
+  .field input:is([type="radio"], [type="checkbox"]) {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: 0 0 auto;
+    padding: 0;
+    accent-color: var(--brand-600);
+  }
+
+  /* 라디오 묶음(fieldset > legend + label).
+     브라우저 기본 테두리를 지우고 보기 항목을 가로로 늘어놓되,
+     좁은 화면에서는 줄바꿈합니다. legend 는 flex 아이템이 아니므로
+     아래 여백은 legend 자신에게 줍니다. */
+  fieldset.field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-5);
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  fieldset.field > .field__label {
+    margin-block-end: var(--space-2);
+  }
+
+  /* 버튼은 왼쪽, 글자는 오른쪽. 둘의 세로 중심을 맞춥니다. */
+  fieldset.field > label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--ink-700);
+    cursor: pointer;
+  }
+
   .field textarea {
     min-height: 10rem;
     resize: vertical;
@@ -1866,7 +1904,10 @@
     border-color: var(--brand-300);
   }
 
-  .field input:focus,
+  /* 라디오·체크박스는 제외합니다. 여기서 outline 을 지우면 키보드 이동 때
+     초점 표시가 사라지고, 대신 들어가는 네모난 그림자 링이 동그란
+     라디오와 맞지 않습니다. 기본 :focus-visible 테두리를 그대로 씁니다. */
+  .field input:focus:not([type="radio"], [type="checkbox"]),
   .field textarea:focus,
   .field select:focus {
     outline: none;
@@ -3781,11 +3822,18 @@
      본문 크기(--step-0)는 clamp 로 15px 근처까지 내려가므로 여기서
      고정값으로 올려 줍니다. 함께 터치 영역도 44px 이상으로 맞춥니다. */
   @media (max-width: 64rem) {
-    .field input,
+    /* 라디오·체크박스는 글자를 입력하는 칸이 아니므로 제외합니다.
+       min-height 가 걸리면 버튼이 44px 로 늘어나 글자와 어긋납니다. */
+    .field input:not([type="radio"], [type="checkbox"]),
     .field textarea,
     .field select {
       min-height: 44px;
       font-size: 16px;
+    }
+
+    /* 라디오는 대신 라벨 줄 전체를 손가락 크기로 키웁니다. */
+    fieldset.field > label {
+      min-height: 44px;
     }
   }
 }
