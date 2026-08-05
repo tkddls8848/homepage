@@ -349,7 +349,36 @@ function saveDraft(generated, articles) {
   }
 
   const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul" }).format(new Date());
-  const file = path.join(POSTS_DIR, `${today}-ai-draft.md`);
+
+  /*
+   * 파일명이 곧 글 주소가 됩니다.
+   *
+   * Eleventy 의 fileSlug 는 파일명 앞의 `YYYY-MM-DD-` 를 떼어냅니다. 그래서
+   * `2026-08-01-ai-draft.md` 와 `2026-08-03-ai-draft.md` 는 슬러그가 둘 다
+   * `ai-draft` 가 되어 `/blog/ai-draft/` 한 주소를 놓고 부딪힙니다.
+   * 초안일 때는 permalink 가 꺼져 있어 드러나지 않다가, 검토를 마치고 draft
+   * 줄을 지우는 순간 먼저 발행된 글과 충돌합니다.
+   *
+   * 그래서 날짜를 접두사가 아니라 슬러그 안에, 그것도 하이픈 없는 형태로
+   * 넣습니다.
+   *   ai-draft-20260803.md  →  /blog/ai-draft-20260803/
+   *
+   * 하이픈을 뺀 이유가 중요합니다. fileSlug 는 `YYYY-MM-DD` 를 파일명 앞이
+   * 아니라 아무 데서나 찾아 그 뒤만 남깁니다. `ai-draft-2026-08-03-2.md` 로
+   * 두면 슬러그가 `2` 가 되어 `/blog/2/` 라는 주소가 나옵니다.
+   * `20260803` 은 그 패턴에 걸리지 않아 파일명이 그대로 주소가 됩니다.
+   *
+   * 날짜는 front matter 의 date 가 들고 있으므로 파일명 접두사는 필요 없습니다.
+   * 이미 발행된 글(`2026-08-01-ai-draft.md` → `/blog/ai-draft/`)의 주소를
+   * 유지하려고 기존 파일은 그대로 둡니다. 새로 만드는 초안부터 적용됩니다.
+   */
+  const stamp = today.replaceAll("-", "");
+  let file = path.join(POSTS_DIR, `ai-draft-${stamp}.md`);
+
+  // 같은 날 두 번 이상 실행돼도 앞서 만든 초안을 덮어쓰지 않습니다.
+  for (let n = 2; existsSync(file); n += 1) {
+    file = path.join(POSTS_DIR, `ai-draft-${stamp}-${n}.md`);
+  }
 
   const frontMatter = [
     "---",
