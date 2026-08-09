@@ -1,11 +1,4 @@
-{#
-  섹션 내 하위 탭.
-  기존 사이트의 `inside_tab`(1차/2차 탭)을 대체합니다. 하드코딩된 <li> 목록
-  대신 nav 데이터에서 만들고, 모바일에서는 가로 스크롤되는 탭 바가 됩니다.
 
-  - Product 섹션: 1차 = 벤더, 2차 = 해당 벤더의 카테고리
-  - 그 외 섹션  : 하위 페이지 한 줄
-#}
 {%- if section == "product" and p -%}
 <div class="subnav" data-level="2">
   <nav class="subnav__row subnav__row--primary" aria-label="제조사">

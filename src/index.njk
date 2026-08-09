@@ -7,10 +7,6 @@ bodyClass: home
 ---
 {% include "partials/hero.njk" %}
 
-{#-
-  히어로 바로 아래 붙는 네비게이션 띠. 폭은 히어로와 같은 화면 전체이므로
-  가운데 정렬 컨테이너(.container)를 쓰지 않습니다 — 스타일은 .home-tabs 에.
--#}
 <nav class="home-tabs" aria-label="주요 메뉴">
   <a class="home-tab home-tab--about" href="{{ '/about/' | url }}"
      style="--home-tab-image: url('{{ '/images/photo/tab/about.png' | url }}')">
@@ -33,11 +29,6 @@ bodyClass: home
   </a>
 </nav>
 
-{#
-  기존 사이트(index.php)의 홈은 Product 탭이 활성인 상태로 열려서
-  1차 탭(IBM / Lenovo / Dell / S/W)이 바로 아래에 놓였습니다.
-  그 배치를 그대로 두되, 목록은 catalog.js 에서 자동 생성합니다.
-#}
 <section class="section section--tint">
   <div class="container">
     <div class="section__head">
@@ -62,10 +53,5 @@ bodyClass: home
     </div>
   </div>
 </section>
-
-{#
-  Tech Blog 는 기존 사이트에 없던 메뉴라 홈 본문에는 넣지 않고
-  상단 내비게이션(_data/nav.js)에만 추가해 두었습니다.
-#}
 
 {% include "partials/cta.njk" %}

@@ -14,11 +14,7 @@ eleventyComputed:
   lead: "{{ p.lead }}"
   description: "{{ p.vendor }} {{ p.category }} — {{ p.lead }}"
 ---
-{#
-  모든 제품 페이지가 이 템플릿 하나에서 생성됩니다.
-  (기존에는 product_ibm_*.php / product_lenovo_*.php … 로 파일이 나뉘어 있었고
-   내용의 90%가 서로 복사본이었습니다.)
-#}
+
 <section class="section">
   <div class="container">
     {%- if p.groups | itemCount %}

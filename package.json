@@ -7,15 +7,11 @@
   "scripts": {
     "start": "eleventy --serve --incremental",
     "dev": "eleventy --serve --incremental",
-    "build": "npm run verify:deps && eleventy && npm run check:links",
+    "build": "eleventy && npm run check:links",
     "build:only": "eleventy",
-    "verify:deps": "npm audit --audit-level=high",
     "clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('_site',{recursive:true,force:true}))\"",
     "check:links": "node tools/check-links.mjs",
-    "draft:post": "node tools/draft-post.mjs",
-    "make:icons": "node tools/make-icons.mjs",
-    "crawl:old-site": "node tools/crawl-old-site.mjs",
-    "import:images": "node tools/import-images.mjs"
+    "draft:post": "node tools/draft-post.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6"

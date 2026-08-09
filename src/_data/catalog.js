@@ -1,29 +1,5 @@
-/**
- * 제품 카탈로그 (Product 섹션의 단일 원본)
- * ---------------------------------------------------------------------------
- * 기존 사이트는 제품 페이지마다 1·2차 탭 메뉴와 제품 카드 마크업을 전부
- * 복사해서 갖고 있었습니다(product_ibm_*.php, product_lenovo_*.php ...).
- * 이제 이 파일이 유일한 원본이고,
- *   - 페이지          : src/products/product.njk  (pagination 으로 자동 생성)
- *   - 1차 탭(벤더)    : src/_data/nav.js 에서 자동 생성
- *   - 2차 탭(카테고리): src/_data/nav.js 에서 자동 생성
- * 이 모두 이 배열에서 파생됩니다.
- *
- * ── 항목(item) 필드 ─────────────────────────────────────────────────────────
- *   line     : 제품군 이름 (카드 제목 첫 줄)          예) "Power"
- *   model    : 모델명      (카드 제목 둘째 줄)        예) "E1180"
- *   label    : 카드 상단 분류 라벨                    예) "IBM Power UNIX Server"
- *   summary  : 한 줄 소개
- *   features : 주요 특징 목록 (문자열 배열)
- *   link     : 제조사 상세 페이지 URL (없으면 버튼 숨김)
- *   image    : 사진 에셋 경로. 기존 사이트 경로를 그대로 사용합니다.
- *   imageAlt : 대체 텍스트 (미지정 시 "line model 제품 이미지")
- *
- * ── 새 제품 페이지를 추가할 때 ──────────────────────────────────────────────
- *   아래 배열에 { vendor, vendorSlug, category, categorySlug, ... } 객체를
- *   하나 추가하면 URL·탭·sitemap 이 함께 생성됩니다. 별도 파일 작업 없음.
- *   items 가 비어 있으면 "콘텐츠 준비중" 안내가 표시됩니다.
- */
+// 제품 페이지와 내비게이션은 이 배열에서 생성됩니다.
+// 항목 형식: { line, model, label, summary, features, link, image, imageAlt }
 
 const IBM_UNIX = "IBM Power UNIX Server";
 

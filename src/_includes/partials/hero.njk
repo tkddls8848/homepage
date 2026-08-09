@@ -1,9 +1,4 @@
-{#
-  메인 슬라이드.
-  기존 js/slider.js 는 left 값을 픽셀로 계산해 track 을 밀었습니다(창 크기가
-  바뀌면 어긋나고, 터치 스와이프도 불가). 여기서는 브라우저의 scroll-snap 이
-  위치를 담당하고 JS 는 "다음으로 가라"만 지시합니다.
-#}
+
 <section class="hero" data-hero aria-roledescription="캐러셀" aria-label="주요 소개">
   <div class="hero__track" data-hero-track tabindex="0" aria-live="off">
     {%- for slide in hero %}
