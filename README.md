@@ -28,6 +28,10 @@ src/
   assets/      CSS, 브라우저 JavaScript, 아이콘
   images/      사이트가 사용하는 이미지
   blog/posts/  기술 블로그 Markdown
+lib/
+  images.js    이미지 WebP 변환·반응형 srcset 생성
+  assets.js    CSS/JS 캐시 무효화용 내용 해시
+  svg.js       빌드 산출물 SVG 정리
 tools/
   check-links.mjs  빌드 결과 경로 검사
   draft-post.mjs   블로그 초안 생성
@@ -77,4 +81,21 @@ draft: true
 - Build output directory: `_site`
 - Node version: `.nvmrc`의 `24`
 
-HTTP 보안 헤더는 `src/headers.11ty.js`가 `_site/_headers`로 생성합니다.
+HTTP 보안 헤더와 캐시 정책은 `src/headers.11ty.js`가 `_site/_headers`로 생성합니다.
+
+## 성능
+
+첫 방문 전송량을 줄이기 위해 빌드가 다음을 자동으로 처리합니다.
+
+- `src/images/photo/`의 PNG는 `_site/img/`에 WebP로 변환되어 나갑니다. 원본 PNG는 배포에
+  포함되지 않습니다.
+- 템플릿의 `<img>`는 `eleventy:widths` 속성에 적은 폭으로 `srcset`이 생성됩니다.
+  화면에서 차지하는 크기가 바뀌면 이 값과 `sizes`를 함께 조정합니다.
+- 파일명에 내용 해시가 들어가는 `/img/*`와 `?v=` 가 붙는 `/assets/css`, `/assets/js`는
+  1년 immutable로 캐시됩니다. 배포하면 URL이 바뀌므로 갱신이 바로 반영됩니다.
+- 로고 SVG는 빌드 시 SVGO로 정리됩니다.
+
+새 사진을 추가할 때는 `src/images/photo/` 아래에 원본을 두고 템플릿에서 평소처럼
+`<img src="/images/photo/...">`로 참조하면 됩니다. 변환은 빌드가 맡습니다.
+`<picture>`로 모바일 전용 이미지를 따로 쓰는 자리(`about/division`, `etc/recruit`)만
+`imageSrcset` 필터로 직접 처리합니다.

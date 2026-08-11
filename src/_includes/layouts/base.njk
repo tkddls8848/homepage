@@ -32,8 +32,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="{{ '/assets/css/main.css' | url }}">
-  <script type="module" src="{{ '/assets/js/main.js' | url }}"></script>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | assetUrl | url }}">
+  <script type="module" src="{{ '/assets/js/main.js' | assetUrl | url }}"></script>
 
   {%- if kakaoMap %}
   <script charset="UTF-8" class="daum_roughmap_loader_script"
@@ -74,7 +74,7 @@
   {% include "partials/site-footer.njk" %}
 
   {%- if kakaoMap %}
-  <script src="{{ '/assets/js/kakao-map.js' | url }}"></script>
+  <script src="{{ '/assets/js/kakao-map.js' | assetUrl | url }}"></script>
   {%- endif %}
 </body>
 </html>

@@ -1,8 +1,8 @@
 <header class="site-header{% if headerOverlay %} site-header--overlay{% endif %}" data-site-header>
   <div class="site-header__inner">
     <a class="brand" href="{{ '/' | url }}" aria-label="{{ site.name }} 홈으로">
-      <img class="brand__logo brand__logo--dark" src="{{ '/images/logo/logo.svg' | url }}" alt="{{ site.name }}" width="180" height="34">
-      <img class="brand__logo brand__logo--light" src="{{ '/images/logo/logo_wt.svg' | url }}" alt="" aria-hidden="true" width="180" height="34">
+      <img class="brand__logo brand__logo--dark" src="{{ '/images/logo/logo.svg' | url }}" alt="{{ site.name }}" eleventy:ignore width="180" height="34">
+      <img class="brand__logo brand__logo--light" src="{{ '/images/logo/logo_wt.svg' | url }}" alt="" aria-hidden="true" eleventy:ignore width="180" height="34">
     </a>
 
     <nav class="site-nav" id="site-nav" aria-label="주 메뉴" data-nav-panel>

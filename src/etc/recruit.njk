@@ -8,8 +8,15 @@ description: (주)트라이얼정보통신 채용 정보 안내입니다.
 <section class="section">
   <div class="container">
     <picture>
-      <source media="(max-width: 47.99rem)" srcset="{{ '/images/photo/etc/m_recruit.png' | url }}">
-      <img src="{{ '/images/photo/etc/recruit.png' | url }}" alt="트라이얼정보통신 채용 안내"
+      {#- 모바일 전용 이미지가 있는 아트 디렉션이라 transform 플러그인에 맡기면
+          <picture>가 <img> 하나로 합쳐진다. 필터로 직접 srcset을 만든다. -#}
+      <source media="(max-width: 47.99rem)"
+              srcset="{{ '/images/photo/etc/m_recruit.png' | imageSrcset([480, 960, null]) }}"
+              sizes="92vw">
+      <img src="{{ '/images/photo/etc/recruit.png' | imageUrl(null) }}"
+           srcset="{{ '/images/photo/etc/recruit.png' | imageSrcset([640, 960, null]) }}"
+           sizes="(min-width: 48rem) 90vw, 92vw"
+           alt="트라이얼정보통신 채용 안내" eleventy:ignore decoding="async"
            style="display:block; width:100%; height:auto; margin:0 auto var(--space-8)">
     </picture>
 

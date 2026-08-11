@@ -1,7 +1,19 @@
+import assets from "./lib/assets.js";
+import images from "./lib/images.js";
+import svg from "./lib/svg.js";
+
 export default function (eleventyConfig) {
-  eleventyConfig.addPassthroughCopy({ "src/images": "images" });
+  // src/images/photo는 빌드 시 WebP로 변환해 /img/로 내보내므로 그대로 복사하지 않는다.
+  // 로고(SVG), 아이콘, OG 이미지는 변환 대상이 아니라 원본을 그대로 쓴다.
+  eleventyConfig.addPassthroughCopy({ "src/images/logo": "images/logo" });
+  eleventyConfig.addPassthroughCopy({ "src/images/icon": "images/icon" });
+  eleventyConfig.addPassthroughCopy({ "src/images/og": "images/og" });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
   eleventyConfig.addWatchTarget("src/assets/");
+
+  eleventyConfig.addPlugin(images);
+  eleventyConfig.addPlugin(assets);
+  eleventyConfig.addPlugin(svg);
 
   eleventyConfig.addFilter("year", () => String(new Date().getFullYear()));
   eleventyConfig.addFilter("isCurrent", (pageUrl, target) =>

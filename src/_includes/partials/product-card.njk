@@ -11,6 +11,7 @@
     {%- if item.image %}
     <img src="{{ item.image | url }}"
          alt="{{ item.imageAlt if item.imageAlt else (item.line + ' ' + item.model + ' 제품 이미지') }}"
+         eleventy:widths="400,800" sizes="(min-width: 48rem) 25rem, 92vw"
          loading="lazy" decoding="async">
     {%- endif %}
   </div>

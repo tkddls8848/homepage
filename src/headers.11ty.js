@@ -25,6 +25,13 @@ export default class HeadersFile {
       "upgrade-insecure-requests",
     ].join("; ");
 
+    // Cloudflare Pages는 기본으로 정적 파일에 max-age=0, must-revalidate를 붙여
+    // 재방문마다 모든 자산을 재검증한다. 파일명이나 쿼리에 내용 해시가 있는 자산은
+    // 배포할 때 URL이 바뀌므로 1년 immutable로 두어 재요청 자체를 없앤다.
+    const immutable = "public, max-age=31536000, immutable";
+    // 로고·파비콘·OG 이미지는 버전이 붙지 않아 갱신이 반영되도록 7일만 캐시한다.
+    const shortLived = "public, max-age=604800";
+
     return [
       "/*",
       `  Content-Security-Policy: ${csp}`,
@@ -32,6 +39,23 @@ export default class HeadersFile {
       "  X-Content-Type-Options: nosniff",
       "  Referrer-Policy: strict-origin-when-cross-origin",
       "  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()",
+      "",
+      // eleventy-img가 파일명에 내용 해시를 넣어 출력한다.
+      "/img/*",
+      `  Cache-Control: ${immutable}`,
+      "",
+      // assetUrl 필터가 ?v=<내용 해시>를 붙인다.
+      "/assets/css/*",
+      `  Cache-Control: ${immutable}`,
+      "",
+      "/assets/js/*",
+      `  Cache-Control: ${immutable}`,
+      "",
+      "/assets/img/*",
+      `  Cache-Control: ${shortLived}`,
+      "",
+      "/images/*",
+      `  Cache-Control: ${shortLived}`,
       "",
       "https://:project.pages.dev/*",
       "  X-Robots-Tag: noindex",

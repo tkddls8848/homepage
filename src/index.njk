@@ -9,7 +9,7 @@ bodyClass: home
 
 <nav class="home-tabs" aria-label="주요 메뉴">
   <a class="home-tab home-tab--about" href="{{ '/about/' | url }}"
-     style="--home-tab-image: url('{{ '/images/photo/tab/about.png' | url }}')">
+     style="--home-tab-image: url('{{ '/images/photo/tab/about.png' | imageUrl(1600) }}')">
     <span class="home-tab__content">
       <h3>회사소개</h3>
       <p>
@@ -20,11 +20,11 @@ bodyClass: home
     </span>
   </a>
   <a class="home-tab home-tab--infra" href="{{ '/it-infra/' | url }}"
-     style="--home-tab-image: url('{{ '/images/photo/tab/infra.png' | url }}')">
+     style="--home-tab-image: url('{{ '/images/photo/tab/infra.png' | imageUrl(1200) }}')">
     <span class="home-tab__content"><h3>IT Infra Service</h3></span>
   </a>
   <a class="home-tab home-tab--product" href="{{ '/products/' | url }}"
-     style="--home-tab-image: url('{{ '/images/photo/tab/product.png' | url }}')">
+     style="--home-tab-image: url('{{ '/images/photo/tab/product.png' | imageUrl(1200) }}')">
     <span class="home-tab__content"><h3>Product</h3></span>
   </a>
 </nav>

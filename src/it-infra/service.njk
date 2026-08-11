@@ -21,6 +21,7 @@ eleventyComputed:
     </div>
     <div class="split split--aside">
       <img src="{{ s.image | url }}" alt="{{ s.title }} 서비스 구성도"
+           eleventy:widths="800,1600" sizes="(min-width: 56rem) 55vw, 92vw"
            style="display:block; width:100%; height:auto; align-self:start">
       <div class="grid">
         {%- for group in s.groups %}

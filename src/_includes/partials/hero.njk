@@ -8,6 +8,7 @@
       {%- if slide.image %}
       <div class="hero__media">
         <img src="{{ slide.image | url }}" alt="{{ slide.alt }}"
+             eleventy:widths="768,1280,1920" sizes="100vw"
              {% if loop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
              decoding="async">
       </div>
