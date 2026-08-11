@@ -128,22 +128,37 @@ function initHero() {
 }
 
 function initReveal() {
-  const targets = document.querySelectorAll(".reveal");
+  const targets = [...document.querySelectorAll(".reveal")];
   if (!targets.length || reduceMotion()) return;
+  if (!("IntersectionObserver" in window)) return;
 
-  document.documentElement.classList.add("js-reveal");
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry, index) => {
-        if (!entry.isIntersecting) return;
-        entry.target.style.transitionDelay = `${Math.min(index * 60, 180)}ms`;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    },
-    { rootMargin: "0 0 -8%", threshold: 0.08 }
-  );
-  targets.forEach((target) => observer.observe(target));
+  let observer;
+  let fallbackTimer;
+  const disableReveal = () => {
+    document.documentElement.classList.remove("js-reveal");
+    if (observer) observer.disconnect();
+  };
+
+  try {
+    observer = new IntersectionObserver(
+      (entries) => {
+        clearTimeout(fallbackTimer);
+        entries.forEach((entry, index) => {
+          if (!entry.isIntersecting) return;
+          entry.target.style.transitionDelay = `${Math.min(index * 60, 180)}ms`;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0 0 -8%", threshold: 0.08 }
+    );
+    targets.forEach((target) => observer.observe(target));
+    document.documentElement.classList.add("js-reveal");
+    fallbackTimer = setTimeout(disableReveal, 1500);
+  } catch (error) {
+    disableReveal();
+    console.warn("Reveal animation was disabled.", error);
+  }
 }
 
 function initFooter() {
