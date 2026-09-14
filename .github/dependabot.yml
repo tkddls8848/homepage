@@ -5,7 +5,8 @@
 # 기대지 않고, 새 버전이 나오면 Dependabot 이 PR 을 열게 합니다.
 #
 # PR 은 자동 병합되지 않습니다. 확인 후 직접 병합하세요.
-# 병합하면 main 푸시로 Build & Deploy 워크플로가 돌아 검증됩니다.
+# PR 을 열면 Cloudflare Pages 가 그 브랜치를 빌드해 미리보기를 만들어 주므로,
+# 병합 전에 빌드가 깨지지 않는지 그 결과로 확인할 수 있습니다.
 version: 2
 
 updates:
@@ -18,18 +19,15 @@ updates:
       interval: monthly
     commit-message:
       prefix: "ci"
-    labels:
-      - dependencies
 
-  # npm 의존성. 현재는 Eleventy 하나뿐입니다.
+  # npm 의존성. 전부 빌드에만 쓰는 devDependencies 입니다
+  # (Eleventy, eleventy-img, subset-font, svgo).
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: monthly
     commit-message:
       prefix: "deps"
-    labels:
-      - dependencies
     # 자잘한 패치 PR 이 매달 여러 개 열리는 것을 막습니다.
     groups:
       all-dependencies:
