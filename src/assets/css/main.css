@@ -2,6 +2,28 @@
 
 @layer reset, tokens, base, layout, components, utilities;
 
+/* 본문 폰트는 자체 호스팅한다. Google Fonts는 한글 페이지 하나에 서브셋 수십 개를
+   제3자 도메인에서 받아 오는데, 사이트가 쓰는 글자만 담은 가변 폰트 한 벌이면 충분하다.
+   파일은 tools/build-fonts.mjs 가 만들고 파일명의 해시도 그 스크립트가 갱신한다.
+
+   Ext 는 core 에 없는 KS X 1001 글자를 위한 예비다. --font-sans 의 대체 순서에서
+   core 다음에 두었으므로, core 로 그릴 수 없는 글자가 나올 때만 내려받는다. */
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("../fonts/noto-sans-kr.b1a95477.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Sans KR Ext";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("../fonts/noto-sans-kr-ext.c3dad4f8.woff2") format("woff2");
+}
+
 @layer reset {
   *,
   *::before,
@@ -113,9 +135,9 @@
     --state-error: #c62828;
     --state-ok: #1b7f4f;
 
-    --font-sans: "Noto Sans KR", "Pretendard Variable", Pretendard, -apple-system,
-      BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic", "맑은 고딕",
-      system-ui, sans-serif;
+    --font-sans: "Noto Sans KR", "Noto Sans KR Ext", "Pretendard Variable", Pretendard,
+      -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic",
+      "맑은 고딕", system-ui, sans-serif;
     --font-en: "Segoe UI", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 
     --step--2: clamp(0.688rem, 0.67rem + 0.09vw, 0.75rem);

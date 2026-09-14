@@ -1,4 +1,5 @@
 import assets from "./lib/assets.js";
+import fonts from "./lib/fonts.js";
 import images from "./lib/images.js";
 import svg from "./lib/svg.js";
 
@@ -14,6 +15,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPlugin(images);
   eleventyConfig.addPlugin(assets);
   eleventyConfig.addPlugin(svg);
+  eleventyConfig.addPlugin(fonts);
 
   eleventyConfig.addFilter("year", () => String(new Date().getFullYear()));
   eleventyConfig.addFilter("isCurrent", (pageUrl, target) =>

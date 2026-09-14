@@ -29,9 +29,9 @@
   <link rel="icon" href="{{ '/assets/img/favicon-32.png' | url }}" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="{{ '/assets/img/apple-touch-icon.png' | url }}">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap">
+  {#- 본문 폰트는 자체 호스팅한다. main.css 를 받아 파싱할 때까지 기다리지 않도록
+      본문용 서브셋만 미리 받는다. 파일명은 tools/build-fonts.mjs 가 갱신한다. -#}
+  <link rel="preload" href="{{ fonts.preload | url }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | assetUrl | url }}">
   <script type="module" src="{{ '/assets/js/main.js' | assetUrl | url }}"></script>
 
