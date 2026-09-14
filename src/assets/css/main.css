@@ -47,11 +47,23 @@
   }
 
   img,
-  picture,
   svg,
   video {
     display: block;
     max-width: 100%;
+  }
+
+  /* AVIF 대체본을 두려고 <img>가 <picture>로 감싸인다. 레이아웃에서는 없는 셈 쳐야
+     .product-card__media img { max-height: 100% } 처럼 부모 크기를 기준 삼는
+     기존 규칙이 그대로 맞는다. */
+  picture {
+    display: contents;
+  }
+
+  /* <source>는 기본이 display: inline 이라, 위의 display: contents 아래에서
+     자리를 하나 차지해 버린다(격자 칸 하나를 밀어낸다). 아예 배치에서 뺀다. */
+  picture > source {
+    display: none;
   }
 
   input,

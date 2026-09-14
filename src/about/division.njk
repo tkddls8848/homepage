@@ -10,10 +10,17 @@ description: (주)트라이얼정보통신의 조직도입니다.
   <div class="container">
     <picture>
       {#- 모바일 전용 이미지가 있는 아트 디렉션이라 transform 플러그인에 맡기면
-          <picture>가 <img> 하나로 합쳐진다. 필터로 직접 srcset을 만든다. -#}
-      <source media="(max-width: 47.99rem)"
+          <picture>가 <img> 하나로 합쳐진다. 필터로 직접 srcset을 만든다.
+          <source>는 위에서부터 맞는 첫 항목이 뽑히므로 AVIF를 먼저 둔다. -#}
+      <source media="(max-width: 47.99rem)" type="image/avif"
+              srcset="{{ '/images/photo/about/m_division.png' | imageSrcset([480, 960, null], 'avif') }}"
+              sizes="92vw">
+      <source media="(max-width: 47.99rem)" type="image/webp"
               srcset="{{ '/images/photo/about/m_division.png' | imageSrcset([480, 960, null]) }}"
               sizes="92vw">
+      <source type="image/avif"
+              srcset="{{ '/images/photo/about/division.png' | imageSrcset([640, 960, null], 'avif') }}"
+              sizes="(min-width: 48rem) 90vw, 92vw">
       <img src="{{ '/images/photo/about/division.png' | imageUrl(null) }}"
            srcset="{{ '/images/photo/about/division.png' | imageSrcset([640, 960, null]) }}"
            sizes="(min-width: 48rem) 90vw, 92vw"

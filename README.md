@@ -29,7 +29,7 @@ src/
   images/      사이트가 사용하는 이미지
   blog/posts/  기술 블로그 Markdown
 lib/
-  images.js    이미지 WebP 변환·반응형 srcset 생성
+  images.js    이미지 AVIF/WebP 변환·반응형 srcset 생성
   assets.js    CSS/JS 캐시 무효화용 내용 해시
   svg.js       빌드 산출물 SVG 정리
   fonts.js     폰트 서브셋에 없는 글자 감지
@@ -90,8 +90,9 @@ HTTP 보안 헤더와 캐시 정책은 `src/headers.11ty.js`가 `_site/_headers`
 
 첫 방문 전송량을 줄이기 위해 빌드가 다음을 자동으로 처리합니다.
 
-- `src/images/photo/`의 PNG는 `_site/img/`에 WebP로 변환되어 나갑니다. 원본 PNG는 배포에
-  포함되지 않습니다.
+- `src/images/photo/`의 PNG는 `_site/img/`에 AVIF와 WebP로 변환되어 나갑니다. 템플릿의
+  `<img>`는 `<picture>`로 감싸여 브라우저가 읽을 수 있는 쪽을 고릅니다. 같은 화질에서
+  AVIF가 WebP보다 40~60% 작습니다. 원본 PNG는 배포에 포함되지 않습니다.
 - 템플릿의 `<img>`는 `eleventy:widths` 속성에 적은 폭으로 `srcset`이 생성됩니다.
   화면에서 차지하는 크기가 바뀌면 이 값과 `sizes`를 함께 조정합니다.
 - 파일명에 내용 해시가 들어가는 `/img/*`, `/assets/fonts/*`와 `?v=`가 붙는
@@ -102,7 +103,9 @@ HTTP 보안 헤더와 캐시 정책은 `src/headers.11ty.js`가 `_site/_headers`
 새 사진을 추가할 때는 `src/images/photo/` 아래에 원본을 두고 템플릿에서 평소처럼
 `<img src="/images/photo/...">`로 참조하면 됩니다. 변환은 빌드가 맡습니다.
 `<picture>`로 모바일 전용 이미지를 따로 쓰는 자리(`about/division`, `etc/recruit`)만
-`imageSrcset` 필터로 직접 처리합니다.
+`imageSrcset` 필터로 직접 처리합니다. 이때 AVIF `<source>`를 WebP보다 먼저 둡니다.
+
+CSS background-image는 포맷을 협상할 수 없어 WebP만 씁니다(`imageUrl` 필터).
 
 ## 본문 폰트
 
