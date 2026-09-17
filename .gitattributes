@@ -1,11 +1,19 @@
-# 줄바꿈 고정.
+# 줄바꿈은 LF 로 통일한다.
 #
-# Windows 에서 작업하면 git 이 체크아웃할 때 LF 를 CRLF 로 바꿉니다. 아래 파일들은
-# 값을 줄 단위로 그대로 읽는 설정 파일이라, 끝에 \r 이 붙으면 파서가 오작동합니다.
-#   .nvmrc      → "24\r" 을 버전으로 해석하려다 실패 (빌드 Node 버전이 어긋남)
-#   _redirects  → 규칙의 상태코드가 "301\r" 이 되어 리다이렉트가 무시될 수 있음
-# 저장소와 체크아웃 모두 LF 로 고정합니다.
-.nvmrc      text eol=lf
-_redirects  text eol=lf
+# 리눅스와 윈도우를 오가며 작업하므로, 머신마다 다른 core.autocrlf 설정에 맡기면 같은
+# 파일이 CRLF 와 LF 사이를 오간다. 그러면 한 줄만 고쳐도 파일 전체가 diff 로 잡혀
+# 리뷰가 불가능해지고, 셸 스크립트의 셔뱅이 `/usr/bin/env bash\r` 로 읽히거나 설정
+# 파일의 값 끝에 \r 이 붙어 파서가 오작동한다.
+#
+# eol=lf 는 저장소와 작업트리 양쪽을 LF 로 고정하며 개인 core.autocrlf 설정을 이긴다.
+# 에디터 쪽 짝은 .editorconfig 에 있다.
+* text=auto eol=lf
 
-# _headers 는 빌드할 때 Node 가 생성하므로(src/headers.11ty.js) 여기 없습니다.
+# 윈도우 배치 파일만 예외다. cmd.exe 는 LF 줄바꿈에서 라벨과 goto 를 잘못 읽는다.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# .nvmrc 와 _redirects 는 값을 줄 단위로 그대로 읽는 설정 파일이라 위 규칙이 특히
+# 중요하다. 끝에 \r 이 붙으면 "24\r" 을 Node 버전으로 해석하려다 실패하고,
+# 리다이렉트 규칙의 상태코드가 "301\r" 이 되어 무시될 수 있다.
+# (_headers 는 빌드할 때 Node 가 생성하므로 여기 없다 — src/headers.11ty.js)
