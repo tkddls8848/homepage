@@ -14,3 +14,6 @@ env.md
 # 실제 사이트 에셋은 trialinfo/src/images/ 에 있으므로 영향 없습니다.
 /*.png
 /*.jpg
+
+# wrangler 로컬 상태
+.wrangler/

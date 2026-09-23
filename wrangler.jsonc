@@ -1,0 +1,17 @@
+// Workers Builds 배포 설정.
+// 이 파일이 없으면 `wrangler deploy`가 프로젝트를 자동 감지하면서 `npm run dev`
+// (eleventy --serve)를 빌드 명령으로 골라 끝나지 않는 개발 서버를 띄운다.
+// 빌드는 대시보드의 Build command(`npm run build`)가 하고, 여기서는 결과물만 올린다.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "homepage",
+  "compatibility_date": "2026-09-21",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "_site",
+    // 없는 경로는 가장 가까운 404.html로 응답한다(/trialinfo/... 는 회사 홈페이지의 404).
+    "not_found_handling": "404-page"
+  }
+}
