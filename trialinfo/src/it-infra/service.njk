@@ -1,0 +1,44 @@
+---
+pagination:
+  data: services
+  size: 1
+  alias: s
+  addAllPagesToCollections: true
+permalink: "{{ s.url }}"
+layout: layouts/page.njk
+section: it-infra
+eleventyComputed:
+  title: "{{ s.title }}"
+  eyebrow: "IT Infra Service"
+  lead: "{{ s.lead }}"
+  description: "{{ s.title }} — {{ s.lead }}"
+---
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__eyebrow">Service Areas</p>
+      <h2 class="section__title">{{ s.title }}</h2>
+    </div>
+    <div class="split split--aside">
+      <img src="{{ s.image }}" alt="{{ s.title }} 서비스 구성도"
+           eleventy:widths="800,1600" sizes="(min-width: 56rem) 55vw, 92vw"
+           style="display:block; width:100%; height:auto; align-self:start">
+      <div class="grid">
+        {%- for group in s.groups %}
+        <article class="section-card reveal">
+          <p class="section-card__label">{{ group.title }}</p>
+          <ul class="product-card__features">
+            {%- for item in group.items %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+        </article>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container container--narrow">
+    <p class="section__lead" style="text-align:center">{{ s.lead }}</p>
+  </div>
+</section>

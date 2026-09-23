@@ -1,0 +1,57 @@
+---
+layout: layouts/base.njk
+title: null
+description: "(주)트라이얼정보통신은 IBM·Lenovo·Dell 서버와 스토리지 공급, IT 인프라 컨설팅·구축·유지보수를 제공하는 IT Service 전문기업입니다."
+headerOverlay: true
+bodyClass: home
+---
+{% include "partials/hero.njk" %}
+
+<nav class="home-tabs" aria-label="주요 메뉴">
+  <a class="home-tab home-tab--about" href="{{ '/about/' }}"
+     style="--home-tab-image: url('{{ '/images/photo/tab/about.png' | imageUrl(1600) | htmlBaseUrl }}')">
+    <span class="home-tab__content">
+      <h3>회사소개</h3>
+      <p>
+        20년 이상의 전문 경력을 바탕으로 IT Service 전문대표기업으로
+        새롭게 태어났습니다. 정보통신산업의 든든한 기둥, 정보강국의 첨병이 되어
+        대한민국 종합정보통신의 살아있는 역사를 바로 세워가겠습니다.
+      </p>
+    </span>
+  </a>
+  <a class="home-tab home-tab--infra" href="{{ '/it-infra/' }}"
+     style="--home-tab-image: url('{{ '/images/photo/tab/infra.png' | imageUrl(1200) | htmlBaseUrl }}')">
+    <span class="home-tab__content"><h3>IT Infra Service</h3></span>
+  </a>
+  <a class="home-tab home-tab--product" href="{{ '/products/' }}"
+     style="--home-tab-image: url('{{ '/images/photo/tab/product.png' | imageUrl(1200) | htmlBaseUrl }}')">
+    <span class="home-tab__content"><h3>Product</h3></span>
+  </a>
+</nav>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__eyebrow">Product</p>
+      <h2 class="section__title">검증된 제조사의 서버·스토리지·소프트웨어</h2>
+      <p class="section__lead">
+        워크로드 특성과 예산에 맞춰 UNIX 서버부터 x86 서버, 스토리지, 파일 시스템
+        소프트웨어까지 구성하고 공급합니다.
+      </p>
+    </div>
+
+    <div class="grid grid--4">
+      {%- for vendor in nav.vendors %}
+      <a class="feature reveal" href="{{ vendor.url }}">
+        <span class="feature__icon" aria-hidden="true">{{ vendor.label }}</span>
+        <span class="feature__title">{{ vendor.label }}</span>
+        <span class="feature__text">
+          {%- for cat in vendor.categories %}{{ cat.label }}{% if not loop.last %} · {% endif %}{% endfor -%}
+        </span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{% include "partials/cta.njk" %}

@@ -3,16 +3,19 @@
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "(주)트라이얼정보통신 공식 홈페이지 — 정적 사이트 (Eleventy)",
+  "description": "개인 소개 사이트 + /trialinfo/ 에 보관한 (주)트라이얼정보통신 홈페이지 — 정적 사이트",
   "scripts": {
-    "start": "eleventy --serve --incremental",
-    "dev": "eleventy --serve --incremental",
-    "build": "eleventy && npm run check:links",
-    "build:only": "eleventy",
-    "build:fonts": "node tools/build-fonts.mjs",
+    "start": "npm run dev",
+    "dev": "cd trialinfo && eleventy --serve --incremental",
+    "build": "npm run clean && npm run build:trialinfo && npm run build:root && npm run check:links",
+    "build:only": "npm run clean && npm run build:trialinfo && npm run build:root",
+    "preview": "eleventy-dev-server --dir=_site",
+    "build:trialinfo": "cd trialinfo && eleventy",
+    "build:root": "node tools/build-root.mjs",
+    "build:fonts": "cd trialinfo && node tools/build-fonts.mjs",
     "clean": "node -e \"import('node:fs').then(fs=>fs.rmSync('_site',{recursive:true,force:true}))\"",
     "check:links": "node tools/check-links.mjs",
-    "draft:post": "node tools/draft-post.mjs"
+    "draft:post": "cd trialinfo && node tools/draft-post.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",

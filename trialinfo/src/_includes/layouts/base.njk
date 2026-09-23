@@ -1,0 +1,80 @@
+{%- set pageTitle = title if title else site.name -%}
+{%- set metaTitle = (title + " | " + site.nameShort) if title else (site.name + " — " + site.tagline) -%}
+{%- set metaDescription = description if description else site.description -%}
+{%- set canonical = page.url | siteUrl(site.url) -%}
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ metaTitle }}</title>
+  <meta name="description" content="{{ metaDescription }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta name="theme-color" content="#ed2024">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ site.name }}">
+  <meta property="og:locale" content="{{ site.locale }}">
+  <meta property="og:title" content="{{ metaTitle }}">
+  <meta property="og:description" content="{{ metaDescription }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ '/images/og/og-brand-v2.jpg' | siteUrl(site.url) }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ site.name }}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' }}" type="image/svg+xml">
+  <link rel="icon" href="{{ '/assets/img/favicon-32.png' }}" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="{{ '/assets/img/apple-touch-icon.png' }}">
+
+  {#- 본문 폰트는 자체 호스팅한다. main.css 를 받아 파싱할 때까지 기다리지 않도록
+      본문용 서브셋만 미리 받는다. 파일명은 tools/build-fonts.mjs 가 갱신한다. -#}
+  <link rel="preload" href="{{ fonts.preload }}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | assetUrl }}">
+  <script type="module" src="{{ '/assets/js/main.js' | assetUrl }}"></script>
+
+  {%- if kakaoMap %}
+  <script charset="UTF-8" class="daum_roughmap_loader_script"
+          src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+  {%- endif %}
+
+  {%- if robots %}<meta name="robots" content="{{ robots }}">{% endif %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ site.name }}",
+    "url": "{{ '/' | siteUrl(site.url) }}",
+    "description": "{{ site.description }}",
+    "telephone": "{{ site.contact.tel }}",
+    "faxNumber": "{{ site.contact.fax }}",
+    "email": "{{ site.contact.email }}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "KR",
+      "addressRegion": "서울특별시",
+      "postalCode": "{{ site.contact.zip }}",
+      "streetAddress": "{{ site.contact.address1 }} {{ site.contact.address2 }}"
+    }
+  }
+  </script>
+</head>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
+  <a class="skip-link" href="#main">본문으로 바로가기</a>
+
+  {% include "partials/site-header.njk" %}
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  {% include "partials/site-footer.njk" %}
+
+  {%- if kakaoMap %}
+  <script src="{{ '/assets/js/kakao-map.js' | assetUrl }}"></script>
+  {%- endif %}
+</body>
+</html>

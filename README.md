@@ -1,6 +1,20 @@
-# 트라이얼정보통신 홈페이지
+# 개인 소개 사이트 + 트라이얼정보통신 홈페이지(보관)
 
-Eleventy 3 기반 정적 사이트입니다. Cloudflare Pages가 `main` 브랜치를 빌드해 배포합니다.
+Cloudflare Pages가 `main` 브랜치를 빌드해 배포합니다. 한 배포에 두 사이트가 들어갑니다.
+
+| 경로 | 내용 | 소스 |
+| --- | --- | --- |
+| `/` | 개인 소개 페이지(파일럿) | `site/` — 정적 HTML을 그대로 복사 |
+| `/trialinfo/` | (주)트라이얼정보통신 홈페이지 | `trialinfo/` — Eleventy 3 |
+
+회사 홈페이지는 루트에서 `/trialinfo/` 아래로 옮겨 보관 중입니다. 템플릿은 예전처럼 루트 기준
+경로(`/about/`)로 쓰고, Eleventy의 `pathPrefix`와 HTML base 플러그인이 빌드된 HTML에
+`/trialinfo/`를 붙입니다(`trialinfo/lib/paths.js`). 템플릿에 `| url` 필터를 쓰면 접두어가
+두 번 붙으니 쓰지 않습니다. `style` 속성처럼 플러그인이 보지 않는 자리만 `| htmlBaseUrl`을 씁니다.
+
+`_headers`, `robots.txt`, `.well-known/security.txt`는 도메인 루트에만 의미가 있어
+`tools/build-root.mjs`가 `_site/trialinfo/`에서 `_site/`로 옮깁니다. 예전 주소(`/about/` 등)는
+`site/_redirects`가 `/trialinfo/...`로 302 리다이렉트합니다. 새 사이트가 같은 경로를 쓰게 되면 그 줄을 지웁니다.
 
 ## 실행
 
@@ -8,7 +22,14 @@ Node.js 24가 필요합니다.
 
 ```bash
 npm ci
-npm run dev
+npm run dev       # 회사 홈페이지만 → http://localhost:8080/trialinfo/
+```
+
+두 사이트를 함께 보려면 빌드 후 `_site`를 띄웁니다.
+
+```bash
+npm run build:only
+npm run preview
 ```
 
 배포와 같은 검증은 다음 명령으로 실행합니다.
@@ -17,9 +38,11 @@ npm run dev
 npm run build
 ```
 
-`build`는 사이트를 `_site/`에 생성한 뒤 내부 링크와 이미지 경로를 검사합니다. 의존성 보안 감사는 배포와 분리해 필요할 때 `npm audit`으로 실행합니다.
+`build`는 두 사이트를 `_site/`에 생성한 뒤(`tools/build-root.mjs`) 내부 링크와 이미지 경로를 검사합니다. 의존성 보안 감사는 배포와 분리해 필요할 때 `npm audit`으로 실행합니다.
 
 ## 구조
+
+아래 경로는 모두 `trialinfo/` 기준입니다.
 
 ```text
 src/
@@ -34,7 +57,6 @@ lib/
   svg.js       빌드 산출물 SVG 정리
   fonts.js     폰트 서브셋에 없는 글자 감지
 tools/
-  check-links.mjs  빌드 결과 경로 검사
   build-fonts.mjs  본문 폰트 서브셋 생성
   draft-post.mjs   블로그 초안 생성
 ```
@@ -65,7 +87,7 @@ Web3Forms를 쓸 때 `FORM_ENDPOINT=https://api.web3forms.com/submit`과 발급�
 
 ## 블로그
 
-글은 `src/blog/posts/`에 Markdown으로 둡니다. 공개 전 초안에는 다음 front matter를 사용합니다.
+글은 `trialinfo/src/blog/posts/`에 Markdown으로 둡니다. 공개 전 초안에는 다음 front matter를 사용합니다.
 
 ```yaml
 draft: true
@@ -84,7 +106,7 @@ draft: true
 - Build output directory: `_site`
 - Node version: `.nvmrc`의 `24`
 
-HTTP 보안 헤더와 캐시 정책은 `src/headers.11ty.js`가 `_site/_headers`로 생성합니다.
+HTTP 보안 헤더와 캐시 정책은 `src/headers.11ty.js`가 `_site/_headers`로 생성합니다(경로 규칙은 `/trialinfo/` 기준).
 
 ## 성능
 
@@ -113,7 +135,7 @@ CSS background-image는 포맷을 협상할 수 없어 WebP만 씁니다(`imageU
 서브셋 수십 개를 제3자 도메인에서 내려받습니다(홈 기준 요청 33개, 184~552KB). 사이트가
 실제로 쓰는 글자만 담은 가변 폰트 한 벌이면 같은 화면을 73KB로 그립니다.
 
-`src/assets/fonts/`의 woff2 두 개는 `tools/build-fonts.mjs`가 만들어 저장소에 커밋합니다.
+`trialinfo/src/assets/fonts/`의 woff2 두 개는 `tools/build-fonts.mjs`가 만들어 저장소에 커밋합니다.
 
 | 파일 | 담는 글자 | 언제 받아 가나 |
 | --- | --- | --- |

@@ -1,0 +1,11 @@
+# 회사 홈페이지를 /trialinfo/ 아래로 옮기면서 예전 주소를 새 위치로 보낸다.
+# 새 사이트가 같은 경로(/about/, /blog/ 등)를 쓰게 되면 해당 줄을 지운다.
+# 영구 이동이 아니므로 302로 둔다(검색엔진이 예전 주소를 영구히 넘기지 않게).
+/about/*        /trialinfo/about/:splat        302
+/products/*     /trialinfo/products/:splat     302
+/it-infra/*     /trialinfo/it-infra/:splat     302
+/blog/*         /trialinfo/blog/:splat         302
+/career/*       /trialinfo/career/:splat       302
+/contact/*      /trialinfo/contact/:splat      302
+/etc/*          /trialinfo/etc/:splat          302
+/sitemap.xml    /trialinfo/sitemap.xml         302

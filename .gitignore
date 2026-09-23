@@ -11,6 +11,6 @@ Thumbs.db
 env.md
 
 # 작업용 스크린샷 등 루트에 임시로 놓이는 이미지.
-# 실제 사이트 에셋은 src/images/ 에 있으므로 영향 없습니다.
+# 실제 사이트 에셋은 trialinfo/src/images/ 에 있으므로 영향 없습니다.
 /*.png
 /*.jpg

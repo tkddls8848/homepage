@@ -1,0 +1,45 @@
+<article class="product-card reveal">
+  <div class="product-card__body">
+    <p class="product-card__label">{{ item.label }}</p>
+    <h3 class="product-card__name">
+      {%- if item.line %}<span class="product-card__line">{{ item.line }}</span>{% endif %}
+      <span class="product-card__model">{{ item.model }}</span>
+    </h3>
+  </div>
+
+  <div class="product-card__media">
+    {%- if item.image %}
+    <img src="{{ item.image }}"
+         alt="{{ item.imageAlt if item.imageAlt else (item.line + ' ' + item.model + ' 제품 이미지') }}"
+         eleventy:widths="400,800" sizes="(min-width: 48rem) 25rem, 92vw"
+         loading="lazy" decoding="async">
+    {%- endif %}
+  </div>
+
+  <div class="product_info">
+    {%- if item.summary %}
+    <p class="product-card__summary">{{ item.summary }}</p>
+    {%- endif %}
+
+    {%- if item.features and item.features.length %}
+    <ul class="product-card__features">
+      {%- for feature in item.features %}
+      {%- set parsed = feature | labelSplit %}
+      <li>
+        {%- if parsed.label %}<b>{{ parsed.label }}</b> {% endif -%}
+        {{ parsed.text }}
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+
+    {%- if item.link %}
+    <p class="product-card__action">
+      <a class="product-card__detail" href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+        자세히보기
+        <span class="sr-only">({{ item.line }} {{ item.model }}, 새 창)</span>
+      </a>
+    </p>
+    {%- endif %}
+  </div>
+</article>

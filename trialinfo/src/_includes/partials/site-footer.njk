@@ -1,0 +1,50 @@
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <a href="{{ '/' }}" aria-label="{{ site.name }} 홈으로">
+        <img src="{{ '/images/logo/logo_wt.svg' }}" alt="{{ site.name }}" eleventy:ignore width="180" height="34">
+      </a>
+      <p class="site-footer__tagline">{{ site.tagline }}</p>
+    </div>
+
+    <nav class="site-footer__nav footer_nav" aria-label="푸터 메뉴">
+      {%- for item in nav.primary %}
+      <dl class="site-footer__col">
+        <dt>
+          <button class="site-footer__toggle" type="button" aria-expanded="false"
+                  aria-controls="footer-menu-{{ loop.index }}" data-footer-toggle>
+            {{ item.label }}<span aria-hidden="true"></span>
+          </button>
+        </dt>
+        <dd id="footer-menu-{{ loop.index }}">
+          <ul>
+          {%- for child in nav.children[item.key] %}
+          <li><a href="{{ child.url }}">{{ child.label }}</a></li>
+          {%- endfor %}
+          </ul>
+        </dd>
+      </dl>
+      {%- endfor %}
+    </nav>
+
+    <div class="site-footer__info">
+      <h2 class="site-footer__heading">{{ site.name }}</h2>
+      <address>
+        <p>(우) {{ site.contact.zip }} {{ site.contact.address1 }}<br>{{ site.contact.address2 }}</p>
+        <p class="site-footer__contact">
+          <span>TEL <a href="{{ site.contact.tel | telHref }}">{{ site.contact.tel }}</a></span>
+          <span>FAX {{ site.contact.fax }}</span>
+          <span>E-mail <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></span>
+        </p>
+      </address>
+      <ul class="site-footer__utility">
+        {%- for item in nav.utility %}
+        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+        {%- endfor %}
+      </ul>
+      <p class="site-footer__copyright">
+        <small>&copy; {{ site.copyrightFrom }}&ndash;{{ "" | year }} {{ site.name }}. All rights reserved.</small>
+      </p>
+    </div>
+  </div>
+</footer>
