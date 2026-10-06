@@ -14,7 +14,7 @@ if (!existsSync(ARCHIVE)) {
   process.exit(1);
 }
 
-// 루트 정적 파일(index.html, 404.html, _redirects)을 그대로 복사한다.
+// 루트 정적 파일(페이지, 404.html, assets/site.css, _redirects)을 그대로 복사한다.
 await cp("site", OUT, { recursive: true });
 
 // 브라우저·크롤러·Cloudflare Pages가 도메인 루트에서만 찾는 파일들.

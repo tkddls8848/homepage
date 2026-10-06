@@ -6,121 +6,7 @@
   <title>박상인 — 포트폴리오</title>
   <meta name="description" content="박상인이 GitHub 에서 만들고 있는 프로젝트 8개의 소개와 진행 상황, 서비스 주소입니다.">
   <meta name="robots" content="noindex">
-  <style>
-    :root {
-      --bg: #f6f7f9;
-      --text: #1a1d24;
-      --muted: #5e6573;
-      --faint: #8a909c;
-      --line: #d8dce3;
-      --live: #157f4c;
-      color-scheme: light dark;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #15171c;
-        --text: #e8eaee;
-        --muted: #a3a9b5;
-        --faint: #6f7682;
-        --line: #2c3039;
-        --live: #4cc38a;
-      }
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-      line-height: 1.7;
-      word-break: keep-all;
-    }
-    a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
-    a:hover { text-decoration-thickness: 2px; }
-    a:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
-    .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
-
-    header.top {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 20px 0;
-    }
-    .logo { font-weight: 800; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
-    nav a { margin-left: 18px; color: var(--muted); text-decoration: none; font-size: 0.95rem; }
-    nav a:hover { color: var(--text); }
-    nav a[aria-current="page"] { color: var(--text); font-weight: 700; }
-
-    .intro { padding: 72px 0 64px; max-width: 34em; }
-    .intro h1 {
-      font-size: clamp(2.4rem, 7vw, 4rem); line-height: 1.1; font-weight: 800;
-      letter-spacing: -0.045em; margin: 0 0 24px;
-    }
-    .intro p { color: var(--muted); font-size: 1.05rem; margin: 0 0 10px; }
-
-    section { padding: 0 0 72px; }
-    h2 {
-      font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
-      margin: 0; padding-bottom: 14px; border-bottom: 2px solid var(--text);
-    }
-    h2 + .lede { color: var(--muted); font-size: 0.92rem; margin: 10px 0 0; }
-
-    /* 서비스: 왼쪽에 이름과 주소, 오른쪽에 설명. 주소가 이 페이지의 얼굴이다. */
-    .service {
-      display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px 48px;
-      padding: 32px 0; border-bottom: 1px solid var(--line);
-    }
-    .service h3 {
-      margin: 0 0 6px; font-size: 0.95rem; font-weight: 600; color: var(--muted);
-      letter-spacing: -0.01em;
-    }
-    .host {
-      display: inline-block; font-size: clamp(1.35rem, 3.2vw, 1.9rem); font-weight: 700;
-      line-height: 1.25; letter-spacing: -0.03em; overflow-wrap: anywhere;
-      text-decoration: none;
-    }
-    .host b { font-weight: 800; color: var(--text); }
-    .host span { color: var(--faint); font-weight: 500; }
-    .host:hover b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
-    .state {
-      display: flex; align-items: center; gap: 8px; margin: 10px 0 0;
-      font-size: 0.85rem; color: var(--live); font-weight: 600;
-    }
-    .state::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-    .state--locked { color: var(--muted); }
-    .state--locked::before { background: transparent; border: 1.5px solid currentColor; }
-
-    .body p { margin: 0 0 16px; }
-    .facts { display: grid; grid-template-columns: auto 1fr; gap: 2px 16px; margin: 0 0 14px; font-size: 0.88rem; }
-    .facts dt { color: var(--faint); }
-    .facts dd { margin: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
-    .more { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; list-style: none; font-size: 0.9rem; font-weight: 600; }
-
-    /* 공개 전: 주소가 없으니 한 줄 목록으로 줄인다. */
-    .quiet { list-style: none; margin: 0; padding: 0; }
-    .quiet li {
-      display: grid; grid-template-columns: 11rem minmax(0, 1fr) auto; gap: 4px 32px;
-      padding: 22px 0; border-bottom: 1px solid var(--line);
-    }
-    .quiet h3 { margin: 0; font-size: 1.05rem; letter-spacing: -0.02em; }
-    .quiet h3 small { display: block; color: var(--faint); font-size: 0.8rem; font-weight: 500; letter-spacing: 0; }
-    .quiet p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-    .quiet .stack { display: block; margin-top: 6px; color: var(--faint); font-size: 0.85rem; }
-    .quiet .side { text-align: right; font-size: 0.85rem; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .quiet .side a { color: var(--text); font-weight: 600; }
-
-    .note { color: var(--faint); font-size: 0.85rem; margin: 20px 0 0; max-width: 40em; }
-
-    footer { padding: 32px 0 56px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--line); }
-
-    @media (max-width: 720px) {
-      .service { grid-template-columns: 1fr; gap: 16px; padding: 28px 0; }
-      .quiet li { grid-template-columns: 1fr; }
-      .quiet .side { text-align: left; }
-    }
-    @media (max-width: 560px) {
-      nav a { margin-left: 12px; }
-      .intro { padding: 48px 0 48px; }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
   <div class="wrap">
@@ -228,7 +114,7 @@
         <h2 id="quiet-title">아직 공개하지 않은 것</h2>
         <p class="lede">서비스 주소가 없거나 코드를 공개하지 않은 프로젝트입니다.</p>
 
-        <ul class="quiet">
+        <ul class="rows">
           <li>
             <h3>Chronicle<small>코드 비공개</small></h3>
             <p>공공 API 정보를 모아 검색하기 쉽게 정리하고, AI 도구가 바로 찾아 쓸 수 있도록 제공하는 검색 서비스를 만들고 있습니다.<span class="stack">Python, 벡터 검색, MCP</span></p>
