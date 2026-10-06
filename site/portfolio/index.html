@@ -4,36 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>박상인 — 포트폴리오</title>
-  <meta name="description" content="박상인이 GitHub 에서 만들고 있는 프로젝트 8개의 소개와 진행 상황, 결과물 링크입니다.">
+  <meta name="description" content="박상인이 GitHub 에서 만들고 있는 프로젝트 8개의 소개와 진행 상황, 서비스 주소입니다.">
   <meta name="robots" content="noindex">
   <style>
     :root {
-      --bg: #f7f6f2;
-      --surface: #ffffff;
-      --text: #1b1b1f;
-      --muted: #5f5f6b;
-      --line: #e3e1da;
-      --accent: #2f5bea;
-      --accent-soft: #e6ecfd;
-      --wip: #b45309;
-      --wip-soft: #fdf0dc;
-      --done: #15803d;
-      --done-soft: #e3f4e8;
+      --bg: #f6f7f9;
+      --text: #1a1d24;
+      --muted: #5e6573;
+      --faint: #8a909c;
+      --line: #d8dce3;
+      --live: #157f4c;
       color-scheme: light dark;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #111214;
-        --surface: #1a1b1f;
-        --text: #ececf0;
-        --muted: #a0a0ad;
-        --line: #2b2c32;
-        --accent: #7c9cff;
-        --accent-soft: #1f2640;
-        --wip: #f5b056;
-        --wip-soft: #33260f;
-        --done: #6fd394;
-        --done-soft: #16301f;
+        --bg: #15171c;
+        --text: #e8eaee;
+        --muted: #a3a9b5;
+        --faint: #6f7682;
+        --line: #2c3039;
+        --live: #4cc38a;
       }
     }
     * { box-sizing: border-box; }
@@ -45,8 +35,10 @@
       line-height: 1.7;
       word-break: keep-all;
     }
-    a { color: var(--accent); }
-    .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+    a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
     header.top {
       display: flex; justify-content: space-between; align-items: center;
@@ -57,92 +49,76 @@
     nav a:hover { color: var(--text); }
     nav a[aria-current="page"] { color: var(--text); font-weight: 700; }
 
-    .hero { padding: 56px 0 40px; }
-    .eyebrow { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2;
-      letter-spacing: -0.03em; margin: 0 0 16px;
+    .intro { padding: 72px 0 64px; max-width: 34em; }
+    .intro h1 {
+      font-size: clamp(2.4rem, 7vw, 4rem); line-height: 1.1; font-weight: 800;
+      letter-spacing: -0.045em; margin: 0 0 24px;
     }
-    .hero p { color: var(--muted); font-size: 1.05rem; max-width: 38em; margin: 0 0 12px; }
-    .hero .devlog { color: var(--text); font-weight: 600; }
+    .intro p { color: var(--muted); font-size: 1.05rem; margin: 0 0 10px; }
 
-    section { padding: 40px 0; border-top: 1px solid var(--line); }
-    h2 { font-size: 1.4rem; letter-spacing: -0.02em; margin: 0 0 20px; }
-
-    .summary {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-      list-style: none; padding: 0; margin: 0 0 24px;
+    section { padding: 0 0 72px; }
+    h2 {
+      font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
+      margin: 0; padding-bottom: 14px; border-bottom: 2px solid var(--text);
     }
-    .summary li {
-      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
-      padding: 14px 18px;
+    h2 + .lede { color: var(--muted); font-size: 0.92rem; margin: 10px 0 0; }
+
+    /* 서비스: 왼쪽에 이름과 주소, 오른쪽에 설명. 주소가 이 페이지의 얼굴이다. */
+    .service {
+      display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px 48px;
+      padding: 32px 0; border-bottom: 1px solid var(--line);
     }
-    .summary strong { display: block; font-size: 1.8rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
-    .summary span { color: var(--muted); font-size: 0.9rem; }
-
-    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
-    .filters[hidden] { display: none; }
-    .filters button {
-      font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer;
-      padding: 6px 14px; border-radius: 999px;
-      border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+    .service h3 {
+      margin: 0 0 6px; font-size: 0.95rem; font-weight: 600; color: var(--muted);
+      letter-spacing: -0.01em;
     }
-    .filters button:hover { color: var(--text); }
-    .filters button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 16px; }
-    .card {
-      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
-      padding: 22px; display: flex; flex-direction: column; gap: 12px; min-width: 0;
+    .host {
+      display: inline-block; font-size: clamp(1.35rem, 3.2vw, 1.9rem); font-weight: 700;
+      line-height: 1.25; letter-spacing: -0.03em; overflow-wrap: anywhere;
+      text-decoration: none;
     }
-    .card[hidden] { display: none; }
-    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-    .card h3 { margin: 0; font-size: 1.1rem; overflow-wrap: anywhere; }
-    .card h3 small { display: block; color: var(--muted); font-size: 0.8rem; font-weight: 500; }
-    .card p { margin: 0; color: var(--muted); font-size: 0.95rem; flex: 1; }
-
-    .badge {
-      flex: none; display: inline-flex; align-items: center; gap: 6px;
-      padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; white-space: nowrap;
+    .host b { font-weight: 800; color: var(--text); }
+    .host span { color: var(--faint); font-weight: 500; }
+    .host:hover b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+    .state {
+      display: flex; align-items: center; gap: 8px; margin: 10px 0 0;
+      font-size: 0.85rem; color: var(--live); font-weight: 600;
     }
-    .badge--wip { background: var(--wip-soft); color: var(--wip); }
-    .badge--done { background: var(--done-soft); color: var(--done); }
-    .badge--wip::before {
-      content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor;
-      animation: pulse 1.6s ease-in-out infinite;
+    .state::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .state--locked { color: var(--muted); }
+    .state--locked::before { background: transparent; border: 1.5px solid currentColor; }
+
+    .body p { margin: 0 0 16px; }
+    .facts { display: grid; grid-template-columns: auto 1fr; gap: 2px 16px; margin: 0 0 14px; font-size: 0.88rem; }
+    .facts dt { color: var(--faint); }
+    .facts dd { margin: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .more { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; list-style: none; font-size: 0.9rem; font-weight: 600; }
+
+    /* 공개 전: 주소가 없으니 한 줄 목록으로 줄인다. */
+    .quiet { list-style: none; margin: 0; padding: 0; }
+    .quiet li {
+      display: grid; grid-template-columns: 11rem minmax(0, 1fr) auto; gap: 4px 32px;
+      padding: 22px 0; border-bottom: 1px solid var(--line);
     }
-    .badge--done::before { content: "✓"; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
-    @media (prefers-reduced-motion: reduce) { .badge--wip::before { animation: none; } }
+    .quiet h3 { margin: 0; font-size: 1.05rem; letter-spacing: -0.02em; }
+    .quiet h3 small { display: block; color: var(--faint); font-size: 0.8rem; font-weight: 500; letter-spacing: 0; }
+    .quiet p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    .quiet .stack { display: block; margin-top: 6px; color: var(--faint); font-size: 0.85rem; }
+    .quiet .side { text-align: right; font-size: 0.85rem; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .quiet .side a { color: var(--text); font-weight: 600; }
 
-    .progress { margin: 0; font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .note { color: var(--faint); font-size: 0.85rem; margin: 20px 0 0; max-width: 40em; }
 
-    .skills { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0; }
-    .skills li {
-      background: var(--accent-soft); color: var(--accent);
-      padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+    footer { padding: 32px 0 56px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--line); }
+
+    @media (max-width: 720px) {
+      .service { grid-template-columns: 1fr; gap: 16px; padding: 28px 0; }
+      .quiet li { grid-template-columns: 1fr; }
+      .quiet .side { text-align: left; }
     }
-
-    .links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .btn {
-      display: inline-block; padding: 7px 14px; border-radius: 10px;
-      text-decoration: none; font-weight: 600; font-size: 0.88rem;
-    }
-    .btn--primary { background: var(--accent); color: #fff; }
-    .btn--ghost { border: 1px solid var(--line); color: var(--text); }
-    .pending { font-size: 0.85rem; color: var(--muted); }
-
-    .empty { color: var(--muted); margin: 0; }
-    .empty[hidden] { display: none; }
-    .note { color: var(--muted); font-size: 0.85rem; margin: 20px 0 0; }
-
-    footer { padding: 40px 0 56px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--line); }
-
     @media (max-width: 560px) {
       nav a { margin-left: 12px; }
-      .summary { gap: 8px; }
-      .summary li { padding: 12px; }
-      .summary strong { font-size: 1.4rem; }
+      .intro { padding: 48px 0 48px; }
     }
   </style>
 </head>
@@ -151,169 +127,125 @@
     <header class="top"><a class="logo" href="/">박상인</a><nav aria-label="주요 메뉴"><a href="/">소개</a><a href="/resume/">이력서</a><a href="/portfolio/" aria-current="page">포트폴리오</a></nav></header>
 
     <main>
-      <div class="hero">
-        <p class="eyebrow">Portfolio</p>
+      <div class="intro">
         <h1>만들고 있는 것들</h1>
-        <p>GitHub 에서 직접 만들고 있는 프로젝트를 모았습니다. 설명은 각 저장소의 README 를, 진행 상황은 커밋 기록을 근거로 적었습니다.</p>
-        <p class="devlog">매일의 작업 기록은 <a href="https://devlog.tkddls8848.workers.dev/devlog/" target="_blank" rel="noopener">devlog</a>에서 볼 수 있습니다.</p>
+        <p>GitHub 에서 직접 만들고 있는 프로젝트 8개입니다. 모두 아직 고치는 중이고, 설명은 각 저장소의 README 를, 진행 상황은 커밋 기록을 근거로 적었습니다.</p>
+        <p>매일의 작업 기록은 <a href="https://devlog.tkddls8848.workers.dev/devlog/" target="_blank" rel="noopener">devlog</a>에 남깁니다.</p>
       </div>
 
-      <section id="projects" aria-labelledby="projects-title">
-        <h2 id="projects-title">프로젝트</h2>
+      <section aria-labelledby="live-title">
+        <h2 id="live-title">지금 써 볼 수 있는 서비스</h2>
 
-        <ul class="summary" aria-label="프로젝트 요약">
-          <li><strong>8</strong><span>전체</span></li>
-          <li><strong>8</strong><span>작업중</span></li>
-          <li><strong>0</strong><span>완료</span></li>
+        <article class="service">
+          <div>
+            <h3>Stock Chatbot</h3>
+            <a class="host" href="https://nunchi.live/" target="_blank" rel="noopener"><b>nunchi</b><span>.live</span></a>
+            <p class="state">운영 중</p>
+          </div>
+          <div class="body">
+            <p>중국·홍콩·미국·한국·일본·유럽·글로벌 시장의 뉴스와 종목 정보를 모아 시장상황 보고서, 감성 분석, 관심 종목 관리, 브리핑을 보내 주는 주식 시장 정보 서비스입니다. 웹과 텔레그램 봇으로 제공하고, 같은 데이터로 만든 쇼츠를 YouTube 채널에 주기적으로 올립니다.</p>
+            <dl class="facts">
+              <dt>기술</dt><dd>Python, Telegram Bot, Cloudflare Workers AI, AWS Lightsail, GitHub Actions</dd>
+              <dt>최근 업데이트</dt><dd><time datetime="2026-10-06">2026-10-06</time>, 커밋 333개</dd>
+            </dl>
+            <ul class="more">
+              <li><a href="https://www.youtube.com/@mirnuri-i4r" target="_blank" rel="noopener">YouTube 쇼츠 채널</a></li>
+              <li><a href="https://github.com/tkddls8848/stock_chatbot" target="_blank" rel="noopener">GitHub 저장소</a></li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Workers 서비스 주소는 https://<Worker 이름>.tkddls8848.workers.dev/ 형식이다. -->
+        <article class="service">
+          <div>
+            <h3>byebye</h3>
+            <a class="host" href="https://byebye.tkddls8848.workers.dev/" target="_blank" rel="noopener"><b>byebye</b><span>.tkddls8848.workers.dev</span></a>
+            <p class="state">운영 중</p>
+          </div>
+          <div class="body">
+            <p>자산·저축·지출로 은퇴 가능 시점을 계산하고, 금융감독원 예적금 공시를 비교하는 웹 앱입니다.</p>
+            <dl class="facts">
+              <dt>기술</dt><dd>TypeScript, Vite, Cloudflare Workers</dd>
+              <dt>최근 업데이트</dt><dd><time datetime="2026-09-23">2026-09-23</time>, 커밋 8개</dd>
+            </dl>
+            <ul class="more"><li><a href="https://github.com/tkddls8848/byebye" target="_blank" rel="noopener">GitHub 저장소</a></li></ul>
+          </div>
+        </article>
+
+        <article class="service">
+          <div>
+            <h3>견적서 작성기</h3>
+            <a class="host" href="https://quotation.tkddls8848.workers.dev/" target="_blank" rel="noopener"><b>quotation</b><span>.tkddls8848.workers.dev</span></a>
+            <p class="state">운영 중</p>
+          </div>
+          <div class="body">
+            <p>eConfig Export XML 을 기존 견적서 양식의 Excel(.xlsx)로 바꿉니다. 같은 Rust 변환 코어를 Windows 데스크톱 앱과 브라우저 안의 웹 앱(WASM)으로 제공합니다.</p>
+            <dl class="facts">
+              <dt>기술</dt><dd>Rust, WebAssembly, TypeScript, Python, Cloudflare Workers</dd>
+              <dt>최근 업데이트</dt><dd><time datetime="2026-09-30">2026-09-30</time>, 커밋 116개</dd>
+            </dl>
+            <ul class="more">
+              <li><a href="https://github.com/tkddls8848/quotation/releases/tag/desktop-v3.0.0" target="_blank" rel="noopener">데스크톱 앱 v3.0.0 받기</a></li>
+              <li><a href="https://github.com/tkddls8848/quotation" target="_blank" rel="noopener">GitHub 저장소</a></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service">
+          <div>
+            <h3>변환기</h3>
+            <a class="host" href="https://convertors.tkddls8848.workers.dev/" target="_blank" rel="noopener"><b>convertors</b><span>.tkddls8848.workers.dev</span></a>
+            <p class="state">운영 중</p>
+          </div>
+          <div class="body">
+            <p>문서·PDF·이미지·표를 브라우저 안에서 바꾸는 도구 25개입니다. 고른 파일을 컴퓨터 밖으로 내보내지 않습니다.</p>
+            <dl class="facts">
+              <dt>기술</dt><dd>TypeScript, JavaScript, Cloudflare</dd>
+              <dt>최근 업데이트</dt><dd><time datetime="2026-09-27">2026-09-27</time>, 커밋 8개</dd>
+            </dl>
+            <ul class="more"><li><a href="https://github.com/tkddls8848/convertors" target="_blank" rel="noopener">GitHub 저장소</a></li></ul>
+          </div>
+        </article>
+
+        <article class="service">
+          <div>
+            <h3>나라장터 공고·ECR 조회</h3>
+            <a class="host" href="https://gong-go.tkddls8848.workers.dev/" target="_blank" rel="noopener"><b>gong-go</b><span>.tkddls8848.workers.dev</span></a>
+            <p class="state state--locked">공유받은 비밀번호로 들어갈 수 있음</p>
+          </div>
+          <div class="body">
+            <p>나라장터 사전공고·본공고·발주계획을 수집해 검색하고, 본공고 첨부 문서에서 ECR 규격을 뽑아 CSV 로 내려받게 하는 개인용 서비스입니다.</p>
+            <dl class="facts">
+              <dt>기술</dt><dd>JavaScript, Cloudflare Workers, R2, GitHub Actions, Python</dd>
+              <dt>최근 업데이트</dt><dd><time datetime="2026-10-05">2026-10-05</time>, 커밋 121개</dd>
+            </dl>
+            <ul class="more"><li><a href="https://github.com/tkddls8848/gong-go" target="_blank" rel="noopener">GitHub 저장소</a></li></ul>
+          </div>
+        </article>
+      </section>
+
+      <section aria-labelledby="quiet-title">
+        <h2 id="quiet-title">아직 공개하지 않은 것</h2>
+        <p class="lede">서비스 주소가 없거나 코드를 공개하지 않은 프로젝트입니다.</p>
+
+        <ul class="quiet">
+          <li>
+            <h3>Chronicle<small>코드 비공개</small></h3>
+            <p>공공 API 정보를 모아 검색하기 쉽게 정리하고, AI 도구가 바로 찾아 쓸 수 있도록 제공하는 검색 서비스를 만들고 있습니다.<span class="stack">Python, 벡터 검색, MCP</span></p>
+            <div class="side"><time datetime="2026-10-05">2026-10-05</time>, 커밋 157개</div>
+          </li>
+          <li>
+            <h3>Game<small>코드 비공개</small></h3>
+            <p>Unity 로 장르가 다른 게임 두 편(경영·생존, 내러티브 미스터리)을 만들고 있습니다.<span class="stack">C#, Unity, Python</span></p>
+            <div class="side"><time datetime="2026-10-04">2026-10-04</time>, 커밋 102개</div>
+          </li>
+          <li>
+            <h3>어디가요<small>pathfinder</small></h3>
+            <p>공공데이터포털의 실시간 대중교통 데이터로 어르신이 혼자서도 버스를 타고 목적지까지 갈 수 있게 안내하는 안드로이드 앱입니다.<span class="stack">Kotlin, Android, Python</span></p>
+            <div class="side"><time datetime="2026-09-17">2026-09-17</time>, 커밋 17개<br><a href="https://github.com/tkddls8848/pathfinder" target="_blank" rel="noopener">GitHub</a></div>
+          </li>
         </ul>
 
-        <div class="filters" role="group" aria-label="상태로 거르기" hidden>
-          <button type="button" data-filter="all" aria-pressed="true">전체</button>
-          <button type="button" data-filter="wip" aria-pressed="false">작업중</button>
-          <button type="button" data-filter="done" aria-pressed="false">완료</button>
-        </div>
-
-        <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 (작업중: data-status="wip" + badge--wip "작업중" / 완료: data-status="done" + badge--done "완료"). 위 요약 숫자도 함께 고치세요. -->
-        <div class="cards">
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>Stock Chatbot<small>stock_chatbot</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>중국·홍콩·미국·한국·일본·유럽·글로벌 시장의 뉴스와 종목 정보를 모아 시장상황 보고서, 감성 분석, 관심 종목 관리, 브리핑을 보내 주는 주식 시장 정보 텔레그램 봇입니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-10-06">2026-10-06</time> · 커밋 333개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>Python</li><li>Telegram Bot</li><li>Cloudflare Workers AI</li><li>AWS Lightsail</li>
-            </ul>
-            <div class="links">
-              <span class="pending">결과물 준비 중</span>
-              <a class="btn btn--ghost" href="https://github.com/tkddls8848/stock_chatbot" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </article>
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>Chronicle<small>비공개 프로젝트</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>공공 API 정보를 모아 검색하기 쉽게 정리하고, AI 도구가 바로 찾아 쓸 수 있도록 제공하는 검색 서비스를 만들고 있습니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-10-05">2026-10-05</time> · 커밋 157개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>Python</li><li>벡터 검색</li><li>MCP</li>
-            </ul>
-            <div class="links">
-              <span class="pending">결과물 준비 중</span>
-              <span class="pending">코드 비공개</span>
-            </div>
-          </article>
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>나라장터 공고·ECR 조회<small>gong-go</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>나라장터 사전공고·본공고·발주계획을 수집해 검색하고, 본공고 첨부 문서에서 ECR 규격을 뽑아 CSV 로 내려받게 하는 개인용 서비스입니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-10-05">2026-10-05</time> · 커밋 121개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>JavaScript</li><li>Cloudflare Workers</li><li>R2</li><li>GitHub Actions</li><li>Python</li>
-            </ul>
-            <div class="links">
-              <span class="pending">결과물 준비 중</span>
-              <a class="btn btn--ghost" href="https://github.com/tkddls8848/gong-go" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </article>
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>Game<small>비공개 프로젝트</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>Unity 로 장르가 다른 게임 두 편(경영·생존, 내러티브 미스터리)을 만들고 있습니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-10-04">2026-10-04</time> · 커밋 102개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>C#</li><li>Unity</li><li>Python</li>
-            </ul>
-            <div class="links">
-              <span class="pending">결과물 준비 중</span>
-              <span class="pending">코드 비공개</span>
-            </div>
-          </article>
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>견적서 작성기<small>quotation</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>eConfig Export XML 을 기존 견적서 양식의 Excel(.xlsx)로 바꿉니다. 같은 Rust 변환 코어를 Windows 데스크톱 앱과 브라우저 안의 웹 앱(WASM)으로 제공합니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-09-30">2026-09-30</time> · 커밋 116개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>Rust</li><li>WebAssembly</li><li>TypeScript</li><li>Python</li><li>Cloudflare Workers</li>
-            </ul>
-            <div class="links">
-              <a class="btn btn--primary" href="https://github.com/tkddls8848/quotation/releases/tag/desktop-v3.0.0" target="_blank" rel="noopener">릴리스 desktop-v3.0.0</a>
-              <a class="btn btn--ghost" href="https://github.com/tkddls8848/quotation" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </article>
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>변환기<small>convertors</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>문서·PDF·이미지·표를 브라우저 안에서 바꾸는 도구 25개입니다. 고른 파일을 컴퓨터 밖으로 내보내지 않습니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-09-27">2026-09-27</time> · 커밋 8개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>TypeScript</li><li>JavaScript</li><li>Cloudflare</li>
-            </ul>
-            <div class="links">
-              <span class="pending">결과물 준비 중</span>
-              <a class="btn btn--ghost" href="https://github.com/tkddls8848/convertors" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </article>
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>byebye<small>byebye</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>자산·저축·지출로 은퇴 가능 시점을 계산하고, 금융감독원 예적금 공시를 비교하는 웹 앱입니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-09-23">2026-09-23</time> · 커밋 8개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>TypeScript</li><li>Vite</li><li>Cloudflare Workers</li>
-            </ul>
-            <div class="links">
-              <a class="btn btn--primary" href="https://byebye.tkddls8848.workers.dev/" target="_blank" rel="noopener">데모 보기</a>
-              <a class="btn btn--ghost" href="https://github.com/tkddls8848/byebye" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </article>
-
-          <!-- 상태 변경: data-status 와 배지 텍스트를 바꾸세요 -->
-          <article class="card" data-status="wip">
-            <div class="card-head">
-              <h3>어디가요<small>pathfinder</small></h3>
-              <span class="badge badge--wip">작업중</span>
-            </div>
-            <p>공공데이터포털의 실시간 대중교통 데이터로 어르신이 혼자서도 버스를 타고 목적지까지 갈 수 있게 안내하는 안드로이드 앱입니다.</p>
-            <p class="progress">최근 업데이트 <time datetime="2026-09-17">2026-09-17</time> · 커밋 17개</p>
-            <ul class="skills" aria-label="기술 스택">
-              <li>Kotlin</li><li>Android</li><li>Python</li>
-            </ul>
-            <div class="links">
-              <span class="pending">결과물 준비 중</span>
-              <a class="btn btn--ghost" href="https://github.com/tkddls8848/pathfinder" target="_blank" rel="noopener">GitHub</a>
-            </div>
-          </article>
-
-        </div>
-        <p class="empty" hidden>이 상태의 프로젝트가 아직 없습니다.</p>
         <p class="note">커밋 수는 각 저장소 기본 브랜치 기준이며, 2026-10-06 에 확인했습니다. 비공개 프로젝트는 코드와 세부 내용 대신 개요와 진행 상황만 소개합니다.</p>
       </section>
     </main>
@@ -322,27 +254,5 @@
       © 2026 박상인
     </footer>
   </div>
-  <script>
-    (function () {
-      var bar = document.querySelector(".filters");
-      var cards = document.querySelectorAll(".card[data-status]");
-      var empty = document.querySelector(".empty");
-      var buttons = bar.querySelectorAll("button");
-      bar.hidden = false;
-      bar.addEventListener("click", function (event) {
-        var button = event.target.closest("button");
-        if (!button) return;
-        var filter = button.getAttribute("data-filter");
-        var shown = 0;
-        buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b === button)); });
-        cards.forEach(function (card) {
-          var visible = filter === "all" || card.getAttribute("data-status") === filter;
-          card.hidden = !visible;
-          if (visible) shown += 1;
-        });
-        empty.hidden = shown > 0;
-      });
-    })();
-  </script>
 </body>
 </html>
