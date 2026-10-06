@@ -47,6 +47,7 @@
     .logo { font-weight: 800; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
     nav a { margin-left: 18px; color: var(--muted); text-decoration: none; font-size: 0.95rem; }
     nav a:hover { color: var(--text); }
+    nav a[aria-current="page"] { color: var(--text); font-weight: 700; }
 
     .hero { padding: 72px 0 56px; }
     .eyebrow { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin: 0 0 12px; }
@@ -98,11 +99,11 @@
 <body>
   <div class="wrap">
     <header class="top">
-      <a class="logo" href="/">홍길동</a>
+      <a class="logo" href="/">박상인</a>
       <nav aria-label="주요 메뉴">
-        <a href="#about">소개</a>
-        <a href="#projects">프로젝트</a>
-        <a href="#contact">연락</a>
+        <a href="/" aria-current="page">소개</a>
+        <a href="/resume/">이력서</a>
+        <a href="/portfolio/">포트폴리오</a>
       </nav>
     </header>
 
