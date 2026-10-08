@@ -1,23 +1,24 @@
-/* 개인 사이트(/, /resume/, /portfolio/, 404) 공용 스타일.
-   CSP가 style-src 'self' 라 외부 폰트 없이 시스템 글꼴만 쓴다. */
+/* Static HTML adaptation of shadcn/ui's zinc theme and component styles.
+   https://ui.shadcn.com/docs/theming — no React runtime or CDN required. */
 :root {
-  --bg: #f6f7f9;
-  --text: #1a1d24;
-  --muted: #5e6573;
-  --faint: #8a909c;
-  --line: #d8dce3;
-  --live: #157f4c;
-  color-scheme: light dark;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #15171c;
-    --text: #e8eaee;
-    --muted: #a3a9b5;
-    --faint: #6f7682;
-    --line: #2c3039;
-    --live: #4cc38a;
-  }
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #111113;
+  --card-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #18181b;
+  --secondary: #27272a;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --ring: #d4d4d8;
+  --radius: 0.75rem;
+  --bg: var(--background);
+  --text: var(--foreground);
+  --muted: var(--muted-foreground);
+  --faint: #a1a1aa;
+  --line: var(--border);
+  --live: #6ee7b7;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
@@ -32,35 +33,44 @@ body {
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
 a:hover { text-decoration-thickness: 2px; }
 a:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
-.wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+.wrap { max-width: 1088px; margin: 0 auto; padding: 0 32px; }
 
 header.top {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 20px 0;
+  padding: 20px 0; gap: 20px; border-bottom: 1px solid var(--border);
 }
-.logo { font-weight: 800; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
-nav a { margin-left: 18px; color: var(--muted); text-decoration: none; font-size: 0.95rem; }
-nav a:hover { color: var(--text); }
-nav a[aria-current="page"] { color: var(--text); font-weight: 700; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; color: var(--text); white-space: nowrap; }
+nav { display: flex; gap: 4px; }
+nav a { padding: 7px 14px; border-radius: calc(var(--radius) - 4px); color: var(--muted); text-decoration: none; font-size: 0.875rem; }
+nav a:hover { color: var(--text); background: var(--secondary); }
+nav a[aria-current="page"] { color: var(--text); background: var(--secondary); font-weight: 600; }
 
 /* 페이지 머리 */
-.intro { padding: 72px 0 64px; max-width: 36em; }
+.intro { padding: 88px 0 72px; max-width: 46em; }
 .intro h1 {
-  font-size: clamp(2.4rem, 7vw, 4rem); line-height: 1.1; font-weight: 800;
+  font-size: clamp(2.4rem, 6vw, 3.7rem); line-height: 1.2; font-weight: 700;
   letter-spacing: -0.045em; margin: 0 0 24px;
 }
-.intro p { color: var(--muted); font-size: 1.05rem; margin: 0 0 10px; }
+.intro p { color: var(--muted); font-size: 0.96rem; margin: 0 0 16px; }
+.eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 24px; color: var(--muted); font-size: 0.8rem; }
+.badge { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 6px; padding: 3px 9px; color: var(--text); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.07em; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.button, .more a { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 40px; padding: 8px 16px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 4px); background: var(--card); color: var(--text); font-size: 0.875rem; font-weight: 500; text-decoration: none; }
+.button:hover, .more a:hover { background: var(--secondary); }
+.button-primary { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+.button-primary:hover { background: #d4d4d8; border-color: #d4d4d8; }
 .intro .lead { color: var(--text); font-size: 1.2rem; line-height: 1.6; letter-spacing: -0.01em; margin-bottom: 16px; }
 
 /* 구획: 굵은 선 아래에 행이 쌓인다 */
 section { padding: 0 0 72px; }
 h2 {
   font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
-  margin: 0; padding-bottom: 14px; border-bottom: 2px solid var(--text);
+  margin: 0; padding-bottom: 16px; border-bottom: 1px solid var(--border);
 }
-.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 2px solid var(--text); }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--border); }
 .section-head h2 { border-bottom: 0; }
-.section-head a { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
+.section-head a { font-size: 0.8rem; font-weight: 500; color: var(--muted); text-decoration: none; }
+.section-head a:hover { color: var(--text); }
 .lede { color: var(--muted); font-size: 0.92rem; margin: 10px 0 0; }
 .prose { padding-top: 24px; max-width: 40em; }
 .prose p { margin: 0 0 14px; }
@@ -79,7 +89,7 @@ h2 {
 /* 서비스: 왼쪽에 이름과 주소, 오른쪽에 설명. 주소가 이 사이트의 얼굴이다. */
 .service {
   display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px 48px;
-  padding: 32px 0; border-bottom: 1px solid var(--line);
+  padding: 28px; margin-top: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); box-shadow: 0 1px 2px #0003;
 }
 .service h3 {
   margin: 0 0 6px; font-size: 0.95rem; font-weight: 600; color: var(--muted);
@@ -94,8 +104,8 @@ h2 {
 .host span { color: var(--faint); font-size: max(0.52em, 0.8rem); font-weight: 500; letter-spacing: -0.01em; }
 .host:hover b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
 .state {
-  display: flex; align-items: center; gap: 8px; margin: 10px 0 0;
-  font-size: 0.85rem; color: var(--live); font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px; margin: 16px 0 0; padding: 3px 9px; border: 1px solid var(--border); border-radius: 6px;
+  font-size: 0.75rem; color: var(--live); font-weight: 500;
 }
 .state::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .state--locked { color: var(--muted); }
@@ -105,16 +115,21 @@ h2 {
 /* 행 목록: 왼쪽 이름(또는 기간), 가운데 내용, 오른쪽 부가 정보 */
 .rows { list-style: none; margin: 0; padding: 0; }
 .rows > li, .entry {
-  display: grid; grid-template-columns: 11rem minmax(0, 1fr) auto; gap: 4px 32px;
+  display: grid; grid-template-columns: 10rem minmax(0, 1fr) auto; gap: 8px 24px;
   padding: 22px 0; border-bottom: 1px solid var(--line);
 }
 .rows h3, .entry h3 { margin: 0; font-size: 1.05rem; letter-spacing: -0.02em; }
 .rows h3 small { display: block; color: var(--faint); font-size: 0.8rem; font-weight: 500; letter-spacing: 0; }
 .rows p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 .rows .stack { display: block; margin-top: 6px; color: var(--faint); font-size: 0.85rem; }
-.rows .side { text-align: right; font-size: 0.85rem; color: var(--faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rows .side { text-align: right; font-size: 0.85rem; color: var(--faint); font-variant-numeric: tabular-nums; }
 .rows .side a { color: var(--text); font-weight: 600; }
 .rows .host { font-size: 1.15rem; }
+.project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.project-grid > li { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); box-shadow: 0 1px 2px #0003; }
+.project-grid > li:hover { border-color: #52525b; }
+.project-grid .side { margin-top: auto; padding-top: 12px; text-align: left; }
+.project-grid .host span { display: block; margin-top: 5px; }
 
 /* 이력서 항목: 기간 | 내용 */
 .entry { grid-template-columns: 11rem minmax(0, 1fr); padding: 28px 0; }
@@ -133,19 +148,22 @@ footer { padding: 32px 0 56px; color: var(--muted); font-size: 0.9rem; border-to
 .lost { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
 
 @media (max-width: 720px) {
-  .service { grid-template-columns: 1fr; gap: 16px; padding: 28px 0; }
+  .service { grid-template-columns: 1fr; gap: 20px; padding: 24px; }
   .rows > li, .entry { grid-template-columns: 1fr; }
   .rows .side { text-align: left; }
 }
 @media (max-width: 560px) {
-  nav a { margin-left: 12px; }
+  .wrap { padding: 0 20px; }
+  header.top { flex-wrap: wrap; gap: 14px; }
+  nav a { padding: 7px 10px; font-size: 0.8rem; }
+  .project-grid { grid-template-columns: 1fr; }
   .intro { padding: 48px 0; }
 }
 
 @media print {
-  :root { --bg: #fff; --text: #000; --muted: #333; --faint: #555; --line: #bbb; --live: #000; }
+  :root { --bg: #fff; --text: #000; --muted: #333; --faint: #555; --line: #bbb; --live: #000; --border: #bbb; --card: #fff; color-scheme: light; }
   body { font-size: 10.5pt; }
-  header.top nav, footer { display: none; }
+  header.top nav, footer, .actions { display: none; }
   .wrap { max-width: none; padding: 0; }
   .intro { padding: 0 0 16px; max-width: none; }
   .intro h1 { font-size: 26pt; margin-bottom: 8px; }

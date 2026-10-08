@@ -1,22 +1,27 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>박상인</title>
+  <title>포트폴리오</title>
   <meta name="description" content="공공기관 정보시스템의 서버·스토리지·HCI 가상화 인프라를 제안하고, 업무에 쓰는 도구를 직접 만들어 운영하는 박상인입니다.">
   <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#09090b">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
   <div class="wrap">
-    <header class="top"><a class="logo" href="/">박상인</a><nav aria-label="주요 메뉴"><a href="/" aria-current="page">소개</a><a href="/resume/">이력서</a><a href="/portfolio/">포트폴리오</a></nav></header>
+    <header class="top"><a class="logo" href="/"><img src="/assets/favicon.svg" width="30" height="30" alt="">포트폴리오</a><nav aria-label="주요 메뉴"><a href="/" aria-current="page">소개</a><a href="/resume/">이력서</a><a href="/portfolio/">프로젝트</a></nav></header>
 
     <main>
       <div class="intro">
-        <h1>박상인</h1>
+        <div class="eyebrow"><span class="badge">INFRASTRUCTURE &amp; SOFTWARE</span><span>박상인</span></div>
+        <h1>업무의 필요를<br>직접 만드는 도구로.</h1>
         <p class="lead">공공기관 정보시스템의 서버·스토리지·HCI 가상화 인프라를 제안합니다. 일하면서 필요한 도구는 직접 만들어 운영합니다.</p>
         <p>트라이얼정보통신 시스템사업부에서 2020년부터 RFI 대응, 하드웨어 구성과 견적, 제안서 작성을 맡아 왔습니다. 퇴근 뒤에는 Cloudflare Workers 와 AWS 위에서 견적서 변환기, 나라장터 공고 조회, 주식 시장 브리핑 같은 서비스를 만듭니다.</p>
+        <p>그동안 쌓은 소프트웨어 개발 경험과 지식에 바이브코딩 트렌드에 대한 관심을 더해, 업무에 필요한 도구를 직접 구현하고 있습니다. 조달청 공고 모니터링의 자동화를 돕기 위한 gong-go 와 공공기관의 HWP·HWPX 문서를 PDF 로 변환하고 문서 작업 중 파일을 빠르게 다루기 위한 convertors 도 이런 필요에서 만들었습니다.</p>
+        <div class="actions"><a class="button button-primary" href="/portfolio/">프로젝트 둘러보기 <span aria-hidden="true">↗</span></a><a class="button" href="/resume/">이력서 보기</a></div>
       </div>
 
       <section aria-labelledby="work-title">
@@ -52,7 +57,7 @@
           <h2 id="made-title">만든 것</h2>
           <a href="/portfolio/">포트폴리오 전체 보기</a>
         </div>
-        <ul class="rows">
+        <ul class="rows project-grid">
           <li>
             <h3>Stock Chatbot</h3>
             <p>여러 나라 시장의 뉴스와 종목 정보로 보고서와 브리핑을 만들고, 쇼츠로 YouTube 에 올립니다.</p>
@@ -65,12 +70,12 @@
           </li>
           <li>
             <h3>나라장터 공고 조회</h3>
-            <p>사전공고·본공고·발주계획을 모아 검색하고 ECR 규격을 CSV 로 뽑습니다.</p>
+            <p>조달청 공고를 반복해서 확인하는 업무의 자동화를 돕고자 만들었습니다. 사전공고·본공고·발주계획을 모아 검색하고 ECR 규격을 CSV 로 뽑습니다.</p>
             <div class="side"><a class="host" href="https://gong-go.tkddls8848.workers.dev/" target="_blank" rel="noopener"><b>gong-go</b><span>.tkddls8848.workers.dev</span></a></div>
           </li>
           <li>
             <h3>변환기</h3>
-            <p>문서·PDF·이미지·표를 브라우저 안에서 바꾸는 도구 25개입니다.</p>
+            <p>공공기관의 HWP·HWPX 파일을 PDF 로 변환하고, 문서 작업에 필요한 파일 처리를 빠르게 하려고 만들었습니다. 문서·PDF·이미지·표를 다루는 도구 25개를 모았습니다.</p>
             <div class="side"><a class="host" href="https://convertors.tkddls8848.workers.dev/" target="_blank" rel="noopener"><b>convertors</b><span>.tkddls8848.workers.dev</span></a></div>
           </li>
           <li>
