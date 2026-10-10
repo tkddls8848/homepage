@@ -98,7 +98,7 @@ SUMMARY: 요약 한 줄
 }
 
 async function generate(articles) {
-  const accountId = requiredEnv("CF_ACCOUNT_ID");
+  const accountId = requiredEnv("CLOUDFLARE_ACCOUNT_ID");
   const token = requiredEnv("CLOUDFLARE_WORKER_AI_API_TOKEN");
   const response = await fetch(
     `https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${MODEL}`,

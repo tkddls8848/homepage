@@ -95,7 +95,7 @@ draft: true
 
 `npm run draft:post`와 `.github/workflows/draft-post.yml`은 Cloudflare Workers AI로 초안을 만들며 아래 GitHub Actions secrets를 사용합니다.
 
-- `CF_ACCOUNT_ID`
+- `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_WORKER_AI_API_TOKEN`
 
 생성된 글은 사실관계와 출처를 확인한 뒤 `draft` 항목을 제거해 발행합니다.
