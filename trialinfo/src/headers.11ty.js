@@ -1,6 +1,6 @@
 import { PATH_PREFIX } from "../lib/paths.js";
 
-// Cloudflare Pages는 배포 루트의 _headers만 읽는다. 이 파일은 _site/trialinfo/_headers로
+// Workers 정적 에셋은 에셋 디렉터리 루트의 _headers만 읽는다. 이 파일은 _site/trialinfo/_headers로
 // 나간 뒤 루트 빌드(tools/build-root.mjs)가 _site/_headers로 옮긴다.
 export default class HeadersFile {
   data() {
@@ -29,7 +29,7 @@ export default class HeadersFile {
       "upgrade-insecure-requests",
     ].join("; ");
 
-    // Cloudflare Pages는 기본으로 정적 파일에 max-age=0, must-revalidate를 붙여
+    // Workers 정적 에셋은 기본으로 정적 파일에 max-age=0, must-revalidate를 붙여
     // 재방문마다 모든 자산을 재검증한다. 파일명이나 쿼리에 내용 해시가 있는 자산은
     // 배포할 때 URL이 바뀌므로 1년 immutable로 두어 재요청 자체를 없앤다.
     const immutable = "public, max-age=31536000, immutable";
@@ -64,9 +64,6 @@ export default class HeadersFile {
       "",
       `${PATH_PREFIX}images/*`,
       `  Cache-Control: ${shortLived}`,
-      "",
-      "https://:project.pages.dev/*",
-      "  X-Robots-Tag: noindex",
       "",
     ].join("\n");
   }

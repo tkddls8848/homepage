@@ -1,6 +1,6 @@
 # 개인 소개 사이트 + 트라이얼정보통신 홈페이지(보관)
 
-Cloudflare Pages가 `main` 브랜치를 빌드해 배포합니다. 한 배포에 두 사이트가 들어갑니다.
+Cloudflare Workers Builds가 `main` 브랜치를 빌드해 Workers 정적 에셋으로 배포합니다. 한 배포에 두 사이트가 들어갑니다.
 
 | 경로 | 내용 | 소스 |
 | --- | --- | --- |
@@ -74,7 +74,7 @@ tools/
 
 ## 환경 변수
 
-Cloudflare Pages의 빌드 환경 변수로 설정합니다.
+Workers 대시보드의 Settings → Build → Variables and secrets(빌드 변수)로 설정합니다.
 
 | 이름 | 용도 | 기본값 |
 | --- | --- | --- |
@@ -103,8 +103,10 @@ draft: true
 ## 배포 설정
 
 - Build command: `npm run build`
-- Build output directory: `_site`
+- Deploy command: `npx wrangler deploy` — `wrangler.jsonc`의 `assets.directory`(`_site`)를 올립니다
 - Node version: `.nvmrc`의 `24`
+
+`wrangler.jsonc`에는 정적 에셋 설정만 있습니다. Worker 스크립트, R2·KV·D1 같은 바인딩은 쓰지 않습니다.
 
 HTTP 보안 헤더와 캐시 정책은 `src/headers.11ty.js`가 `_site/_headers`로 생성합니다(경로 규칙은 `/trialinfo/` 기준).
 

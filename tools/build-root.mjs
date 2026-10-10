@@ -17,7 +17,7 @@ if (!existsSync(ARCHIVE)) {
 // 루트 정적 파일(페이지, 404.html, assets/site.css, _redirects)을 그대로 복사한다.
 await cp("site", OUT, { recursive: true });
 
-// 브라우저·크롤러·Cloudflare Pages가 도메인 루트에서만 찾는 파일들.
+// 브라우저·크롤러·Workers 정적 에셋이 도메인 루트에서만 찾는 파일들.
 // 아직 루트 사이트가 따로 만들지 않으므로 trialinfo 빌드가 만든 것을 끌어올린다.
 for (const file of ["_headers", "robots.txt", ".well-known/security.txt"]) {
   const from = path.join(ARCHIVE, file);
