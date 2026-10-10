@@ -10,8 +10,8 @@ name: 블로그 초안 생성
 # LLM 이 쓴 초안을 검토 없이 회사 이름으로 내보내지 않으려는 장치입니다.
 #
 # 준비: 저장소 Settings → Secrets and variables → Actions → Secrets 에
-#   CF_ACCOUNT_ID   Cloudflare 계정 ID
-#   CF_API_TOKEN    Workers AI 권한을 가진 API 토큰
+#   CF_ACCOUNT_ID                    Cloudflare 계정 ID
+#   CLOUDFLARE_WORKER_AI_API_TOKEN   Workers AI 권한을 가진 API 토큰
 # (Cloudflare 대시보드 → Workers AI → "Use REST API" 에서 둘 다 받을 수 있습니다.)
 
 on:
@@ -45,7 +45,7 @@ jobs:
       - name: 초안 생성
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_WORKER_AI_API_TOKEN: ${{ secrets.CLOUDFLARE_WORKER_AI_API_TOKEN }}
         run: npm run draft:post
 
       # 초안이 사이트를 깨뜨리지 않는지 확인합니다. draft: true 라 페이지는
