@@ -18,9 +18,9 @@
     "draft:post": "cd trialinfo && node tools/draft-post.mjs"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.6",
-    "@11ty/eleventy-img": "^7.0.0",
-    "subset-font": "^2.7.0",
+    "@11ty/eleventy": "^3.1.7",
+    "@11ty/eleventy-img": "^7.1.1",
+    "subset-font": "^2.9.0",
     "svgo": "^4.1.0"
   },
   "engines": {
